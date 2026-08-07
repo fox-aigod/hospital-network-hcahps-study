@@ -29,3 +29,19 @@ jobs:
 
       - name: Run tests
         run: pytest -q
+
+      - name: Upload validated repository snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-snapshot
+          path: |
+            README.md
+            requirements.txt
+            run_all.py
+            config/
+            docs/
+            scripts/
+            src/
+            tests/
+          if-no-files-found: error
+          retention-days: 7
