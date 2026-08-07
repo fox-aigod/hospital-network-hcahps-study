@@ -35,6 +35,17 @@ def test_six_profile_mapping_is_exhaustive() -> None:
     assert observed == {0, 1, 2, 3, 4, 5}
 
 
+def test_locked_profile_labels() -> None:
+    assert PROFILE_LABELS == {
+        0: "No coded participation",
+        1: "Single conventional network, no TEFCA",
+        2: "Two conventional networks, no TEFCA",
+        3: "Three conventional networks, no TEFCA",
+        4: "TEFCA + 0–2 conventional networks",
+        5: "TEFCA + all three conventional networks",
+    }
+
+
 def test_reference_and_primary_contrast_categories() -> None:
     assert profile_category(1, 1, 1, 0) == 3
     assert profile_category(1, 1, 1, 1) == 5
