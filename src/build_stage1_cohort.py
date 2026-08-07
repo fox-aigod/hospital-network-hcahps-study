@@ -21,11 +21,11 @@ CMS_REQUIRED = {
 
 PROFILE_LABELS = {
     0: "No coded participation",
-    1: "One conventional network, no TEFCA",
+    1: "Single conventional network, no TEFCA",
     2: "Two conventional networks, no TEFCA",
     3: "Three conventional networks, no TEFCA",
-    4: "TEFCA plus zero to two conventional networks",
-    5: "TEFCA plus all three conventional networks",
+    4: "TEFCA + 0–2 conventional networks",
+    5: "TEFCA + all three conventional networks",
 }
 
 
