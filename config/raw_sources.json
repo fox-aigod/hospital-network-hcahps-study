@@ -1,0 +1,62 @@
+{
+  "manifest_version": "1.0.0",
+  "snapshot_date": "2026-08-05",
+  "notes": "Checksums identify the exact archived source snapshots used in the study. CMS datasets refresh regularly; a later download may not match these fingerprints.",
+  "sources": [
+    {
+      "id": "onc_network_participation",
+      "agency": "Office of the National Coordinator for Health Information Technology",
+      "title": "US Hospital Participation in Health Information Networks",
+      "official_page": "https://healthit.gov/data/datasets/hospital-network-participation/",
+      "filename": "hospital_network_participation.csv",
+      "bytes": 115375,
+      "sha256": "409192556be2b9db05d0111c498b2a81d0189b24f3d37adffaf2bd09dd1ecfb2",
+      "rows": 3393,
+      "columns": 9
+    },
+    {
+      "id": "cms_hospital_general_information",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "title": "Hospital General Information",
+      "official_page": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+      "filename": "cms_hospital_general_information.csv",
+      "bytes": 1557397,
+      "sha256": "0bf5c35de3d10be8c3da4beb132b81a58ad119608eef616dc9a9e8d83a476efd",
+      "rows": 5432,
+      "columns": 38
+    },
+    {
+      "id": "cms_hcahps_hospital",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "title": "Patient survey (HCAHPS) - Hospital",
+      "official_page": "https://data.cms.gov/provider-data/dataset/dgck-syfz",
+      "filename": "HCAHPS-Hospital.csv",
+      "bytes": 105529630,
+      "sha256": "e9d7d4131a9704fcfe675b66771fb4269b15f0cb7eae22f0f4f6d771de619f78",
+      "rows": 325856,
+      "columns": 22
+    },
+    {
+      "id": "ahrq_2023_hospital_linkage",
+      "agency": "Agency for Healthcare Research and Quality",
+      "title": "Compendium of U.S. Health Systems, 2023 Hospital Linkage File",
+      "official_page": "https://www.ahrq.gov/chsp/data-resources/compendium-2023.html",
+      "filename": "chsp-hospital-linkage-2023.csv",
+      "bytes": 1528734,
+      "sha256": "a86146f10c8de626fea1da3a24b756e6a68165e449ae3687f1e90d6bdf129727",
+      "rows": 6800,
+      "columns": 28
+    },
+    {
+      "id": "usda_2023_rucc",
+      "agency": "U.S. Department of Agriculture Economic Research Service",
+      "title": "2023 Rural-Urban Continuum Codes",
+      "official_page": "https://ers.usda.gov/data-products/rural-urban-continuum-codes",
+      "filename": "Ruralurbancontinuumcodes2023.csv",
+      "bytes": 629322,
+      "sha256": "ec455ee2a8bc5fc8e070575ea5bee7dce46fc6037f8c3449cbf56e8b45331fa7",
+      "rows": 9703,
+      "columns": 5
+    }
+  ]
+}
