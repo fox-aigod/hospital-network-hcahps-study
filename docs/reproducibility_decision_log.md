@@ -20,52 +20,30 @@ The primary outcome was reproduced for 2,409 hospitals: 1,852 Acute Care Hospita
 
 ## 2026-08-06 — AHRQ and USDA confounder linkage
 
-### AHRQ identifier handling
+The AHRQ file contains 6,800 rows. Of these, 154 use alphanumeric federal identifiers and 124 have no CCN. After excluding those records, 6,522 unique valid numeric CCNs remain. The earlier linkage script stripped alphabetic suffixes, creating artificial duplicate identifiers for `050006` and `050014`; the correct rows were nevertheless selected. The canonical pipeline excludes the federal identifiers first, so these records are correctly labeled exact matches. No analytical value changed.
 
-The AHRQ file contains 6,800 rows. Of these, 154 use alphanumeric federal identifiers and 124 have no CCN. After excluding those 278 rows, 6,522 unique valid numeric CCNs remain. There are no duplicate valid numeric CCNs in the archived file.
+AHRQ matched 2,624 of 2,651 hospitals. USDA RUCC linkage reached 100% through exact normalization and explicit configured crosswalks, not fuzzy matching. Complete required covariates were available for 2,580 hospitals. Ownership agreement between AHRQ/HCRIS and CMS was 1,588 of 2,600 hospitals with both sources observed.
 
-The earlier linkage script stripped alphabetic suffixes before matching. That created artificial duplicate identifiers for two cohort hospitals, `050006` and `050014`, even though the correct numeric AHRQ rows were ultimately selected through state, acute-hospital status, and name concordance. The canonical pipeline excludes the federal identifiers first. These two records are now correctly labeled `Exact CCN` rather than `Duplicate CCN resolved...`. No covariate or analytical value changed.
+The regenerated 63-column analysis-ready file matched the frozen file cell by cell for every substantive field across all 2,651 hospitals.
 
-### AHRQ linkage result
+## 2026-08-06 — Stage 4 imputation and observation-model convergence amendment
 
-AHRQ matched 2,624 of 2,651 hospitals. Twenty-seven hospitals lack a same-CCN row in the 2023 AHRQ file and remain in the cohort with missing AHRQ/HCRIS variables.
+### Exact legacy reproduction
 
-### USDA geography rules
+The preserved statistical script was rerun unchanged against the regenerated Stage 3 dataset. The imputation diagnostics, observation-weight diagnostics, overall balance diagnostics, and within-stratum balance diagnostics reproduced byte for byte, including the archived SHA-256 hashes. This establishes exact recovery of the original analytical inputs.
 
-The RUCC stage first attempts exact normalized county matching, then spacing and punctuation normalization. Remaining cases use explicit configuration rather than fuzzy matching:
+The imputation specification is 20 imputations, five chained-equation cycles, base seed `20260805`, and seed increment `1009`. Continuous variables use predictive mean matching with five donors after Bayesian ridge prediction. Binary variables use stochastic Bernoulli draws from logistic models, and AHRQ ownership uses stochastic multinomial class draws. Fixed predictors include exposure, CAH status, state, RUCC, survey year, outcome-observation status, filled observed outcome plus a missingness indicator, HCAHPS survey-count and response-rate auxiliaries, CMS ownership, emergency services, and network indicators.
 
-- Connecticut hospital cities are mapped to the nine 2023 planning regions.
-- Valdez and Cordova are mapped from the former Valdez-Cordova Census Area to Chugach Census Area.
-- Five documented county-name aliases or typographic corrections are stored in `config/geography_crosswalks.json`.
+All 700 imputation-model fits completed without warnings. The largest iteration count was 46. No observed value changed; every continuous imputation came from an observed donor; and all binary and categorical imputations remained in their valid domains.
 
-The final method counts are:
+### Hidden observation-model convergence issue
 
-- 2,581 exact normalized county matches
-- 37 spacing or punctuation normalization matches
-- 21 Connecticut planning-region crosswalks
-- 10 documented county-name alias corrections
-- 2 Alaska post-split crosswalks
+The legacy script globally suppressed warnings. When warnings were restored, 17 of 20 denominator observation models reached the 500-iteration limit. All numerator models converged. Because the weights enter every primary and sensitivity model, this could not be ignored even though the archived outputs reproduced exactly.
 
-All 2,651 hospitals received a 2023 RUCC code.
+### Computational amendment
 
-### Covariate derivations
+The canonical denominator model retains the same variables, transformations, standardization, near-unpenalized logistic specification (`C=100`), solver, tolerance, probability clipping, stabilization, 1st/99th percentile trimming, and mean-one normalization. Only the iteration limit increases from 500 to 2,000. All 20 canonical fits converged, requiring 419–665 iterations.
 
-- Health-system affiliation equals 1 when a matched AHRQ row contains a Compendium system ID and 0 when a matched row has no system ID.
-- AHRQ/HCRIS ownership codes 1 and 3 are nonprofit, code 2 is government, and code 5 is for-profit.
-- CMS ownership is mapped independently to nonprofit, government, or for-profit for the required sensitivity analysis.
-- Bed size is transformed as `log2(beds + 1)` and categorized as `<25`, `25–99`, `100–399`, or `≥400`.
-- Metro is RUCC 1–3; nonmetro is RUCC 4–9.
-- Complete required covariates means all eight locked covariates are observed before imputation.
+The legacy weights remain stored separately for audit reproduction. The converged weights are the canonical Stage 5 inputs. The maximum absolute normalized-weight difference was 0.015768 and the maximum mean absolute difference was 0.000110. Mean effective sample size changed from 2,365.786 to 2,365.769. Maximum residual within-stratum SMD changed from 0.176465 to 0.176338 and remained attributable to bed size among 2024 Critical Access Hospitals.
 
-### Validation result
-
-- AHRQ matched: 2,624/2,651
-- RUCC matched: 2,651/2,651
-- Complete required covariates: 2,580/2,651
-- Acute Care complete: 1,826/1,871
-- Critical Access complete: 754/780
-- Ownership both observed: 2,600
-- Ownership agreement: 1,588
-- Ownership disagreement: 1,012
-
-The regenerated 63-column analysis-ready file was compared cell by cell with the frozen file. All substantive values matched across all 2,651 hospitals. The only differences were the two corrected AHRQ match-status labels described above.
+This is a convergence correction, not a change in the estimand, covariate set, missing-data assumptions, or weighting strategy. Structural-model results will be recomputed and compared formally in Stage 5 before the manuscript is updated.

@@ -58,13 +58,35 @@ The regenerated HCAHPS cohort matched every tested outcome, availability, footno
   - 754 Critical Access Hospitals
 - AHRQ/HCRIS and CMS ownership both observed for 2,600 hospitals
 - Ownership agreement: **1,588 of 2,600 (61.1%)**
-- Ownership disagreement: 1,012 hospitals
 
-All substantive values in the regenerated 63-column analysis-ready file matched the frozen file across all 2,651 hospitals. Two audit-status labels changed because the earlier script stripped alphabetic suffixes from federal identifiers and then described two valid numeric rows as duplicate resolutions. The corrected pipeline excludes those federal identifiers before linkage; the selected hospitals and all analytical values are unchanged.
+All substantive values in the regenerated 63-column analysis-ready file matched the frozen file across all 2,651 hospitals. Two audit-status labels were corrected after excluding federal alphanumeric identifiers before numeric-CCN linkage; the selected hospitals and analytical values were unchanged.
+
+### Stage 4 — multiple imputation and observation weighting: reproduced and convergence-corrected
+
+- 20 deterministic imputations
+- Five chained-equation cycles per imputation
+- Base seed `20260805`, incremented by `1009`
+- Seven imputed confounder fields
+- 700 imputation-model fits with zero warnings
+- No observed values changed
+- Every continuous imputation came from an observed predictive-mean-matching donor
+- Archived imputation, weight, and balance diagnostics reproduced byte for byte
+
+The archived denominator observation models used a 500-iteration limit; 17 of 20 reached that limit, but the earlier script suppressed the warnings. The canonical pipeline preserves those legacy weights for exact audit reproduction and separately refits the same model with a 2,000-iteration limit. All 20 canonical fits converged, requiring at most 665 iterations.
+
+The correction was numerically small:
+
+- Maximum absolute denominator-probability change: 0.00583
+- Maximum absolute normalized-weight change: 0.01577
+- Maximum mean absolute normalized-weight change: 0.000110
+- Mean effective sample size: 2,365.8
+- Maximum residual within-stratum SMD: 0.17634, still driven by bed size among 2024 Critical Access Hospitals
+
+The canonical converged imputations and weights are the locked inputs for Stage 5.
 
 ### Next stage
 
-Rebuild the locked multiple-imputation and outcome-observation-weighting pipeline, preserve all random seeds and diagnostics, and reproduce the primary model inputs before fitting the structural regressions.
+Fit and pool the primary structural model, interaction model, adjusted profile means, planned contrasts, and prespecified sensitivity analyses using the canonical converged weights. Every manuscript statistic will be reconciled against the archived result and any difference documented.
 
 ## Current model benchmarks
 
@@ -83,6 +105,7 @@ python run_all.py --stage verify-raw
 python run_all.py --stage stage1
 python run_all.py --stage stage2
 python run_all.py --stage stage3
+python run_all.py --stage stage4
 pytest -q
 ```
 

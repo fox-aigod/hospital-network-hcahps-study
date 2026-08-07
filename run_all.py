@@ -9,6 +9,7 @@ from pathlib import Path
 from src.build_stage1_cohort import build_stage1_cohort
 from src.build_stage2_hcahps import build_stage2_hcahps
 from src.build_stage3_confounders import build_stage3_confounders
+from src.build_stage4_imputation_weights import build_stage4_imputation_weights
 from src.verify_raw_sources import verify_raw_sources
 
 ROOT = Path(__file__).resolve().parent
@@ -20,11 +21,13 @@ def validate_structure() -> None:
         ROOT / "requirements.txt",
         ROOT / "config" / "expected_results.json",
         ROOT / "config" / "raw_sources.json",
-        ROOT / "config" / "geography_crosswalks.json",
         ROOT / "data" / "raw" / "README.md",
         ROOT / "src" / "build_stage1_cohort.py",
         ROOT / "src" / "build_stage2_hcahps.py",
         ROOT / "src" / "build_stage3_confounders.py",
+        ROOT / "src" / "build_stage4_imputation_weights.py",
+        ROOT / "config" / "stage4_analysis_spec.json",
+        ROOT / "config" / "geography_crosswalks.json",
         ROOT / "src" / "verify_raw_sources.py",
     ]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
@@ -54,7 +57,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--stage",
-        choices=["validate", "verify-raw", "stage1", "stage2", "stage3"],
+        choices=["validate", "verify-raw", "stage1", "stage2", "stage3", "stage4"],
         default="validate",
     )
     args = parser.parse_args()
@@ -91,6 +94,16 @@ def main() -> None:
         f"{summary3['ahrq_linkage']['matched']} hospitals; RUCC matched "
         f"{summary3['rucc_linkage']['matched']}; complete required "
         f"covariates for {complete['complete_n']} hospitals."
+    )
+    if args.stage == "stage3":
+        return
+
+    summary4 = build_stage4_imputation_weights(ROOT)
+    canonical = summary4["canonical_converged_weighting"]
+    print(
+        "Stage 4 passed: 20 deterministic imputations; archived diagnostics "
+        "reproduced exactly; canonical observation models converged with mean "
+        f"effective sample size {canonical['mean_effective_sample_size']:.1f}."
     )
 
 

@@ -1,0 +1,49 @@
+{
+  "version": "1.0.0",
+  "imputation": {
+    "method": "fully conditional chained equations",
+    "imputations": 20,
+    "cycles": 5,
+    "base_seed": 20260805,
+    "seed_increment": 1009,
+    "pmm_donors": 5,
+    "parallel_jobs": 4,
+    "continuous_model": "StandardScaler + BayesianRidge predictive mean matching",
+    "binary_model": "StandardScaler + LogisticRegression stochastic Bernoulli draw",
+    "categorical_model": "StandardScaler + multinomial LogisticRegression stochastic class draw",
+    "targets": [
+      {"name": "health_system_affiliated", "type": "binary"},
+      {"name": "log2_beds_plus1", "type": "continuous"},
+      {"name": "ownership_code", "source": "ahrq_ownership_3cat", "type": "categorical"},
+      {"name": "teaching_intensity", "type": "continuous"},
+      {"name": "high_dsh_flag", "type": "binary"},
+      {"name": "uncompensated_care_burden", "type": "continuous"},
+      {"name": "high_uncompensated_care_flag", "type": "binary"}
+    ]
+  },
+  "observation_weighting": {
+    "outcome": "discharge_information_yes_pct",
+    "numerator": ["CAH", "survey_year"],
+    "denominator": "six-category profile, profile-by-CAH, prespecified confounders, rurality, survey year, state fixed effects, and Amendment 2 flexible bed-size terms",
+    "logistic_C": 100.0,
+    "legacy_max_iter": 500,
+    "canonical_max_iter": 2000,
+    "logistic_tolerance": 1e-6,
+    "probability_clip": [1e-6, 0.999999],
+    "trim_quantiles": [0.01, 0.99],
+    "normalize_mean": 1.0,
+    "amendment_2_terms": [
+      "bed_squared",
+      "bed_x_CAH",
+      "bed_squared_x_CAH",
+      "bed_x_year2025",
+      "bed_squared_x_year2025"
+    ]
+  },
+  "expected_archived_output_sha256": {
+    "imputation_diagnostics.csv": "828ad7d78f9bd38c304a38d524c008325d0c108b88f5bd962018ba529b006de6",
+    "weight_diagnostics.csv": "1dacb33acccf60e511cae10a39428b6347320279de5ccf05570b960bacc3b5a3",
+    "balance_diagnostics.csv": "785a58292ca16d26425db63149882e508b37c5859c110fec4339e656385d8f96",
+    "balance_diagnostics_by_stratum.csv": "838abb916b80e3cf39011757d4d48876c84f8bbbbd970c1aae0f8a5dafd8e6e7"
+  }
+}
