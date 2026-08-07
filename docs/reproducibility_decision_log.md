@@ -2,66 +2,70 @@
 
 ## 2026-08-06 — Canonical Stage 1 rebuild
 
-### Decision
+The ONC-to-CMS cohort was rebuilt as a modular Python stage rather than treating the earlier compact scripts as the final computational record. The legacy sequence reproduced the initial ONC-CMS feasibility counts, but the compact HCAHPS script omitted fields needed by the later confounder-linkage script. The earlier package was therefore incomplete as an end-to-end source-to-analysis pipeline even though the preserved analytical dataset remained internally consistent.
 
-Rebuild the ONC-to-CMS cohort as a new, modular Python stage rather than treating the earlier compact reproduction scripts as the final computational record.
+Stage 1 verifies archived source files, normalizes six-digit CCNs, resolves the one ONC cross-year duplicate deterministically, links ONC to CMS one-to-one, restricts to Acute Care and Critical Access Hospitals, locks survey years 2024–2025, and derives the six-category network profile.
 
-### Reason
-
-A clean rerun of the preserved legacy sequence reproduced the initial ONC-CMS feasibility counts, but the preserved compact HCAHPS script omitted fields required by the subsequent confounder-linkage script, including county. As a result, the three compact scripts could not execute end to end without intervention.
-
-This does **not** show that the preserved analytic dataset or manuscript values are wrong. It shows that the earlier packaged scripts were not a complete source-to-analysis pipeline and therefore cannot serve as the final reproducibility record.
-
-### Stage 1 rules
-
-1. Verify archived source files by SHA-256, byte count, row count, and column count.
-2. Normalize CMS Certification Numbers to six characters.
-3. Retain each ONC hospital's latest survey response using explicit deterministic sorting.
-4. Resolve CMS duplicate identifiers deterministically rather than relying on file order.
-5. Link ONC to CMS one-to-one by CCN.
-6. Restrict the hospital cohort to Acute Care Hospitals and Critical Access Hospitals.
-7. Lock the primary exposure cohort to ONC survey years 2024 and 2025.
-8. Derive the 16-bit profile and prespecified six-category exposure in code.
-9. Generate all counts and audit outputs from the script.
-
-### Validation targets
-
-- 3,393 raw ONC rows
-- 12 ONC rows without a usable CCN
-- 3,380 unique usable ONC CCNs
-- 3,293 ONC-CMS matches
-- 3,250 Acute Care and Critical Access Hospitals across all source years
-- 2,651 hospitals in the locked 2024-2025 cohort
-- 1,871 Acute Care Hospitals
-- 780 Critical Access Hospitals
-
-### Local validation result
-
-The rebuilt Stage 1 cohort matched the preserved analysis-ready dataset on all 2,651 CCNs and on survey year, hospital group, four participation indicators, planned TEFCA, profile bits, and six-category profile assignment. No mismatches were observed in those fields.
+The regenerated cohort contained 2,651 hospitals: 1,871 Acute Care Hospitals and 780 Critical Access Hospitals. It matched the frozen dataset across all tested exposure and profile fields.
 
 ## 2026-08-06 — Numeric CCN namespace and HCAHPS linkage
 
-### Identifier decision
+CMS Hospital General Information and HCAHPS contain federal identifiers with alphabetic suffixes, such as `10021F`. These are not six-digit Medicare CCNs. Stripping the suffix can create a false numeric identifier and a collision with another hospital. The canonical normalizer therefore rejects any identifier containing alphabetic characters and zero-pads only genuinely numeric identifiers.
 
-CMS Hospital General Information and hospital-level HCAHPS include federal facility identifiers containing alphabetic suffixes, such as `10021F`. These values are not six-digit Medicare CCNs. Stripping the suffix would create a false numeric identifier and could collide with a different hospital. The canonical normalizer therefore rejects any identifier containing alphabetic characters and zero-pads only genuinely numeric identifiers.
+This correction excluded 164 federal facilities from the numeric CMS identifier space and 11,152 HCAHPS rows corresponding to those facilities. It did not alter the 2,651-hospital nonfederal study cohort.
 
-This correction excluded 164 federal facilities from the numeric CMS identifier space and 11,152 HCAHPS rows corresponding to those facilities. It did not alter the 2,651-hospital nonfederal locked cohort.
+Stage 2 preserves suppression text, verifies one reporting period, requires one row per valid numeric CCN and measure, retains footnotes and survey metadata, and links the prespecified primary, secondary, and linear-mean outcomes.
 
-### Stage 2 rules
+The primary outcome was reproduced for 2,409 hospitals: 1,852 Acute Care Hospitals and 557 Critical Access Hospitals. All tested HCAHPS fields matched the frozen cohort.
 
-1. Read the archived hospital-level HCAHPS file without replacing suppression text.
-2. Exclude nonnumeric facility identifiers from numeric CCN linkage.
-3. Require one row per valid numeric CCN and measure identifier.
-4. Require a single reporting period in the archived file.
-5. Preserve the primary outcome footnote, completed-survey count, response rate, and reporting dates.
-6. Convert only published numeric values to numbers; suppressed and unavailable strings remain missing.
-7. Link the prespecified primary, secondary, and linear-mean outcomes one-to-one by CCN.
-8. Generate outcome-availability and footnote audits directly from code.
+## 2026-08-06 — AHRQ and USDA confounder linkage
 
-### Stage 2 validation result
+### AHRQ identifier handling
 
-The clean rerun found 325,856 HCAHPS rows, 4,792 raw facility identifiers, 4,628 valid numeric CCNs, 68 measure identifiers, no duplicate valid facility-measure keys, and one reporting period from July 1, 2024 through June 30, 2025.
+The AHRQ file contains 6,800 rows. Of these, 154 use alphanumeric federal identifiers and 124 have no CCN. After excluding those 278 rows, 6,522 unique valid numeric CCNs remain. There are no duplicate valid numeric CCNs in the archived file.
 
-All 2,651 locked hospitals were present in HCAHPS. The primary outcome was observed for 2,409 hospitals: 1,852 Acute Care Hospitals and 557 Critical Access Hospitals. The discharge-information linear mean was observed for 1,988 hospitals: 1,765 Acute Care Hospitals and 223 Critical Access Hospitals.
+The earlier linkage script stripped alphabetic suffixes before matching. That created artificial duplicate identifiers for two cohort hospitals, `050006` and `050014`, even though the correct numeric AHRQ rows were ultimately selected through state, acute-hospital status, and name concordance. The canonical pipeline excludes the federal identifiers first. These two records are now correctly labeled `Exact CCN` rather than `Duplicate CCN resolved...`. No covariate or analytical value changed.
 
-The rebuilt HCAHPS cohort matched the preserved cohort on all 2,651 CCNs and all tested outcome, availability, footnote, survey-count, response-rate, and date fields. No mismatches were observed.
+### AHRQ linkage result
+
+AHRQ matched 2,624 of 2,651 hospitals. Twenty-seven hospitals lack a same-CCN row in the 2023 AHRQ file and remain in the cohort with missing AHRQ/HCRIS variables.
+
+### USDA geography rules
+
+The RUCC stage first attempts exact normalized county matching, then spacing and punctuation normalization. Remaining cases use explicit configuration rather than fuzzy matching:
+
+- Connecticut hospital cities are mapped to the nine 2023 planning regions.
+- Valdez and Cordova are mapped from the former Valdez-Cordova Census Area to Chugach Census Area.
+- Five documented county-name aliases or typographic corrections are stored in `config/geography_crosswalks.json`.
+
+The final method counts are:
+
+- 2,581 exact normalized county matches
+- 37 spacing or punctuation normalization matches
+- 21 Connecticut planning-region crosswalks
+- 10 documented county-name alias corrections
+- 2 Alaska post-split crosswalks
+
+All 2,651 hospitals received a 2023 RUCC code.
+
+### Covariate derivations
+
+- Health-system affiliation equals 1 when a matched AHRQ row contains a Compendium system ID and 0 when a matched row has no system ID.
+- AHRQ/HCRIS ownership codes 1 and 3 are nonprofit, code 2 is government, and code 5 is for-profit.
+- CMS ownership is mapped independently to nonprofit, government, or for-profit for the required sensitivity analysis.
+- Bed size is transformed as `log2(beds + 1)` and categorized as `<25`, `25–99`, `100–399`, or `≥400`.
+- Metro is RUCC 1–3; nonmetro is RUCC 4–9.
+- Complete required covariates means all eight locked covariates are observed before imputation.
+
+### Validation result
+
+- AHRQ matched: 2,624/2,651
+- RUCC matched: 2,651/2,651
+- Complete required covariates: 2,580/2,651
+- Acute Care complete: 1,826/1,871
+- Critical Access complete: 754/780
+- Ownership both observed: 2,600
+- Ownership agreement: 1,588
+- Ownership disagreement: 1,012
+
+The regenerated 63-column analysis-ready file was compared cell by cell with the frozen file. All substantive values matched across all 2,651 hospitals. The only differences were the two corrected AHRQ match-status labels described above.
