@@ -29,40 +29,44 @@ Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office
 
 ## Current validation status
 
-### Stage 1 — archived-source verification and ONC-CMS cohort: **completed locally**
+### Stage 1 — archived-source verification and ONC-CMS cohort: **reproduced exactly**
 
-The canonical Stage 1 code:
-
-- verifies all five archived raw files by SHA-256, byte count, row count, and column count;
-- normalizes six-digit CMS Certification Numbers;
-- resolves duplicate records deterministically;
-- links ONC network-participation records to CMS Hospital General Information;
-- restricts the cohort to Acute Care Hospitals and Critical Access Hospitals;
-- locks the exposure cohort to ONC survey years 2024 and 2025; and
-- derives the prespecified six-category network-profile exposure.
+The canonical Stage 1 code verifies all five archived source files, normalizes valid six-digit CMS Certification Numbers, resolves duplicate records deterministically, links ONC records to CMS Hospital General Information, restricts the population to Acute Care and Critical Access Hospitals, locks the exposure cohort to 2024–2025, and derives the prespecified six-category exposure.
 
 The clean rerun reproduced:
 
 - 3,393 raw ONC rows;
-- 12 rows without a usable CCN;
+- 12 ONC rows without a usable CCN;
 - 3,380 unique usable ONC CCNs;
 - 3,293 ONC-CMS matches;
 - 3,250 eligible Acute Care and Critical Access Hospitals across all source years; and
 - **2,651 hospitals in the locked 2024–2025 cohort: 1,871 Acute Care Hospitals and 780 Critical Access Hospitals.**
 
-The rebuilt cohort matched the preserved analysis-ready dataset across all 2,651 CCNs and all tested exposure/profile fields, with no mismatches.
+The rebuilt cohort matched the preserved analysis-ready dataset across all 2,651 CCNs and all tested exposure and profile fields, with no mismatches.
+
+### Stage 2 — HCAHPS outcome linkage: **reproduced exactly**
+
+The canonical Stage 2 code reads the archived hospital-level HCAHPS file, excludes alphanumeric federal facility identifiers from the numeric CCN namespace, verifies a single reporting period, preserves suppression footnotes and survey metadata, and links the primary and secondary outcomes one-to-one by CCN.
+
+The clean rerun reproduced:
+
+- 325,856 HCAHPS rows and 68 measure identifiers;
+- reporting period July 1, 2024 through June 30, 2025;
+- all 2,651 locked hospitals present in the HCAHPS source;
+- **2,409 hospitals with the primary discharge-information outcome: 1,852 Acute Care Hospitals and 557 Critical Access Hospitals;** and
+- 1,988 hospitals with the discharge-information linear-mean sensitivity outcome.
+
+The rebuilt HCAHPS cohort matched the preserved cohort across all 2,651 CCNs and every tested primary outcome, secondary outcome, availability flag, suppression footnote, survey count, response rate, and reporting-period field, with no mismatches.
 
 ### Next stage
 
-Rebuild the HCAHPS linkage directly from the archived hospital-level file, preserve suppression and footnote fields, and reproduce the reported primary-outcome availability of 2,409 hospitals.
+Rebuild the AHRQ Hospital Linkage and USDA Rural-Urban Continuum Code linkages, reproduce covariate completeness, and confirm the ownership-sensitivity variables before multiple imputation.
 
 ## Current locked benchmarks
 
-These are validation targets, not substitutes for rerunning the code:
+These remain validation targets until the full pipeline is complete:
 
 - Source cohort: **2,651 hospitals**
-- Acute Care Hospitals: **1,871**
-- Critical Access Hospitals: **780**
 - Primary outcome observed: **2,409 hospitals**
 - Global six-profile test: **Wald chi-square 29.01, 5 df, p < 0.001**
 - Prespecified profile 5 versus profile 3 contrast: **0.276 percentage points; 95% CI -0.152 to 0.703; p = 0.206**
@@ -77,6 +81,7 @@ After restoring the archived files listed in `data/raw/README.md`:
 ```bash
 python run_all.py --stage verify-raw
 python run_all.py --stage stage1
+python run_all.py --stage stage2
 pytest -q
 ```
 
