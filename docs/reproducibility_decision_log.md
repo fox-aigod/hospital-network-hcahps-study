@@ -38,3 +38,30 @@ This does **not** show that the preserved analytic dataset or manuscript values 
 ### Local validation result
 
 The rebuilt Stage 1 cohort matched the preserved analysis-ready dataset on all 2,651 CCNs and on survey year, hospital group, four participation indicators, planned TEFCA, profile bits, and six-category profile assignment. No mismatches were observed in those fields.
+
+## 2026-08-06 — Numeric CCN namespace and HCAHPS linkage
+
+### Identifier decision
+
+CMS Hospital General Information and hospital-level HCAHPS include federal facility identifiers containing alphabetic suffixes, such as `10021F`. These values are not six-digit Medicare CCNs. Stripping the suffix would create a false numeric identifier and could collide with a different hospital. The canonical normalizer therefore rejects any identifier containing alphabetic characters and zero-pads only genuinely numeric identifiers.
+
+This correction excluded 164 federal facilities from the numeric CMS identifier space and 11,152 HCAHPS rows corresponding to those facilities. It did not alter the 2,651-hospital nonfederal locked cohort.
+
+### Stage 2 rules
+
+1. Read the archived hospital-level HCAHPS file without replacing suppression text.
+2. Exclude nonnumeric facility identifiers from numeric CCN linkage.
+3. Require one row per valid numeric CCN and measure identifier.
+4. Require a single reporting period in the archived file.
+5. Preserve the primary outcome footnote, completed-survey count, response rate, and reporting dates.
+6. Convert only published numeric values to numbers; suppressed and unavailable strings remain missing.
+7. Link the prespecified primary, secondary, and linear-mean outcomes one-to-one by CCN.
+8. Generate outcome-availability and footnote audits directly from code.
+
+### Stage 2 validation result
+
+The clean rerun found 325,856 HCAHPS rows, 4,792 raw facility identifiers, 4,628 valid numeric CCNs, 68 measure identifiers, no duplicate valid facility-measure keys, and one reporting period from July 1, 2024 through June 30, 2025.
+
+All 2,651 locked hospitals were present in HCAHPS. The primary outcome was observed for 2,409 hospitals: 1,852 Acute Care Hospitals and 557 Critical Access Hospitals. The discharge-information linear mean was observed for 1,988 hospitals: 1,765 Acute Care Hospitals and 223 Critical Access Hospitals.
+
+The rebuilt HCAHPS cohort matched the preserved cohort on all 2,651 CCNs and all tested outcome, availability, footnote, survey-count, response-rate, and date fields. No mismatches were observed.
