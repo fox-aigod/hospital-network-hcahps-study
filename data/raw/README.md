@@ -1,25 +1,25 @@
-# Raw source data
+# Archived raw data
 
-Place the exact archived public-source files in this directory. Do not rename or manually edit them.
+Raw data files are deliberately excluded from Git because the CMS HCAHPS file exceeds GitHub's ordinary file-size limit and because exact source snapshots should be archived as a single citable research deposit rather than silently replaced by refreshed web files.
 
-The canonical inventory will be maintained in `docs/source_data_manifest.csv` with:
+Place these five files in this directory using the exact filenames below:
 
-- source agency
-- official dataset title
-- source page
-- reporting period
-- archived filename
-- access date
-- file size
-- SHA-256 checksum
-- notes on licensing and redistribution
+- `hospital_network_participation.csv`
+- `cms_hospital_general_information.csv`
+- `HCAHPS-Hospital.csv`
+- `chsp-hospital-linkage-2023.csv`
+- `Ruralurbancontinuumcodes2023.csv`
 
-Expected source families:
+Run:
 
-1. Office of the National Coordinator for Health Information Technology hospital network participation data
-2. Centers for Medicare & Medicaid Services hospital characteristics data
-3. Hospital Consumer Assessment of Healthcare Providers and Systems data
-4. Agency for Healthcare Research and Quality 2023 Hospital Linkage File
-5. U.S. Department of Agriculture 2023 Rural-Urban Continuum Codes
+```bash
+python run_all.py --stage verify-raw
+```
 
-Raw files are intentionally excluded from Git until their redistribution status and sizes are reviewed. The pipeline must refuse to run when a required file is missing or its checksum differs from the manifest.
+The command checks each file against `config/raw_sources.json`, including SHA-256, byte size, row count, and column count. A refreshed file with the same name is rejected if its fingerprint differs.
+
+To build the locked ONC-CMS cohort after verification, run:
+
+```bash
+python run_all.py --stage stage1
+```
