@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "description": "Locked publication-asset contract for canonical manuscript tables, figures, and value audit.",
+  "inputs": {
+    "analysis_ready": "data/processed/Hospital_Network_Analysis_Ready_v1.csv",
+    "canonical_model_results": "outputs/stage5/canonical",
+    "stage1_summary": "outputs/tables/stage1_linkage_summary.json",
+    "stage2_summary": "outputs/tables/stage2_hcahps_summary.json"
+  },
+  "main_tables": [
+    "manuscript_table_1.csv",
+    "manuscript_table_2.csv",
+    "manuscript_table_3.csv"
+  ],
+  "supplement_tables": [
+    "supplement_table_S1.csv",
+    "supplement_table_S2.csv",
+    "supplement_table_S3.csv",
+    "supplement_table_S4.csv",
+    "supplement_table_S5.csv",
+    "supplement_table_S6.csv"
+  ],
+  "figures": [
+    "Figure_1_Cohort_Flow.png",
+    "Figure_2_Adjusted_Profile_Means.png",
+    "Figure_3_TEFCA_Contrast_Sensitivities.png",
+    "Figure_4_Profile_Means_by_Hospital_Group.png",
+    "Figure_S1_Weight_Balance.png"
+  ],
+  "validation": {
+    "main_table_2_source_total": 2651,
+    "main_table_2_outcome_total": 2409,
+    "main_table_3_rows": 8,
+    "main_table_3_2025_global_chi2_display": "31.03 (5)",
+    "supplement_table_S1_rows": 48,
+    "supplement_table_S1_bits_regex": "^[01]{4}$",
+    "minimum_figure_width_pixels": 1600,
+    "required_manuscript_value_audit_failures": 0
+  }
+}
