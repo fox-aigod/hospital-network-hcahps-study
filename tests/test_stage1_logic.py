@@ -10,6 +10,7 @@ def test_normalize_ccn_preserves_leading_zeroes() -> None:
     assert normalize_ccn("10021") == "010021"
     assert normalize_ccn("010021") == "010021"
     assert normalize_ccn("10021.0") == "010021"
+    assert normalize_ccn("10021F") == ""
     assert normalize_ccn("") == ""
     assert normalize_ccn(pd.NA) == ""
 

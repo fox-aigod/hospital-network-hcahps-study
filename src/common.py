@@ -20,6 +20,11 @@ def normalize_ccn(value: Any) -> str:
     if value is None or pd.isna(value):
         return ""
     text = str(value).strip()
+    # Federal facility identifiers in CMS/HCAHPS may contain alphabetic suffixes
+    # (for example, ``10021F``). They are not six-digit Medicare CCNs and must
+    # not be coerced into a numeric CCN that could collide with another hospital.
+    if re.search(r"[A-Za-z]", text):
+        return ""
     if re.fullmatch(r"\d+\.0", text):
         text = text[:-2]
     digits = re.sub(r"\D", "", text)
