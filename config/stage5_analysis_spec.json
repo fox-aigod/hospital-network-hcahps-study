@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "description": "Locked structural-model and sensitivity-analysis specification.",
+  "execution": {
+    "legacy_weight_mode": "500-iteration archived observation models",
+    "canonical_weight_mode": "2000-iteration converged observation models",
+    "primary_covariance": "HC3",
+    "pooling": "Rubin rules",
+    "profile_reference": 3,
+    "planned_contrast": "Profile 5 minus Profile 3"
+  },
+  "primary_model": {
+    "outcome": "discharge_information_yes_pct",
+    "exposure": "six-category network participation profile",
+    "adjustment": [
+      "CAH",
+      "log2_beds_plus1",
+      "AHRQ/HCRIS ownership",
+      "health_system_affiliated",
+      "teaching_intensity",
+      "high_dsh_flag",
+      "uncompensated_care_burden",
+      "high_uncompensated_care_flag",
+      "nonmetro",
+      "survey year",
+      "state fixed effects"
+    ]
+  },
+  "sensitivity_analyses": [
+    "Completed-survey-count precision weighting",
+    "State-clustered standard errors",
+    "CMS ownership substituted",
+    "Fractional logit average marginal effect",
+    "Unweighted complete-covariate complete case",
+    "2025 ONC responses only",
+    "Exclude all-zero coded profile"
+  ],
+  "archived_output_sha256": {
+    "adjusted_profile_means.csv": "cac31997d77f82887c702dcd76c007a62054062c14e2d94024af767a5839bd45",
+    "alternative_exposure_coefficients.csv": "86eb829eedc49a4937f35e1413ff4817ce9f6417ba89868ad9a3dbf6d31e8551",
+    "balance_diagnostics.csv": "785a58292ca16d26425db63149882e508b37c5859c110fec4339e656385d8f96",
+    "balance_diagnostics_by_stratum.csv": "838abb916b80e3cf39011757d4d48876c84f8bbbbd970c1aae0f8a5dafd8e6e7",
+    "exact_profile_descriptives.csv": "49c571ec2d728d90168f25215139f1d0482064772db0c41f9e3e10f5725c5316",
+    "imputation_diagnostics.csv": "828ad7d78f9bd38c304a38d524c008325d0c108b88f5bd962018ba529b006de6",
+    "interaction_adjusted_means.csv": "f59517fa337e3bb31a8fa92c3e575da9f7be33591fa559a07dceecc057e115b5",
+    "interaction_model_coefficients.csv": "780a0500b3ffea52cf98e11212bffc406e1607d3474447ccc0dcba4abf7fa206",
+    "interaction_planned_contrasts.csv": "b5e8a10ec01099757aee8723b571b510130c5bac6ba550d5d41ba0658c501ea5",
+    "primary_model_coefficients.csv": "495577acf4c621e550a25eb0752b582417ccb5ba52a96000efc5cdd7208475f6",
+    "secondary_outcomes.csv": "ee4dedf1b7f3cd47e1011d794e1dea662bd71231ca5c8cd5dea97a7a44096afa",
+    "sensitivity_analyses.csv": "e520b036ac87d913cabee97f7f7c27e9e46e67228344edefd5742168eb23102f",
+    "stratified_analyses.csv": "46cf215fa90adb85d58c03418f0ed32babead666f82cedcd985e7a89823962cf",
+    "weight_diagnostics.csv": "1dacb33acccf60e511cae10a39428b6347320279de5ccf05570b960bacc3b5a3"
+  }
+}

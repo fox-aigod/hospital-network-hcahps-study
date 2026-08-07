@@ -1,0 +1,56 @@
+        specg = make_standard_spec(idxg, include_interaction=False, include_cah=False)
+        Xg, namesg = make_standard_design(current, specg, eval_idx=ow['observed_idx'])
+        b, c, _ = fit_wls(y_primary[ow['observed_idx']], Xg, ow['weights'], cov_type='HC3')
+        bgs.append(b); cgs.append(c)
+    summary = pooled_summary(bgs, cgs, profile_terms, namesg, f'{glabel} stratified')
+    summary['hospital_group'] = glabel
+    stratified_rows.append(summary)
+
+# Alternative exposure model
+alt_betas, alt_covs = [], []
+alt_names = None
+for current, ow in zip(imputations, weight_runs):
+    Xalt, alt_names = make_alt_design(current, source_idx, eval_idx=ow['observed_idx'])
+    b, c, _ = fit_wls(y_primary[ow['observed_idx']], Xalt, ow['weights'], cov_type='HC3')
+    alt_betas.append(b); alt_covs.append(c)
+ab, aT, ase, adf, _, _ = pool_vector(alt_betas, alt_covs)
+alt_rows = coefficient_table(ab, aT, ase, adf, alt_names, 'Alternative count + TEFCA model')
+
+# Secondary outcomes
+secondary_rows = []
+secondary_global_ps = []
+for field, label in secondary_fields:
+    b, T, se, df, _, _ = pool_vector(secondary_store[field]['betas'], secondary_store[field]['covs'])
+    glob = global_wald(b, T, names, profile_terms)
+    j = names.index('profile_5')
+    contrast = pool_scalar([x[j] for x in secondary_store[field]['betas']], [v[j,j] for v in secondary_store[field]['covs']])
+    secondary_global_ps.append(glob['p_value'])
+    secondary_rows.append({'outcome_field': field, 'outcome': label, 'global_statistic': glob['statistic'], 'global_df': glob['df'],
+                           'global_p': glob['p_value'], 'contrast_estimate': contrast['estimate'], 'contrast_se': contrast['se'],
+                           'contrast_ci_low': contrast['ci_low'], 'contrast_ci_high': contrast['ci_high'], 'contrast_p': contrast['p_value']})
+adj = bh_adjust(secondary_global_ps)
+for row, q in zip(secondary_rows, adj):
+    row['global_bh_fdr'] = float(q)
+
+# Exact 16-profile descriptive table
+exact_rows = []
+for bits in sorted(set(profile_bits.tolist())):
+    for g, glabel in [(None,'All'),(0,'Acute Care'),(1,'Critical Access')]:
+        mask = profile_bits == bits
+        if g is not None:
+            mask &= cah == g
+        vals = y_primary[mask & (r_primary==1)]
+        exact_rows.append({'profile_bits': bits, 'hospital_group': glabel, 'source_n': int(mask.sum()),
+                           'outcome_n': int(len(vals)), 'outcome_available_pct': float(100*len(vals)/mask.sum()) if mask.sum() else np.nan,
+                           'unadjusted_mean': float(np.mean(vals)) if len(vals) else np.nan,
+                           'unadjusted_sd': float(np.std(vals, ddof=1)) if len(vals)>1 else np.nan})
+
+# Weight diagnostics summary
+weight_rows = []
+for i, ow in enumerate(weight_runs, start=1):
+    raw = ow['raw_weights']; w = ow['weights']; pden = ow['pden']
+    weight_rows.append({'imputation': i, 'observed_n': len(w), 'raw_min': float(np.min(raw)), 'raw_p01': float(np.quantile(raw,.01)),
+                        'raw_median': float(np.median(raw)), 'raw_p99': float(np.quantile(raw,.99)), 'raw_max': float(np.max(raw)),
+                        'trim_lower': ow['lower_trim'], 'trim_upper': ow['upper_trim'], 'trimmed_min': float(np.min(w)),
+                        'trimmed_max': float(np.max(w)), 'effective_sample_size': ow['ess'],
+                        'denominator_probability_min': float(np.min(pden)), 'denominator_probability_p01': float(np.quantile(pden,.01)),

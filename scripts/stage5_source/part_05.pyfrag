@@ -1,0 +1,80 @@
+        1 for item in caught if 'converge' in str(item.message).lower()
+    )
+    WEIGHT_FIT_DIAGNOSTICS.append({
+        'mode': MODE,
+        'max_iter': WEIGHT_MAX_ITER,
+        'iterations': int(np.max(model[-1].n_iter_)),
+        'convergence_warnings': int(convergence_warnings),
+        'n': int(len(y)),
+        'p': int(np.asarray(X).shape[1]),
+    })
+    return np.clip(model.predict_proba(X)[:, 1], 1e-6, 1-1e-6), 'NearUnpenalizedLogistic'
+
+
+def observation_weights(current, subset_idx, outcome_observed, profile_allowed=None, ownership_source='ahrq',
+                        include_cah=True, include_year=True):
+    subset_idx = np.asarray(subset_idx, dtype=int)
+    obs = outcome_observed[subset_idx].astype(int)
+    spec = make_standard_spec(subset_idx, include_interaction=include_cah, include_cah=include_cah,
+                              include_year=include_year, profile_allowed=profile_allowed,
+                              ownership_source=ownership_source)
+    Xden, _ = make_standard_design(current, spec)
+    # Amendment 2: flexible bed-size terms are added to the observation model
+    # because initial stabilized weights left >0.10 within-stratum size imbalance.
+    bed = current['log2_beds_plus1'][subset_idx]
+    csub = cah[subset_idx].astype(float)
+    ysub = year2025[subset_idx].astype(float)
+    bed2 = bed ** 2
+    flex = np.column_stack([bed2, bed*csub, bed2*csub, bed*ysub, bed2*ysub])
+    Xden = np.column_stack([Xden, flex])
+    pden, method = fit_logistic_prob(obs, Xden)
+    cols = [np.ones(len(subset_idx))]
+    if include_cah and len(np.unique(cah[subset_idx])) > 1:
+        cols.append(cah[subset_idx].astype(float))
+    if include_year and len(np.unique(year2025[subset_idx])) > 1:
+        cols.append(year2025[subset_idx].astype(float))
+    Xnum = np.column_stack(cols)
+    pnum, _ = fit_logistic_prob(obs, Xnum)
+    observed_local = np.where(obs == 1)[0]
+    raw = pnum[observed_local] / pden[observed_local]
+    lo, hi = np.quantile(raw, [0.01, 0.99])
+    trimmed = np.clip(raw, lo, hi)
+    trimmed = trimmed / np.mean(trimmed)
+    ess = float(trimmed.sum() ** 2 / np.sum(trimmed ** 2))
+    return {
+        'source_idx': subset_idx,
+        'observed_idx': subset_idx[observed_local],
+        'weights': trimmed,
+        'raw_weights': raw,
+        'pden': pden,
+        'pnum': pnum,
+        'lower_trim': float(lo),
+        'upper_trim': float(hi),
+        'ess': ess,
+        'method': method,
+    }
+
+
+def fit_wls(y, X, weights, cov_type='HC3', groups=None):
+    y = np.asarray(y, dtype=float)
+    X = np.asarray(X, dtype=float)
+    w = np.asarray(weights, dtype=float)
+    xtwx = X.T @ (w[:, None] * X)
+    bread = _safe_inverse(xtwx)
+    beta = bread @ (X.T @ (w * y))
+    resid = y - X @ beta
+    if cov_type == 'cluster':
+        meat = np.zeros((X.shape[1], X.shape[1]))
+        groups = np.asarray(groups)
+        for g in np.unique(groups):
+            mask = groups == g
+            score = X[mask].T @ (w[mask] * resid[mask])
+            meat += np.outer(score, score)
+        G = len(np.unique(groups)); N = len(y); K = X.shape[1]
+        correction = (G / (G - 1)) * ((N - 1) / max(N - K, 1)) if G > 1 else 1.0
+        cov = correction * bread @ meat @ bread
+    else:
+        h = np.sum((np.sqrt(w)[:, None] * X) * ((np.sqrt(w)[:, None] * X) @ bread), axis=1)
+        adj = w * resid / np.clip(1 - h, 1e-5, None)
+        meat = X.T @ ((adj ** 2)[:, None] * X)
+        cov = bread @ meat @ bread

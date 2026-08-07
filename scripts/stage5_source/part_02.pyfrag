@@ -1,0 +1,101 @@
+    add_fixed(f'profile_{lvl}', profile == lvl)
+for st in states_all:
+    add_fixed(f'state_{st}', states == st)
+for lvl in range(1, 10):
+    add_fixed(f'rucc_{lvl}', rucc == lvl)
+add_fixed('outcome_observed', r_primary)
+
+y_fill = y_primary.copy()
+y_fill[np.isnan(y_fill)] = np.nanmean(y_fill)
+add_fixed('outcome_value_filled', y_fill)
+add_fixed('outcome_missing', np.isnan(y_primary))
+
+for arr, name, transform in [
+    (completed_surveys, 'log_completed_surveys', lambda z: np.log1p(z)),
+    (response_rate, 'response_rate', lambda z: z),
+]:
+    z = arr.copy()
+    miss = np.isnan(z)
+    z[miss] = np.nanmedian(z)
+    add_fixed(name, transform(z))
+    add_fixed(name + '_missing', miss)
+
+for lvl in cms_ownership_levels:
+    vals = np.array([(r['cms_ownership_3cat'] or 'Unknown') == lvl for r in rows])
+    add_fixed('cmsown_' + lvl, vals)
+add_fixed('emergency_services', np.array([str(r['emergency_services']).strip().upper() == 'YES' for r in rows]))
+for fld, arr in network.items():
+    add_fixed(fld, arr)
+
+fixed_X = np.column_stack(fixed_cols)
+
+ownership_map = {'Government': 0, 'Nonprofit': 1, 'For-profit': 2}
+ownership_rev = {v: k for k, v in ownership_map.items()}
+target_specs = [
+    ('health_system_affiliated', 'binary'),
+    ('log2_beds_plus1', 'continuous'),
+    ('ownership_code', 'categorical'),
+    ('teaching_intensity', 'continuous'),
+    ('high_dsh_flag', 'binary'),
+    ('uncompensated_care_burden', 'continuous'),
+    ('high_uncompensated_care_flag', 'binary'),
+]
+orig = {}
+for name, typ in target_specs:
+    if name == 'ownership_code':
+        orig[name] = np.array([ownership_map.get(r['ahrq_ownership_3cat'], np.nan) for r in rows], dtype=float)
+    else:
+        orig[name] = np.array([fnum(r[name]) for r in rows], dtype=float)
+
+
+def initial_imputation():
+    current = {}
+    for name, typ in target_specs:
+        arr = orig[name].copy()
+        miss = np.isnan(arr)
+        for g in [0, 1]:
+            observed = (cah == g) & (~miss)
+            if typ == 'continuous':
+                val = np.nanmedian(arr[observed])
+            else:
+                val = Counter(arr[observed].astype(int)).most_common(1)[0][0]
+            arr[(cah == g) & miss] = val
+        current[name] = arr
+    return current
+
+
+def build_impute_X(current, target_name):
+    blocks = [fixed_X]
+    for name, typ in target_specs:
+        if name == target_name:
+            continue
+        arr = current[name]
+        if typ == 'categorical':
+            for lvl in [0, 1, 2]:
+                blocks.append((arr == lvl).astype(float)[:, None])
+        else:
+            blocks.append(arr[:, None])
+    return np.hstack(blocks)
+
+
+def pmm_update(target, observed_mask, X, rng, k=5):
+    model = make_pipeline(StandardScaler(), BayesianRidge())
+    model.fit(X[observed_mask], target[observed_mask])
+    pred_obs = model.predict(X[observed_mask])
+    pred_mis = model.predict(X[~observed_mask])
+    observed_values = target[observed_mask]
+    out = target.copy()
+    missing_indices = np.where(~observed_mask)[0]
+    donor_count = min(k, len(pred_obs))
+    for idx, pred in zip(missing_indices, pred_mis):
+        near = np.argpartition(np.abs(pred_obs - pred), donor_count - 1)[:donor_count]
+        out[idx] = observed_values[rng.choice(near)]
+    return out
+
+
+def binary_update(target, observed_mask, X, rng):
+    y = target[observed_mask].astype(int)
+    out = target.copy()
+    if len(np.unique(y)) < 2:
+        out[~observed_mask] = y[0]
+        return out

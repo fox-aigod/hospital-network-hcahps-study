@@ -10,6 +10,7 @@ from src.build_stage1_cohort import build_stage1_cohort
 from src.build_stage2_hcahps import build_stage2_hcahps
 from src.build_stage3_confounders import build_stage3_confounders
 from src.build_stage4_imputation_weights import build_stage4_imputation_weights
+from src.build_stage5_models import build_stage5_models
 from src.verify_raw_sources import verify_raw_sources
 
 ROOT = Path(__file__).resolve().parent
@@ -26,7 +27,10 @@ def validate_structure() -> None:
         ROOT / "src" / "build_stage2_hcahps.py",
         ROOT / "src" / "build_stage3_confounders.py",
         ROOT / "src" / "build_stage4_imputation_weights.py",
+        ROOT / "src" / "build_stage5_models.py",
+        ROOT / "scripts" / "run_stage5_model_suite.py",
         ROOT / "config" / "stage4_analysis_spec.json",
+        ROOT / "config" / "stage5_analysis_spec.json",
         ROOT / "config" / "geography_crosswalks.json",
         ROOT / "src" / "verify_raw_sources.py",
     ]
@@ -57,7 +61,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--stage",
-        choices=["validate", "verify-raw", "stage1", "stage2", "stage3", "stage4"],
+        choices=["validate", "verify-raw", "stage1", "stage2", "stage3", "stage4", "stage5"],
         default="validate",
     )
     args = parser.parse_args()
@@ -104,6 +108,17 @@ def main() -> None:
         "Stage 4 passed: 20 deterministic imputations; archived diagnostics "
         "reproduced exactly; canonical observation models converged with mean "
         f"effective sample size {canonical['mean_effective_sample_size']:.1f}."
+    )
+    if args.stage == "stage4":
+        return
+
+    summary5 = build_stage5_models(ROOT)
+    primary5 = summary5["primary_canonical_results"]
+    print(
+        "Stage 5 passed: archived structural-model outputs reproduced exactly; "
+        "canonical sensitivity models converged without warnings; primary global "
+        f"Wald chi-square {primary5['global_wald_chi2']:.2f} and planned "
+        f"contrast {primary5['profile5_vs_3']['estimate']:.3f} percentage points."
     )
 
 

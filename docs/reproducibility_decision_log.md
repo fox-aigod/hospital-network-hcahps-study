@@ -47,3 +47,14 @@ The canonical denominator model retains the same variables, transformations, sta
 The legacy weights remain stored separately for audit reproduction. The converged weights are the canonical Stage 5 inputs. The maximum absolute normalized-weight difference was 0.015768 and the maximum mean absolute difference was 0.000110. Mean effective sample size changed from 2,365.786 to 2,365.769. Maximum residual within-stratum SMD changed from 0.176465 to 0.176338 and remained attributable to bed size among 2024 Critical Access Hospitals.
 
 This is a convergence correction, not a change in the estimand, covariate set, missing-data assumptions, or weighting strategy. Structural-model results will be recomputed and compared formally in Stage 5 before the manuscript is updated.
+
+
+## 2026-08-06 — Stage 4 convergence amendment and Stage 5 structural models
+
+The archived imputation and observation-weighting process was reconstructed exactly from the frozen analysis-ready dataset. Twenty deterministic imputations and four archived diagnostic outputs reproduced byte for byte. Restoring warnings revealed that 17 of the 20 primary denominator observation models reached the archived 500-iteration limit. The archived numerical outputs remained exactly reproducible, but convergence had not been demonstrated.
+
+The canonical analysis retains the same logistic models, variables, interactions, regularization, solver, tolerance, probability clipping, stabilized-weight numerator, 1st/99th percentile trimming, and mean-one normalization. Only the permitted maximum iterations increased from 500 to 2,000. All primary denominator models then converged, requiring 419 to 665 iterations. The largest normalized-weight change was 0.0158, mean effective sample size changed from 2,365.786 to 2,365.769, and the residual balance pattern was unchanged.
+
+Stage 5 loads the exact Stage 4 completed datasets. Legacy mode uses the archived weights and 500-iteration limit to reproduce the historical model suite. Fourteen archived result CSVs reproduced byte for byte. Canonical mode uses the converged primary weights and a 2,000-iteration limit for every recomputed sensitivity, subgroup, and alternative observation model. All 200 additional canonical weight-model fits converged, with a maximum of 797 iterations.
+
+The canonical primary results were Wald chi-square 29.0083 (5 df, p=0.0000231), profile 5 versus profile 3 difference 0.2757 percentage points (95% CI -0.1516 to 0.7031; p=0.2060), and global profile-by-CAH interaction Wald chi-square 7.1932 (5 df; p=0.2067). All primary manuscript values remained unchanged at the reported precision, and no p-value inference at alpha 0.05 changed across the reconciled primary, secondary, interaction, stratified, or sensitivity results.

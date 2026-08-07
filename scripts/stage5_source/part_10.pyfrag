@@ -1,0 +1,59 @@
+    # Secondary top-box outcomes have the same public-reporting mask in this release.
+    # Reuse the primary observation weights when the mask is identical.
+    for field, label in secondary_fields:
+        ysec = np.array([fnum(r[field]) for r in rows])
+        rsec = (~np.isnan(ysec)).astype(int)
+        if np.array_equal(rsec, r_primary):
+            owsec = ow
+            Xsec = X
+        else:
+            owsec = observation_weights(current, source_idx, rsec, ownership_source='ahrq')
+            Xsec, _ = make_standard_design(current, primary_spec, eval_idx=owsec['observed_idx'])
+        b, c, _ = fit_wls(ysec[owsec['observed_idx']], Xsec, owsec['weights'], cov_type='HC3')
+        secondary_store[field]['betas'].append(b); secondary_store[field]['covs'].append(c)
+
+# Pool primary
+pb, pT, pse, pdf, pU, pB = pool_vector(primary_betas, primary_covs)
+ib, iT, ise, idf, iU, iB = pool_vector(interaction_betas, interaction_covs)
+profile_terms = [f'profile_{x}' for x in [0,1,2,4,5]]
+interaction_terms = [f'profile_{x}:CAH' for x in [0,1,2,4,5]]
+primary_global = global_wald(pb, pT, names, profile_terms)
+interaction_global = global_wald(ib, iT, names_i, interaction_terms)
+primary_contrast = pool_scalar(
+    [b[names.index('profile_5')] for b in primary_betas],
+    [c[names.index('profile_5'), names.index('profile_5')] for c in primary_covs]
+)
+
+primary_mean_rows = []
+for p in range(6):
+    pooled = pool_scalar(primary_means[p]['est'], primary_means[p]['var'])
+    primary_mean_rows.append({'profile_category': p, **pooled})
+
+interaction_mean_rows = []
+for g in [0,1]:
+    for p in range(6):
+        pooled = pool_scalar(interaction_means[(g,p)]['est'], interaction_means[(g,p)]['var'])
+        interaction_mean_rows.append({'hospital_group': 'Critical Access' if g else 'Acute Care', 'profile_category': p, **pooled})
+interaction_contrast_rows = []
+for g in [0,1]:
+    pooled = pool_scalar(interaction_contrast[g]['est'], interaction_contrast[g]['var'])
+    interaction_contrast_rows.append({'hospital_group': 'Critical Access' if g else 'Acute Care', 'contrast': 'Profile 5 minus Profile 3', **pooled})
+
+# Pooled sensitivity models helper
+
+def pooled_summary(betas, covs, term_names, names_local, label):
+    b, T, se, df, _, _ = pool_vector(betas, covs)
+    glob = global_wald(b, T, names_local, [t for t in profile_terms if t in names_local])
+    j = names_local.index('profile_5')
+    contrast = pool_scalar([x[j] for x in betas], [v[j,j] for v in covs])
+    return {'analysis': label, 'global_statistic': glob['statistic'], 'global_df': glob['df'], 'global_p': glob['p_value'],
+            'contrast_estimate': contrast['estimate'], 'contrast_se': contrast['se'], 'contrast_ci_low': contrast['ci_low'],
+            'contrast_ci_high': contrast['ci_high'], 'contrast_p': contrast['p_value']}
+
+sensitivity_rows = []
+sensitivity_rows.append(pooled_summary(primary_betas, primary_covs, profile_terms, names, 'Primary MICE + IPOW + HC3'))
+sensitivity_rows.append(pooled_summary(survey_betas, survey_covs, profile_terms, names, 'Completed-survey-count precision weighting'))
+sensitivity_rows.append(pooled_summary(cluster_betas, cluster_covs, profile_terms, names, 'State-clustered standard errors'))
+sensitivity_rows.append(pooled_summary(cmsown_betas, cmsown_covs, profile_terms, cms_names, 'CMS ownership substituted'))
+fb, fT, fse, fdf, _, _ = pool_vector(frac_betas, frac_covs)
+fglob = global_wald(fb, fT, names, profile_terms)

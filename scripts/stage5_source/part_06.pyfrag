@@ -1,0 +1,92 @@
+    return beta, cov, {'residuals': resid}
+
+
+def fit_ols(y, X, cov_type='HC3'):
+    return fit_wls(y, X, np.ones(len(y)), cov_type=cov_type)
+
+
+def fit_fractional(y_pct, X, weights):
+    y = np.asarray(y_pct, dtype=float) / 100.0
+    X = np.asarray(X, dtype=float)
+    freq = np.asarray(weights, dtype=float)
+    beta = np.zeros(X.shape[1])
+    ridge = np.eye(X.shape[1]) * 1e-8
+    ridge[0,0] = 0.0
+    for _ in range(50):
+        eta = np.clip(X @ beta, -30, 30)
+        p = expit(eta)
+        w = np.clip(freq * p * (1-p), 1e-8, None)
+        grad = X.T @ (freq * (y-p)) - ridge @ beta
+        hess = X.T @ (w[:,None] * X) + ridge
+        step = _safe_inverse(hess) @ grad
+        if np.max(np.abs(step)) < 1e-8:
+            break
+        max_step = np.max(np.abs(step))
+        if max_step > 5:
+            step = step * (5/max_step)
+        beta = beta + step
+    p = expit(X @ beta)
+    bread = _safe_inverse(X.T @ ((freq * p * (1-p))[:,None] * X) + ridge)
+    h = np.sum((np.sqrt(freq*p*(1-p))[:,None]*X) * ((np.sqrt(freq*p*(1-p))[:,None]*X) @ bread), axis=1)
+    score_scale = freq * (y-p) / np.clip(1-h, 1e-5, None)
+    meat = X.T @ ((score_scale**2)[:,None] * X)
+    cov = bread @ meat @ bread
+    return beta, cov, {'fitted': p}
+
+
+def pool_vector(betas, covs):
+    betas = np.asarray(betas)
+    covs = np.asarray(covs)
+    m = len(betas)
+    bbar = betas.mean(axis=0)
+    ubar = covs.mean(axis=0)
+    B = np.cov(betas, rowvar=False, ddof=1) if m > 1 else np.zeros_like(ubar)
+    T = ubar + (1 + 1/m) * B
+    ses = np.sqrt(np.maximum(np.diag(T), 0))
+    dfs = []
+    for j in range(len(bbar)):
+        between = (1 + 1/m) * B[j, j]
+        if between <= 1e-16:
+            dfs.append(1e9)
+        else:
+            r = between / max(ubar[j, j], 1e-16)
+            dfs.append((m - 1) * (1 + 1/r) ** 2)
+    dfs = np.asarray(dfs)
+    return bbar, T, ses, dfs, ubar, B
+
+
+def pool_scalar(estimates, variances):
+    estimates = np.asarray(estimates, dtype=float)
+    variances = np.asarray(variances, dtype=float)
+    m = len(estimates)
+    qbar = estimates.mean()
+    ubar = variances.mean()
+    b = estimates.var(ddof=1) if m > 1 else 0.0
+    total = ubar + (1 + 1/m) * b
+    se = math.sqrt(max(total, 0))
+    between = (1 + 1/m) * b
+    if between <= 1e-16:
+        df = 1e9
+    else:
+        r = between / max(ubar, 1e-16)
+        df = (m - 1) * (1 + 1/r) ** 2
+    crit = t_dist.ppf(0.975, df) if df < 1e8 else 1.95996398454
+    p = 2 * t_dist.sf(abs(qbar / se), df) if se > 0 and df < 1e8 else (2 * (1 - 0.5*(1+math.erf(abs(qbar/se)/math.sqrt(2)))) if se > 0 else 1.0)
+    return {'estimate': float(qbar), 'se': float(se), 'df': float(df), 'ci_low': float(qbar - crit*se),
+            'ci_high': float(qbar + crit*se), 'p_value': float(p), 'within_var': float(ubar), 'between_var': float(b)}
+
+
+def global_wald(bbar, T, names, terms):
+    idx = [names.index(t) for t in terms if t in names]
+    theta = bbar[idx]
+    V = T[np.ix_(idx, idx)]
+    stat = float(theta @ np.linalg.pinv(V) @ theta)
+    df = len(idx)
+    return {'statistic': stat, 'df': df, 'p_value': float(chi2.sf(stat, df)), 'terms': terms}
+
+
+def coefficient_table(bbar, T, ses, dfs, names, model_label):
+    out = []
+    for j, name in enumerate(names):
+        crit = t_dist.ppf(0.975, dfs[j]) if dfs[j] < 1e8 else 1.95996398454
+        p = 2*t_dist.sf(abs(bbar[j]/ses[j]), dfs[j]) if ses[j] > 0 and dfs[j] < 1e8 else (2*(1-0.5*(1+math.erf(abs(bbar[j]/ses[j])/math.sqrt(2)))) if ses[j] > 0 else 1.0)

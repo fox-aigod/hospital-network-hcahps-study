@@ -1,0 +1,85 @@
+        out.append({'model': model_label, 'term': name, 'estimate': float(bbar[j]), 'se': float(ses[j]),
+                    'df': float(dfs[j]), 'ci_low': float(bbar[j]-crit*ses[j]), 'ci_high': float(bbar[j]+crit*ses[j]),
+                    'p_value': float(p)})
+    return out
+
+
+def adjusted_mean_standard(current, beta, cov, spec, target_profile, eval_idx):
+    X, _ = make_standard_design(current, spec, eval_idx=eval_idx, profile_override=target_profile)
+    L = X.mean(axis=0)
+    est = float(L @ beta)
+    var = float(L @ cov @ L)
+    return est, var
+
+
+def adjusted_mean_interaction(current, beta, cov, spec, target_profile, target_cah, eval_idx):
+    X, _ = make_standard_design(current, spec, eval_idx=eval_idx, profile_override=target_profile, cah_override=target_cah)
+    L = X.mean(axis=0)
+    return float(L @ beta), float(L @ cov @ L), L
+
+
+def adjusted_mean_fractional(current, beta, cov, spec, target_profile, eval_idx):
+    X, _ = make_standard_design(current, spec, eval_idx=eval_idx, profile_override=target_profile)
+    eta = X @ beta
+    mu = expit(eta)
+    est = float(mu.mean() * 100)
+    grad = np.mean((mu * (1-mu))[:, None] * X, axis=0) * 100
+    var = float(grad @ cov @ grad)
+    return est, var, grad
+
+
+def bh_adjust(pvalues):
+    pvalues = np.asarray(pvalues, dtype=float)
+    m = len(pvalues)
+    order = np.argsort(pvalues)
+    adjusted = np.empty(m)
+    prev = 1.0
+    for rank_rev, idx in enumerate(order[::-1], start=1):
+        rank = m - rank_rev + 1
+        val = min(prev, pvalues[idx] * m / rank)
+        adjusted[idx] = val
+        prev = val
+    return adjusted
+
+
+# Load exact Stage 4 imputations and selected primary weights.
+stage4_imp = np.load(ROOT / 'data' / 'interim' / 'stage4_imputations.npz')
+imputations = [
+    {name: stage4_imp[name][k].copy() for name, _ in target_specs}
+    for k in range(M)
+]
+expected_seeds = np.array([BASE_SEED + 1009*k for k in range(M)], dtype=int)
+if not np.array_equal(stage4_imp['seeds'], expected_seeds):
+    raise RuntimeError('Stage 4 imputation seeds do not match the locked specification.')
+weight_file = ROOT / 'data' / 'interim' / (
+    'stage4_legacy_observation_weights.npz' if MODE == 'legacy'
+    else 'stage4_observation_weights.npz'
+)
+stage4_w = np.load(weight_file)
+if not np.array_equal(stage4_w['observed_idx'], np.where(r_primary == 1)[0]):
+    raise RuntimeError('Stage 4 observed-index vector does not match the primary outcome mask.')
+primary_weight_runs = []
+for k in range(M):
+    raw = stage4_w['raw_weights'][k].copy()
+    w = stage4_w['weights'][k].copy()
+    primary_weight_runs.append({
+        'source_idx': idx_all,
+        'observed_idx': stage4_w['observed_idx'].copy(),
+        'weights': w,
+        'raw_weights': raw,
+        'pden': stage4_w['denominator_probabilities'][k].copy(),
+        'pnum': stage4_w['numerator_probabilities'][k].copy(),
+        'lower_trim': float(np.quantile(raw, 0.01)),
+        'upper_trim': float(np.quantile(raw, 0.99)),
+        'ess': float(w.sum() ** 2 / np.sum(w ** 2)),
+        'method': 'NearUnpenalizedLogistic',
+    })
+
+# Primary models and diagnostics
+source_idx = idx_all
+primary_spec = make_standard_spec(source_idx, include_interaction=False, include_cah=True, include_year=True)
+interaction_spec = make_standard_spec(source_idx, include_interaction=True, include_cah=True, include_year=True)
+
+primary_betas, primary_covs = [], []
+interaction_betas, interaction_covs = [], []
+weight_runs = []

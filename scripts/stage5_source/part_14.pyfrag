@@ -1,0 +1,28 @@
+write_csv(OUTDIR/'adjusted_profile_means.csv', primary_mean_rows)
+write_csv(OUTDIR/'interaction_adjusted_means.csv', interaction_mean_rows)
+write_csv(OUTDIR/'interaction_planned_contrasts.csv', interaction_contrast_rows)
+write_csv(OUTDIR/'sensitivity_analyses.csv', sensitivity_rows)
+write_csv(OUTDIR/'stratified_analyses.csv', stratified_rows)
+write_csv(OUTDIR/'alternative_exposure_coefficients.csv', alt_rows)
+write_csv(OUTDIR/'secondary_outcomes.csv', secondary_rows)
+write_csv(OUTDIR/'exact_profile_descriptives.csv', exact_rows)
+write_csv(OUTDIR/'weight_diagnostics.csv', weight_rows)
+write_csv(OUTDIR/'balance_diagnostics.csv', balance_rows)
+write_csv(OUTDIR/'balance_diagnostics_by_stratum.csv', balance_stratum_rows)
+with (OUTDIR/'analysis_summary.json').open('w', encoding='utf-8') as f:
+    json.dump(summary, f, indent=2)
+
+# Store imputation diagnostics only (not every full imputed dataset)
+imp_diag = []
+for k, current in enumerate(imputations, start=1):
+    row = {'imputation': k}
+    for name, typ in target_specs:
+        miss = np.isnan(orig[name])
+        vals = current[name][miss]
+        row[f'{name}_imputed_mean'] = float(np.mean(vals)) if len(vals) else np.nan
+        row[f'{name}_imputed_min'] = float(np.min(vals)) if len(vals) else np.nan
+        row[f'{name}_imputed_max'] = float(np.max(vals)) if len(vals) else np.nan
+    imp_diag.append(row)
+write_csv(OUTDIR/'imputation_diagnostics.csv', imp_diag)
+
+print(json.dumps(summary, indent=2))

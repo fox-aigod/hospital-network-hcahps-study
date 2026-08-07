@@ -1,0 +1,58 @@
+                        'denominator_probability_median': float(np.median(pden)), 'denominator_probability_max': float(np.max(pden)),
+                        'fit_method': ow['method']})
+
+balance_rows = []
+for v in balance_variables:
+    before = np.asarray(balance_records[v]['before']); after = np.asarray(balance_records[v]['after'])
+    balance_rows.append({'variable': v, 'mean_smd_before': float(np.mean(before)), 'mean_abs_smd_before': float(np.mean(np.abs(before))),
+                         'max_abs_smd_before': float(np.max(np.abs(before))), 'mean_smd_after': float(np.mean(after)),
+                         'mean_abs_smd_after': float(np.mean(np.abs(after))), 'max_abs_smd_after': float(np.max(np.abs(after)))})
+
+balance_stratum_rows = []
+for (v, sg, sy), vals in sorted(balance_stratum_records.items()):
+    before = np.asarray(vals['before']); after = np.asarray(vals['after'])
+    balance_stratum_rows.append({
+        'variable': v, 'hospital_group': 'Critical Access' if sg else 'Acute Care',
+        'onc_survey_year': 2025 if sy else 2024,
+        'mean_smd_before': float(np.mean(before)), 'mean_abs_smd_before': float(np.mean(np.abs(before))),
+        'max_abs_smd_before': float(np.max(np.abs(before))),
+        'mean_smd_after': float(np.mean(after)), 'mean_abs_smd_after': float(np.mean(np.abs(after))),
+        'max_abs_smd_after': float(np.max(np.abs(after)))
+    })
+
+# Interaction coefficient and primary coefficient tables
+primary_coeff_rows = coefficient_table(pb, pT, pse, pdf, names, 'Primary structural model')
+interaction_coeff_rows = coefficient_table(ib, iT, ise, idf, names_i, 'Profile x CAH interaction model')
+
+# Weight-model convergence diagnostics for Stage 5 sensitivity/subgroup runs.
+weight_fit_summary = {
+    'model_fits': int(len(WEIGHT_FIT_DIAGNOSTICS)),
+    'convergence_warnings': int(sum(x['convergence_warnings'] for x in WEIGHT_FIT_DIAGNOSTICS)),
+    'minimum_iterations': int(min((x['iterations'] for x in WEIGHT_FIT_DIAGNOSTICS), default=0)),
+    'maximum_iterations': int(max((x['iterations'] for x in WEIGHT_FIT_DIAGNOSTICS), default=0)),
+    'iteration_limit': int(WEIGHT_MAX_ITER),
+}
+write_csv(OUTDIR/'weight_model_fit_diagnostics.csv', WEIGHT_FIT_DIAGNOSTICS)
+
+# Summary JSON
+summary = {
+    'settings': {'mode': MODE, 'weight_model_max_iter': WEIGHT_MAX_ITER, 'imputations': M, 'cycles': CYCLES, 'seed': BASE_SEED, 'source_n': n, 'observed_primary_n': int(r_primary.sum())},
+    'weight_model_fit_summary': weight_fit_summary,
+    'primary_global': primary_global,
+    'primary_planned_contrast': primary_contrast,
+    'interaction_global': interaction_global,
+    'weight_summary': {
+        'mean_ess': float(np.mean([x['ess'] for x in weight_runs])),
+        'min_ess': float(np.min([x['ess'] for x in weight_runs])),
+        'mean_trim_upper': float(np.mean([x['upper_trim'] for x in weight_runs])),
+        'max_raw_weight': float(np.max([np.max(x['raw_weights']) for x in weight_runs])),
+        'min_denominator_probability': float(np.min([np.min(x['pden']) for x in weight_runs])),
+        'max_abs_smd_before': float(max(x['max_abs_smd_before'] for x in balance_stratum_rows)),
+        'max_abs_smd_after': float(max(x['max_abs_smd_after'] for x in balance_stratum_rows)),
+    },
+    'complete_case_n': int(len(complete_idx)),
+}
+
+# Write outputs
+write_csv(OUTDIR/'primary_model_coefficients.csv', primary_coeff_rows)
+write_csv(OUTDIR/'interaction_model_coefficients.csv', interaction_coeff_rows)

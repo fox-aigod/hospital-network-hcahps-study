@@ -1,0 +1,81 @@
+    model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000, C=1.0, solver='lbfgs'))
+    model.fit(X[observed_mask], y)
+    probs = model.predict_proba(X[~observed_mask])[:, 1]
+    out[~observed_mask] = rng.binomial(1, probs)
+    return out
+
+
+def categorical_update(target, observed_mask, X, rng):
+    y = target[observed_mask].astype(int)
+    out = target.copy()
+    model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000, C=1.0, solver='lbfgs'))
+    model.fit(X[observed_mask], y)
+    probs = model.predict_proba(X[~observed_mask])
+    classes = model[-1].classes_.astype(int)
+    draws = [rng.choice(classes, p=p / p.sum()) for p in probs]
+    out[~observed_mask] = draws
+    return out
+
+
+def impute_dataset(seed):
+    rng = np.random.default_rng(seed)
+    current = initial_imputation()
+    for _ in range(CYCLES):
+        for name, typ in target_specs:
+            X = build_impute_X(current, name)
+            observed_mask = ~np.isnan(orig[name])
+            target = current[name].copy()
+            target[observed_mask] = orig[name][observed_mask]
+            if typ == 'continuous':
+                updated = pmm_update(target, observed_mask, X, rng)
+            elif typ == 'binary':
+                updated = binary_update(target, observed_mask, X, rng)
+            else:
+                updated = categorical_update(target, observed_mask, X, rng)
+            updated[observed_mask] = orig[name][observed_mask]
+            current[name] = updated
+    return current
+
+
+def make_standard_spec(subset_idx, include_interaction=False, include_cah=True, include_year=True,
+                       profile_reference=3, profile_allowed=None, ownership_source='ahrq'):
+    subset_idx = np.asarray(subset_idx, dtype=int)
+    present_profiles = sorted(set(profile[subset_idx].tolist()))
+    if profile_allowed is not None:
+        present_profiles = [p for p in profile_allowed if p in present_profiles]
+    profile_ind_levels = [p for p in present_profiles if p != profile_reference]
+    present_states = sorted(set(states[subset_idx].tolist()))
+    state_ref = present_states[0]
+    state_dummies = [s for s in present_states if s != state_ref]
+    return {
+        'subset_idx': subset_idx,
+        'include_interaction': include_interaction,
+        'include_cah': include_cah,
+        'include_year': include_year,
+        'profile_reference': profile_reference,
+        'profile_ind_levels': profile_ind_levels,
+        'state_ref': state_ref,
+        'state_dummies': state_dummies,
+        'ownership_source': ownership_source,
+    }
+
+
+def make_standard_design(current, spec, eval_idx=None, profile_override=None, cah_override=None):
+    idx = spec['subset_idx'] if eval_idx is None else np.asarray(eval_idx, dtype=int)
+    p = profile.copy() if profile_override is None else np.full(n, int(profile_override), dtype=int)
+    c = cah.copy() if cah_override is None else np.full(n, int(cah_override), dtype=int)
+    cols = [np.ones(len(idx))]
+    names = ['Intercept']
+    pcols = {}
+    for lvl in spec['profile_ind_levels']:
+        arr = (p == lvl).astype(float)
+        pcols[lvl] = arr
+        cols.append(arr[idx])
+        names.append(f'profile_{lvl}')
+    if spec['include_cah']:
+        cols.append(c[idx].astype(float))
+        names.append('CAH')
+    if spec['include_interaction']:
+        for lvl in spec['profile_ind_levels']:
+            cols.append((pcols[lvl] * c)[idx])
+            names.append(f'profile_{lvl}:CAH')

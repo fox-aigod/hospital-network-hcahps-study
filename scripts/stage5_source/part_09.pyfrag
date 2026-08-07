@@ -1,0 +1,65 @@
+    cms_spec = make_standard_spec(source_idx, include_interaction=False, ownership_source='cms')
+    ow_cms = observation_weights(current, source_idx, r_primary, ownership_source='cms')
+    Xcms, cms_names = make_standard_design(current, cms_spec, eval_idx=ow_cms['observed_idx'])
+    b, c, _ = fit_wls(y_primary[ow_cms['observed_idx']], Xcms, ow_cms['weights'], cov_type='HC3')
+    cmsown_betas.append(b); cmsown_covs.append(c)
+
+    # Fractional logit sensitivity
+    b, c, _ = fit_fractional(y, X, ow['weights'])
+    frac_betas.append(b); frac_covs.append(c)
+    est5, var5, grad5 = adjusted_mean_fractional(current, b, c, primary_spec, 5, source_idx)
+    est3, var3, grad3 = adjusted_mean_fractional(current, b, c, primary_spec, 3, source_idx)
+    grad = grad5 - grad3
+    frac_contrast_est.append(est5 - est3)
+    frac_contrast_var.append(float(grad @ c @ grad))
+
+    # Balance diagnostics
+    own = current['ownership_code']
+    bal_arrays = {
+        'CAH': cah.astype(float),
+        'profile_0': (profile==0).astype(float), 'profile_1': (profile==1).astype(float),
+        'profile_2': (profile==2).astype(float), 'profile_4': (profile==4).astype(float),
+        'profile_5': (profile==5).astype(float),
+        'log2_beds_plus1': current['log2_beds_plus1'],
+        'ownership_nonprofit': (own==1).astype(float), 'ownership_forprofit': (own==2).astype(float),
+        'health_system_affiliated': current['health_system_affiliated'],
+        'teaching_intensity': current['teaching_intensity'], 'high_dsh_flag': current['high_dsh_flag'],
+        'uncompensated_care_burden': current['uncompensated_care_burden'],
+        'high_uncompensated_care_flag': current['high_uncompensated_care_flag'],
+        'nonmetro': nonmetro.astype(float), 'year2025': year2025.astype(float),
+    }
+    for v, arr in bal_arrays.items():
+        target_mean = np.mean(arr[source_idx])
+        before_mean = np.mean(arr[obs_idx])
+        after_mean = np.average(arr[obs_idx], weights=ow['weights'])
+        sd = np.std(arr[source_idx], ddof=1)
+        if sd < 1e-12:
+            before = after = 0.0
+        else:
+            before = (before_mean-target_mean)/sd
+            after = (after_mean-target_mean)/sd
+        balance_records[v]['before'].append(float(before))
+        balance_records[v]['after'].append(float(after))
+        # Stabilized weights preserve CAH/year margins, so balance is assessed
+        # within the four numerator-model strata.
+        for sg in [0, 1]:
+            for sy in [0, 1]:
+                src_mask = (cah[source_idx] == sg) & (year2025[source_idx] == sy)
+                src_indices = source_idx[src_mask]
+                obs_mask = (cah[obs_idx] == sg) & (year2025[obs_idx] == sy)
+                obs_indices = obs_idx[obs_mask]
+                if len(src_indices) < 2 or len(obs_indices) < 2:
+                    continue
+                target_s = np.mean(arr[src_indices])
+                before_s = np.mean(arr[obs_indices])
+                after_s = np.average(arr[obs_indices], weights=ow['weights'][obs_mask])
+                sd_s = np.std(arr[src_indices], ddof=1)
+                if sd_s < 1e-12:
+                    smd_b = smd_a = 0.0
+                else:
+                    smd_b = (before_s-target_s)/sd_s
+                    smd_a = (after_s-target_s)/sd_s
+                key = (v, sg, sy)
+                balance_stratum_records[key]['before'].append(float(smd_b))
+                balance_stratum_records[key]['after'].append(float(smd_a))
+

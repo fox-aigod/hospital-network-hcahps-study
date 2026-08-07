@@ -1,0 +1,107 @@
+from __future__ import annotations
+
+import csv
+import json
+import math
+import os
+import statistics
+import warnings
+from collections import Counter, defaultdict
+from pathlib import Path
+
+import numpy as np
+from scipy.stats import chi2, t as t_dist
+from sklearn.linear_model import BayesianRidge, LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from joblib import Parallel, delayed
+import statsmodels.api as sm
+
+
+ROOT = Path(os.environ.get('HN_ROOT', Path(__file__).resolve().parents[1]))
+MODE = os.environ.get('HN_WEIGHT_MODE', 'canonical').strip().lower()
+if MODE not in {'legacy', 'canonical'}:
+    raise ValueError("HN_WEIGHT_MODE must be 'legacy' or 'canonical'")
+INPUT = ROOT / 'data' / 'processed' / 'Hospital_Network_Analysis_Ready_v1.csv'
+OUTDIR = ROOT / 'outputs' / 'stage5' / MODE
+OUTDIR.mkdir(parents=True, exist_ok=True)
+WEIGHT_MAX_ITER = 500 if MODE == 'legacy' else 2000
+WEIGHT_FIT_DIAGNOSTICS = []
+
+M = 20
+CYCLES = 5
+BASE_SEED = 20260805
+
+
+def read_csv(path):
+    with path.open('r', encoding='utf-8-sig', newline='') as f:
+        return list(csv.DictReader(f))
+
+
+def write_csv(path, rows, fieldnames=None):
+    if not rows:
+        path.write_text('', encoding='utf-8')
+        return
+    if fieldnames is None:
+        fieldnames = list(rows[0])
+    with path.open('w', encoding='utf-8', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        w.writerows(rows)
+
+
+def fnum(v):
+    try:
+        return float(v)
+    except Exception:
+        return np.nan
+
+
+def as_int(v, default=0):
+    try:
+        return int(float(v))
+    except Exception:
+        return default
+
+
+def expit(x):
+    x = np.clip(x, -35, 35)
+    return 1.0 / (1.0 + np.exp(-x))
+
+
+rows = read_csv(INPUT)
+n = len(rows)
+idx_all = np.arange(n)
+states_all = sorted(set(r['state'] for r in rows))
+profile = np.array([as_int(r['profile_category_code']) for r in rows], dtype=int)
+profile_bits = np.array([r['profile_bits'] for r in rows], dtype=object)
+cah = np.array([1 if r['hospital_group'] == 'Critical Access' else 0 for r in rows], dtype=int)
+year2025 = np.array([1 if r['onc_survey_year'] == '2025' else 0 for r in rows], dtype=int)
+states = np.array([r['state'] for r in rows], dtype=object)
+nonmetro = np.array([1 if r['rurality_binary'] == 'Nonmetro' else 0 for r in rows], dtype=int)
+rucc = np.array([as_int(r['rucc_2023']) for r in rows], dtype=int)
+y_primary = np.array([fnum(r['discharge_information_yes_pct']) for r in rows])
+r_primary = (~np.isnan(y_primary)).astype(int)
+completed_surveys = np.array([fnum(r['number_completed_surveys']) for r in rows])
+response_rate = np.array([fnum(r['survey_response_rate_pct']) for r in rows])
+network = {
+    'hio': np.array([as_int(r['hio']) for r in rows], dtype=int),
+    'national_network': np.array([as_int(r['national_network']) for r in rows], dtype=int),
+    'vendor_network': np.array([as_int(r['vendor_network']) for r in rows], dtype=int),
+    'current_tefca': np.array([as_int(r['current_tefca']) for r in rows], dtype=int),
+}
+conventional_count = network['hio'] + network['national_network'] + network['vendor_network']
+
+cms_ownership_levels = ['Government', 'Nonprofit', 'For-profit', 'Unknown']
+fixed_names = []
+fixed_cols = []
+
+
+def add_fixed(name, arr):
+    fixed_names.append(name)
+    fixed_cols.append(np.asarray(arr, dtype=float))
+
+
+add_fixed('CAH', cah)
+add_fixed('year2025', year2025)
+for lvl in range(6):

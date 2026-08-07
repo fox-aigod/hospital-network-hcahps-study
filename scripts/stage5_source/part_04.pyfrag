@@ -1,0 +1,66 @@
+    cols.append(current['log2_beds_plus1'][idx]); names.append('log2_beds_plus1')
+    if spec['ownership_source'] == 'ahrq':
+        own = current['ownership_code']
+    else:
+        own = np.array([ownership_map.get(r['cms_ownership_3cat'], 0) for r in rows], dtype=float)
+    for lvl in [1, 2]:
+        cols.append((own[idx] == lvl).astype(float)); names.append(f'ownership_{lvl}')
+    cols.append(current['health_system_affiliated'][idx]); names.append('health_system_affiliated')
+    cols.append(current['teaching_intensity'][idx]); names.append('teaching_intensity')
+    cols.append(current['high_dsh_flag'][idx]); names.append('high_dsh_flag')
+    cols.append(current['uncompensated_care_burden'][idx]); names.append('uncompensated_care_burden')
+    cols.append(current['high_uncompensated_care_flag'][idx]); names.append('high_uncompensated_care_flag')
+    cols.append(nonmetro[idx].astype(float)); names.append('nonmetro')
+    if spec['include_year']:
+        cols.append(year2025[idx].astype(float)); names.append('year2025')
+    for st in spec['state_dummies']:
+        cols.append((states[idx] == st).astype(float)); names.append(f'state_{st}')
+    X = np.column_stack(cols)
+    return X, names
+
+
+def make_alt_design(current, subset_idx, eval_idx=None, ownership_source='ahrq'):
+    idx = np.asarray(subset_idx if eval_idx is None else eval_idx, dtype=int)
+    present_states = sorted(set(states[np.asarray(subset_idx, dtype=int)].tolist()))
+    state_ref = present_states[0]
+    state_dummies = [s for s in present_states if s != state_ref]
+    cols = [np.ones(len(idx)), conventional_count[idx].astype(float), network['current_tefca'][idx].astype(float),
+            (conventional_count * network['current_tefca'])[idx].astype(float), cah[idx].astype(float)]
+    names = ['Intercept', 'conventional_count', 'current_tefca', 'count_x_tefca', 'CAH']
+    cols.append(current['log2_beds_plus1'][idx]); names.append('log2_beds_plus1')
+    if ownership_source == 'ahrq':
+        own = current['ownership_code']
+    else:
+        own = np.array([ownership_map.get(r['cms_ownership_3cat'], 0) for r in rows], dtype=float)
+    for lvl in [1, 2]:
+        cols.append((own[idx] == lvl).astype(float)); names.append(f'ownership_{lvl}')
+    cols.extend([
+        current['health_system_affiliated'][idx], current['teaching_intensity'][idx],
+        current['high_dsh_flag'][idx], current['uncompensated_care_burden'][idx],
+        current['high_uncompensated_care_flag'][idx], nonmetro[idx].astype(float),
+        year2025[idx].astype(float),
+    ])
+    names.extend(['health_system_affiliated', 'teaching_intensity', 'high_dsh_flag',
+                  'uncompensated_care_burden', 'high_uncompensated_care_flag', 'nonmetro', 'year2025'])
+    for st in state_dummies:
+        cols.append((states[idx] == st).astype(float)); names.append(f'state_{st}')
+    return np.column_stack(cols), names
+
+
+def _safe_inverse(a):
+    try:
+        return np.linalg.inv(a)
+    except np.linalg.LinAlgError:
+        return np.linalg.pinv(a, rcond=1e-10)
+
+
+def fit_logistic_prob(y, X):
+    """Numerically stabilized, near-unpenalized logistic probability model."""
+    model = make_pipeline(
+        StandardScaler(),
+        LogisticRegression(max_iter=WEIGHT_MAX_ITER, C=100.0, solver='lbfgs', tol=1e-6)
+    )
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter('always')
+        model.fit(np.asarray(X, dtype=float), np.asarray(y, dtype=int))
+    convergence_warnings = sum(

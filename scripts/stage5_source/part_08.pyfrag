@@ -1,0 +1,69 @@
+primary_means = {p: {'est': [], 'var': []} for p in range(6)}
+interaction_means = {(g,p): {'est': [], 'var': []} for g in [0,1] for p in range(6)}
+interaction_contrast = {g: {'est': [], 'var': []} for g in [0,1]}
+
+# sensitivity containers
+survey_betas, survey_covs = [], []
+cluster_betas, cluster_covs = [], []
+cmsown_betas, cmsown_covs = [], []
+frac_betas, frac_covs = [], []
+frac_contrast_est, frac_contrast_var = [], []
+
+# balance arrays
+balance_variables = ['CAH','profile_0','profile_1','profile_2','profile_4','profile_5','log2_beds_plus1',
+                     'ownership_nonprofit','ownership_forprofit','health_system_affiliated','teaching_intensity',
+                     'high_dsh_flag','uncompensated_care_burden','high_uncompensated_care_flag','nonmetro','year2025']
+balance_records = defaultdict(lambda: {'before': [], 'after': []})
+balance_stratum_records = defaultdict(lambda: {'before': [], 'after': []})
+
+# Secondary outcomes
+secondary_fields = [
+    ('medicines_always_pct', 'Communication about medicines: Always'),
+    ('overall_rating_9_10_pct', 'Overall hospital rating: 9–10'),
+    ('definitely_recommend_pct', 'Definitely recommend hospital'),
+    ('nurse_communication_always_pct', 'Nurse communication: Always'),
+    ('doctor_communication_always_pct', 'Doctor communication: Always'),
+]
+secondary_store = {field: {'betas': [], 'covs': []} for field, _ in secondary_fields}
+
+for m, current in enumerate(imputations):
+    ow = primary_weight_runs[m]
+    weight_runs.append(ow)
+    obs_idx = ow['observed_idx']
+    X, names = make_standard_design(current, primary_spec, eval_idx=obs_idx)
+    y = y_primary[obs_idx]
+    beta, cov, res = fit_wls(y, X, ow['weights'], cov_type='HC3')
+    primary_betas.append(beta); primary_covs.append(cov)
+
+    Xi, names_i = make_standard_design(current, interaction_spec, eval_idx=obs_idx)
+    beta_i, cov_i, _ = fit_wls(y, Xi, ow['weights'], cov_type='HC3')
+    interaction_betas.append(beta_i); interaction_covs.append(cov_i)
+
+    for p in range(6):
+        est, var = adjusted_mean_standard(current, beta, cov, primary_spec, p, source_idx)
+        primary_means[p]['est'].append(est); primary_means[p]['var'].append(var)
+        for g in [0,1]:
+            group_idx = np.where(cah == g)[0]
+            estg, varg, Lg = adjusted_mean_interaction(current, beta_i, cov_i, interaction_spec, p, g, group_idx)
+            interaction_means[(g,p)]['est'].append(estg); interaction_means[(g,p)]['var'].append(varg)
+    for g in [0,1]:
+        group_idx = np.where(cah == g)[0]
+        _, _, L5 = adjusted_mean_interaction(current, beta_i, cov_i, interaction_spec, 5, g, group_idx)
+        _, _, L3 = adjusted_mean_interaction(current, beta_i, cov_i, interaction_spec, 3, g, group_idx)
+        L = L5 - L3
+        interaction_contrast[g]['est'].append(float(L @ beta_i))
+        interaction_contrast[g]['var'].append(float(L @ cov_i @ L))
+
+    # Survey-count precision sensitivity
+    survey_count = completed_surveys[obs_idx].copy()
+    survey_count[np.isnan(survey_count)] = np.nanmedian(survey_count)
+    sw = ow['weights'] * survey_count
+    sw = sw / np.mean(sw)
+    b, c, _ = fit_wls(y, X, sw, cov_type='HC3')
+    survey_betas.append(b); survey_covs.append(c)
+
+    # State clustered covariance sensitivity
+    b, c, _ = fit_wls(y, X, ow['weights'], cov_type='cluster', groups=states[obs_idx])
+    cluster_betas.append(b); cluster_covs.append(c)
+
+    # CMS ownership sensitivity: recompute observation weights and structural design

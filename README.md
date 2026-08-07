@@ -84,9 +84,22 @@ The correction was numerically small:
 
 The canonical converged imputations and weights are the locked inputs for Stage 5.
 
+### Stage 5 — structural models and sensitivities: reproduced and validated
+
+- Fourteen archived model-result CSV files reproduced byte for byte in legacy mode
+- Canonical primary and sensitivity models used the converged weights
+- 200 additional canonical observation-model fits completed with zero convergence warnings; maximum iterations required: 797
+- Global six-profile test: Wald chi-square 29.0083, 5 df, p=0.0000231
+- Profile 5 versus profile 3: 0.2757 percentage points, 95% CI -0.1516 to 0.7031, p=0.2060
+- Global profile-by-CAH interaction: Wald chi-square 7.1932, 5 df, p=0.2067
+- All primary manuscript values were unchanged at their reported precision
+- All p-value decisions at alpha 0.05 were unchanged across primary, secondary, subgroup, and sensitivity comparisons
+
+The canonical and historical results are reconciled in `outputs/stage5/reconciliation/` when the pipeline is executed.
+
 ### Next stage
 
-Fit and pool the primary structural model, interaction model, adjusted profile means, planned contrasts, and prespecified sensitivity analyses using the canonical converged weights. Every manuscript statistic will be reconciled against the archived result and any difference documented.
+Generate final manuscript tables and figures directly from the canonical outputs, update every reported number, and build a machine-readable manuscript-value audit.
 
 ## Current model benchmarks
 
@@ -106,6 +119,7 @@ python run_all.py --stage stage1
 python run_all.py --stage stage2
 python run_all.py --stage stage3
 python run_all.py --stage stage4
+python run_all.py --stage stage5
 pytest -q
 ```
 
