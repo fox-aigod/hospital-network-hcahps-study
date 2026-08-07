@@ -1,0 +1,23 @@
+{
+  "status": "provisional_validation_targets",
+  "cohort": {
+    "total": 2651,
+    "acute_care": 1871,
+    "critical_access": 780,
+    "primary_outcome_observed": 2409
+  },
+  "primary_model": {
+    "global_wald_chi2": 29.01,
+    "global_wald_df": 5,
+    "profile_5_vs_3_estimate_pp": 0.276,
+    "profile_5_vs_3_ci_low_pp": -0.152,
+    "profile_5_vs_3_ci_high_pp": 0.703,
+    "profile_5_vs_3_p": 0.206
+  },
+  "interaction": {
+    "wald_chi2": 7.19,
+    "wald_df": 5,
+    "p": 0.207
+  },
+  "warning": "These values must be regenerated from source data before release."
+}
