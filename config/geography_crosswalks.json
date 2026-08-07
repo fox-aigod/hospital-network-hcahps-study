@@ -1,0 +1,38 @@
+{
+  "connecticut_city_to_planning_region_fips": {
+    "BRIDGEPORT": "09120",
+    "BRISTOL": "09140",
+    "DANBURY": "09190",
+    "FARMINGTON": "09110",
+    "GREENWICH": "09190",
+    "HARTFORD": "09110",
+    "MERIDEN": "09170",
+    "MIDDLETOWN": "09130",
+    "NEW BRITAIN": "09110",
+    "NEW HAVEN": "09170",
+    "NEW LONDON": "09180",
+    "NORWALK": "09190",
+    "NORWICH": "09180",
+    "SHARON": "09160",
+    "STAFFORD": "09110",
+    "STAMFORD": "09190",
+    "TORRINGTON": "09160",
+    "WATERBURY": "09140",
+    "WINDHAM": "09180"
+  },
+  "city_aliases": {
+    "STAFFORD SPRINGS": "STAFFORD",
+    "WILLIMANTIC": "WINDHAM"
+  },
+  "county_aliases": {
+    "DC|THE DISTRICT": "11001",
+    "LA|E BATON ROUGE": "22033",
+    "LA|JEFFRSON DAVIS": "22053",
+    "MN|LAKE OF WOODS": "27077",
+    "MN|YELLOW MEDCINE": "27173"
+  },
+  "alaska_post_split": {
+    "AK|VALDEZ CORDOVA|CORDOVA": "02063",
+    "AK|VALDEZ CORDOVA|VALDEZ": "02063"
+  }
+}
