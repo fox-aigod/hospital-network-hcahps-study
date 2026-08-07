@@ -6,15 +6,17 @@ Reproducible computational repository for the study:
 
 ## Repository status
 
-**Private validation workspace. Results are provisional until the complete pipeline has been rerun from the archived public-source files in a clean environment and all automated checks pass.**
+**Private validation workspace. Results remain provisional until the complete source-to-results pipeline has been rerun in a clean environment and every manuscript value passes automated reconciliation.**
 
-This repository is being built to provide a transparent chain from source data to the final manuscript:
+The repository provides a transparent chain from source data to the final manuscript:
 
 ```text
 public source files
     -> integrity checks
     -> cleaning and linkage
     -> locked analytic cohort
+    -> HCAHPS outcome linkage
+    -> confounder linkage
     -> multiple imputation
     -> outcome-observation weighting
     -> primary and sensitivity models
@@ -25,9 +27,38 @@ public source files
 
 Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office of the National Coordinator for Health Information Technology network-participation data, are health-information-network participation profiles associated with patient-reported discharge-information performance, and does the association differ by Critical Access Hospital status?
 
+## Current validation status
+
+### Stage 1 — archived-source verification and ONC-CMS cohort: **completed locally**
+
+The canonical Stage 1 code:
+
+- verifies all five archived raw files by SHA-256, byte count, row count, and column count;
+- normalizes six-digit CMS Certification Numbers;
+- resolves duplicate records deterministically;
+- links ONC network-participation records to CMS Hospital General Information;
+- restricts the cohort to Acute Care Hospitals and Critical Access Hospitals;
+- locks the exposure cohort to ONC survey years 2024 and 2025; and
+- derives the prespecified six-category network-profile exposure.
+
+The clean rerun reproduced:
+
+- 3,393 raw ONC rows;
+- 12 rows without a usable CCN;
+- 3,380 unique usable ONC CCNs;
+- 3,293 ONC-CMS matches;
+- 3,250 eligible Acute Care and Critical Access Hospitals across all source years; and
+- **2,651 hospitals in the locked 2024–2025 cohort: 1,871 Acute Care Hospitals and 780 Critical Access Hospitals.**
+
+The rebuilt cohort matched the preserved analysis-ready dataset across all 2,651 CCNs and all tested exposure/profile fields, with no mismatches.
+
+### Next stage
+
+Rebuild the HCAHPS linkage directly from the archived hospital-level file, preserve suppression and footnote fields, and reproduce the reported primary-outcome availability of 2,409 hospitals.
+
 ## Current locked benchmarks
 
-These values are validation targets, not substitutes for rerunning the code:
+These are validation targets, not substitutes for rerunning the code:
 
 - Source cohort: **2,651 hospitals**
 - Acute Care Hospitals: **1,871**
@@ -38,6 +69,18 @@ These values are validation targets, not substitutes for rerunning the code:
 - Global profile-by-CAH interaction: **Wald chi-square 7.19, 5 df, p = 0.207**
 
 Every benchmark must be regenerated and reconciled before release.
+
+## Running the current pipeline
+
+After restoring the archived files listed in `data/raw/README.md`:
+
+```bash
+python run_all.py --stage verify-raw
+python run_all.py --stage stage1
+pytest -q
+```
+
+Generated data and outputs are excluded from Git and remain local unless explicitly archived as a release artifact.
 
 ## Reproducibility standard
 
@@ -51,17 +94,17 @@ The final repository must:
 6. Run successfully in both a local Jupyter/Python environment and GitHub Actions.
 7. Archive a tagged public release through Zenodo after validation.
 
-## Planned structure
+## Repository structure
 
 ```text
 .
-├── .github/workflows/       Automated validation and reproduction
+├── .github/workflows/       Automated validation
+├── config/                  Source fingerprints and expected-result contracts
 ├── data/
-│   ├── raw/                 Source files kept out of Git
+│   ├── raw/                 Archived source files kept out of Git
 │   ├── interim/             Rebuilt intermediate files
 │   └── processed/           Locked analytic datasets
-├── docs/                    Protocol, decision log, and reproduction guide
-├── legacy/                  Preserved pre-repository scripts for audit only
+├── docs/                    Protocol and reproducibility decision log
 ├── notebooks/               Executed explanatory notebooks
 ├── outputs/
 │   ├── diagnostics/
@@ -70,19 +113,13 @@ The final repository must:
 │   └── tables/
 ├── src/                     Canonical production pipeline
 ├── tests/                   Automated scientific and structural checks
-├── run_all.py               One-command pipeline entry point
+├── run_all.py               Command-line pipeline entry point
 └── requirements.txt         Pinned Python dependencies
 ```
 
-## Current phase
-
-**Phase 1: repository initialization and source-file inventory.**
-
-The earlier scripts will be preserved under `legacy/` and then refactored into a clean, modular, testable pipeline. They are not yet the final reproducible implementation.
-
 ## Data policy
 
-Raw public data are not committed automatically. The repository records official source pages, archived filenames, access dates, file sizes, and SHA-256 checksums. A future download/restore script will either retrieve the exact archived files or instruct the user where to place them.
+Raw public data are not committed automatically. `config/raw_sources.json` records the official source page, archived filename, snapshot date, file size, row and column counts, and SHA-256 checksum for every source. Refreshed web files are not silently substituted for the archived analytical snapshots.
 
 ## Authorship and use of AI
 
