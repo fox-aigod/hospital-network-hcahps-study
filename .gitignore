@@ -15,6 +15,8 @@ outputs/logs/*
 !outputs/logs/.gitkeep
 outputs/tables/*
 !outputs/tables/.gitkeep
+outputs/stage5/
+outputs/stage6/
 
 # Python
 __pycache__/

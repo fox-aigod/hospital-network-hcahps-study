@@ -123,7 +123,7 @@ def main() -> None:
         "Stage 5 passed: archived structural-model outputs reproduced exactly; "
         "canonical sensitivity models converged without warnings; primary global "
         f"Wald chi-square {primary5['global_wald_chi2']:.2f} and planned "
-        f"contrast {primary5['profile5_vs_3']['estimate']:.3f} percentage points."
+        f"contrast {primary5['profile_5_vs_3']['estimate']:.3f} percentage points."
     )
     if args.stage == "stage5":
         return
