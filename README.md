@@ -125,6 +125,14 @@ These remain provisional validation targets:
 
 ## Running the current pipeline
 
+Create the supported CPython 3.13.14 environment and install the exact direct and transitive dependency lock:
+
+```bash
+python -m pip install "pip==26.2.1"
+python -m pip install --requirement requirements-lock.txt
+python -m pip check
+```
+
 After restoring the archived files listed in `data/raw/README.md`:
 
 ```bash
@@ -149,12 +157,14 @@ The final repository must:
 3. Generate datasets, results, tables, and figures without manual editing.
 4. Record warnings, convergence information, random seeds, and package versions.
 5. Test cohort counts, linkage rules, profile definitions, and manuscript values.
-6. Run successfully in a local Python/Jupyter environment and GitHub Actions.
+6. Run successfully in the locked Python environment and GitHub Actions.
 7. Archive a tagged public release through Zenodo after validation.
 
 ## Data policy
 
 Raw public data are not committed automatically. `config/raw_sources.json` records the archived filename, source page, snapshot date, size, dimensions, and SHA-256 checksum for every source. Refreshed web files are not silently substituted for the archived analytical snapshots.
+
+The locked computational environment and regeneration procedure are documented in `docs/computational_environment.md`. The distinct all-data release run is specified in `docs/release_validation_procedure.md`; it is not executed by ordinary CI.
 
 ## Authorship and AI assistance
 

@@ -1,15 +1,25 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def stage5_source_contract() -> dict:
+    return json.loads(
+        (ROOT / "config/stage5_source_contract.json").read_text(encoding="utf-8")
+    )
+
+
 def assembled_stage5_source() -> str:
-    return "".join(
-        path.read_text(encoding="utf-8")
-        for path in sorted((ROOT / "scripts/stage5_source").glob("part_*.pyfrag"))
+    contract = stage5_source_contract()
+    source_dir = ROOT / "scripts/stage5_source"
+    parts = sorted(source_dir.glob("part_*.pyfrag"))
+    assert [path.name for path in parts] == contract["fragments"]
+    return contract["separator"].join(
+        path.read_text(encoding=contract["encoding"]) for path in parts
     )
 
 
@@ -37,3 +47,11 @@ def test_assembled_stage5_source_compiles() -> None:
     source = assembled_stage5_source()
     assert source.strip()
     compile(source, "<stage5_model_suite>", "exec")
+
+
+def test_assembled_stage5_source_matches_integrity_contract() -> None:
+    contract = stage5_source_contract()
+    source_bytes = assembled_stage5_source().encode(contract["encoding"])
+    assert len(contract["fragments"]) == 14
+    assert len(source_bytes) == contract["assembled_bytes"] == 46565
+    assert hashlib.sha256(source_bytes).hexdigest() == contract["assembled_sha256"]

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "validated_environment": {
+    "python_implementation": "CPython",
+    "python_version": "3.13.14",
+    "pip_version": "26.2.1",
+    "operating_system": "Ubuntu 24.04 LTS",
+    "architecture": "x86_64",
+    "github_actions_runner": "ubuntu-24.04"
+  },
+  "dependency_files": {
+    "runtime_direct": "requirements.txt",
+    "development_direct": "requirements-dev.txt",
+    "release_lock": "requirements-lock.txt"
+  },
+  "numerical_libraries": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "pandas": "2.2.3",
+    "statsmodels": "0.14.6",
+    "scikit-learn": "1.8.0"
+  }
+}

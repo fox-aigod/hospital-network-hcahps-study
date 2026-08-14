@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -21,8 +22,12 @@ def validate_structure() -> None:
     required = [
         ROOT / "README.md",
         ROOT / "requirements.txt",
+        ROOT / "requirements-dev.txt",
+        ROOT / "requirements-lock.txt",
+        ROOT / "config" / "computational_environment.json",
         ROOT / "config" / "expected_results.json",
         ROOT / "config" / "raw_sources.json",
+        ROOT / "config" / "stage5_source_contract.json",
         ROOT / "data" / "raw" / "README.md",
         ROOT / "src" / "build_stage1_cohort.py",
         ROOT / "src" / "build_stage2_hcahps.py",
@@ -48,6 +53,25 @@ def validate_structure() -> None:
     )
     if targets.get("status") != "provisional_validation_targets":
         raise ValueError("Expected-results status is not explicitly provisional.")
+
+    source_contract = json.loads(
+        (ROOT / "config" / "stage5_source_contract.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    source_dir = ROOT / "scripts" / "stage5_source"
+    parts = sorted(source_dir.glob("part_*.pyfrag"))
+    if [path.name for path in parts] != source_contract["fragments"]:
+        raise ValueError("Stage 5 source fragment set or order is not locked.")
+    source = source_contract["separator"].join(
+        path.read_text(encoding=source_contract["encoding"]) for path in parts
+    )
+    source_bytes = source.encode(source_contract["encoding"])
+    if len(source_bytes) != source_contract["assembled_bytes"]:
+        raise ValueError("Stage 5 assembled-source byte count does not match.")
+    if hashlib.sha256(source_bytes).hexdigest() != source_contract["assembled_sha256"]:
+        raise ValueError("Stage 5 assembled-source SHA-256 does not match.")
+    compile(source, "<stage5_model_suite>", "exec")
 
 
 def run_stage1() -> dict:
