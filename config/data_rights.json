@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_snapshot_date": "2026-08-05",
+  "date_semantics": "The manifest snapshot date is the recorded analytical snapshot/freeze date. It is not asserted to be the original retrieval or download date for every source.",
+  "sources": [
+    {
+      "study_filename": "hospital_network_participation.csv",
+      "agency": "Office of the National Coordinator for Health Information Technology / Assistant Secretary for Technology Policy",
+      "dataset_title": "US Hospital Participation in Health Information Networks",
+      "redistribution_status": "eligible_with_attribution",
+      "archival_disposition": "Include the exact study snapshot with source attribution and an explicit provenance caveat.",
+      "rights_summary": "Eligible for archival redistribution with source attribution and an explicit provenance caveat concerning incorporated AHA IT Survey information.",
+      "third_party_sources": [
+        "American Hospital Association IT Survey information"
+      ],
+      "required_attribution": "Attribute the agency-published ONC/ASTP dataset and preserve its provenance information.",
+      "notes": "Redistribution of the agency-published file does not imply ownership of or a separate license to the underlying AHA database."
+    },
+    {
+      "study_filename": "cms_hospital_general_information.csv",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "dataset_title": "Hospital General Information",
+      "redistribution_status": "eligible",
+      "archival_disposition": "Include the exact study snapshot in the archival data deposit.",
+      "rights_summary": "Eligible for archival redistribution under the source-specific position established by the provenance audit.",
+      "third_party_sources": [],
+      "required_attribution": "Identify the Centers for Medicare & Medicaid Services and the Hospital General Information dataset.",
+      "notes": "Preserve the exact filename, checksum, source citation, and recorded analytical snapshot provenance."
+    },
+    {
+      "study_filename": "HCAHPS-Hospital.csv",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "dataset_title": "Patient survey (HCAHPS) - Hospital",
+      "redistribution_status": "eligible",
+      "archival_disposition": "Include the exact study snapshot in the archival data deposit.",
+      "rights_summary": "Eligible for archival redistribution under the source-specific position established by the provenance audit.",
+      "third_party_sources": [],
+      "required_attribution": "Identify the Centers for Medicare & Medicaid Services and the Patient survey (HCAHPS) - Hospital dataset.",
+      "notes": "Preserve the exact filename, checksum, source citation, and recorded analytical snapshot provenance."
+    },
+    {
+      "study_filename": "chsp-hospital-linkage-2023.csv",
+      "agency": "Agency for Healthcare Research and Quality",
+      "dataset_title": "Compendium of U.S. Health Systems, 2023 Hospital Linkage File",
+      "redistribution_status": "hold_pending_clarification",
+      "archival_disposition": "Do not place the raw snapshot or restricted row-level derivatives in a public archive until written redistribution clarification is obtained.",
+      "rights_summary": "HOLD: written redistribution clarification is pending because the public AHRQ linkage file incorporates or links information from third-party sources.",
+      "third_party_sources": [
+        "IQVIA OneKey",
+        "American Hospital Association information"
+      ],
+      "required_attribution": "Preserve AHRQ Compendium attribution and all source-specific third-party provenance statements if later redistribution is authorized.",
+      "notes": "Until clarified, do not publicly distribute the raw file or row-level derived linkage/QC data that reproduce selected AHRQ, IQVIA OneKey, or AHA-linked fields. Aggregate statistical outputs may be released."
+    },
+    {
+      "study_filename": "Ruralurbancontinuumcodes2023.csv",
+      "agency": "U.S. Department of Agriculture Economic Research Service",
+      "dataset_title": "2023 Rural-Urban Continuum Codes",
+      "redistribution_status": "eligible_with_attribution",
+      "archival_disposition": "Include the exact study snapshot with USDA Economic Research Service attribution.",
+      "rights_summary": "Eligible for archival redistribution with USDA Economic Research Service attribution.",
+      "third_party_sources": [],
+      "required_attribution": "Attribute the U.S. Department of Agriculture Economic Research Service and the 2023 Rural-Urban Continuum Codes.",
+      "notes": "Preserve the exact filename, checksum, source citation, and recorded analytical snapshot provenance."
+    }
+  ]
+}

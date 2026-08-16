@@ -1,12 +1,34 @@
 # Hospital Network Participation and HCAHPS Study
 
-Reproducible computational repository for the study:
+## Overview
+
+This repository contains the research software, reproducibility contracts, tests, and release-governance documentation for the study:
 
 > **Association of Health Information Network Participation Profiles With Patient-Reported Discharge Information in U.S. Acute Care and Critical Access Hospitals: A National Cross-Sectional Study**
 
+## Research question and study scope
+
+Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office of the National Coordinator for Health Information Technology network-participation data, are health-information-network participation profiles associated with patient-reported discharge-information performance, and does the association differ by Critical Access Hospital status?
+
 ## Repository status
 
-**Private validation workspace. Results remain provisional until the complete source-to-results pipeline has been rerun in a clean environment and every manuscript value passes automated reconciliation.**
+**Private pre-release validation workspace.** Computational validation has been completed through Stage 6, but the final all-data reproduction has not yet been run under the locked release environment. The repository has no public release, archive DOI, or publication claim at this stage.
+
+## Data sources
+
+The analysis uses five exact source snapshots identified by filename and SHA-256 in `config/raw_sources.json`:
+
+| Agency/source | Study file | Analytical role | Current archival position |
+| --- | --- | --- | --- |
+| ONC/ASTP | `hospital_network_participation.csv` | Network-participation exposure | Eligible with attribution and an AHA provenance caveat |
+| CMS | `cms_hospital_general_information.csv` | Hospital cohort and characteristics | Eligible |
+| CMS | `HCAHPS-Hospital.csv` | Patient-reported outcomes | Eligible |
+| AHRQ Compendium | `chsp-hospital-linkage-2023.csv` | Health-system and ownership linkage | **HOLD pending written redistribution clarification** |
+| USDA Economic Research Service | `Ruralurbancontinuumcodes2023.csv` | Rurality classification | Eligible with attribution |
+
+The recorded `2026-08-05` manifest date is the analytical snapshot/freeze date, not an asserted original retrieval date for every source. See `config/data_rights.json` and `docs/data_rights_and_availability.md` for the source-specific rights and archival dispositions.
+
+## Reproducibility architecture
 
 ```text
 public source files
@@ -20,11 +42,9 @@ public source files
     -> tables, figures, and manuscript-value audit
 ```
 
-## Study question
+## Validation and testing
 
-Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office of the National Coordinator for Health Information Technology network-participation data, are health-information-network participation profiles associated with patient-reported discharge-information performance, and does the association differ by Critical Access Hospital status?
-
-## Current validation status
+Ordinary GitHub Actions validation installs the locked environment, validates repository contracts, and runs the complete test suite available without the five archived raw snapshots. The data-dependent integration tests are expected to skip in GitHub Actions because those snapshots are not stored in Git. The distinct final all-data procedure is documented in `docs/release_validation_procedure.md`.
 
 ### Stage 1 — ONC-CMS cohort: reproduced
 
@@ -111,10 +131,6 @@ The canonical and historical results are reconciled in `outputs/stage5/reconcili
 
 The final manuscript and supplement tables were compared cell by cell with the generated canonical CSVs and matched after whitespace normalization. Both Word documents passed accessibility audit with zero findings and were rendered page by page for visual quality assurance.
 
-### Remaining pre-submission actions
-
-Computational validation is complete through publication assets. Before journal submission, the human authors must finalize the author list and contributions, institutional ethics/non-human-subjects determination, funding and competing-interest declarations, confirm the final AI disclosure, make this repository public, archive a tagged release in a persistent repository such as Zenodo, and insert the resulting DOI/permanent URL into the manuscript.
-
 ## Current model benchmarks
 
 These remain provisional validation targets:
@@ -123,7 +139,7 @@ These remain provisional validation targets:
 - Profile 5 versus profile 3 contrast: **0.276 percentage points; 95% CI -0.152 to 0.703; p = 0.206**
 - Profile-by-CAH interaction: **Wald chi-square 7.19, 5 df, p = 0.207**
 
-## Running the current pipeline
+## Computational environment
 
 Create the supported CPython 3.13.14 environment and install the exact direct and transitive dependency lock:
 
@@ -132,6 +148,10 @@ python -m pip install "pip==26.2.1"
 python -m pip install --requirement requirements-lock.txt
 python -m pip check
 ```
+
+The complete environment contract and lock-regeneration procedure are documented in `docs/computational_environment.md`.
+
+## Running the analysis
 
 After restoring the archived files listed in `data/raw/README.md`:
 
@@ -160,20 +180,32 @@ The final repository must:
 6. Run successfully in the locked Python environment and GitHub Actions.
 7. Archive a tagged public release through Zenodo after validation.
 
-## Data policy
+## Data availability and rights
 
-Raw public data are not committed automatically. `config/raw_sources.json` records the archived filename, source page, snapshot date, size, dimensions, and SHA-256 checksum for every source. Refreshed web files are not silently substituted for the archived analytical snapshots.
+Raw source data are not committed. `config/raw_sources.json` records each analytical filename, source page, manifest snapshot/freeze date, size, dimensions, and SHA-256 checksum; refreshed web files are not silently substituted for the analytical snapshots.
 
-The locked computational environment and regeneration procedure are documented in `docs/computational_environment.md`. The distinct all-data release run is specified in `docs/release_validation_procedure.md`; it is not executed by ordinary CI.
+The MIT License covers original repository software and software-oriented documentation, not third-party source data. Source-specific rights and archival dispositions are documented in `docs/data_rights_and_availability.md` and `config/data_rights.json`. The AHRQ snapshot and restricted row-level derivatives remain on hold pending written redistribution clarification; no AHRQ raw data are authorized for public archiving at this stage.
+
+## Citation
+
+Scholarly software citation metadata are provided in `CITATION.cff`. A repository version, release date, archive DOI, article DOI, and preferred article citation will be added only after those facts exist and have been reviewed.
+
+## License
+
+Original software source code and software-oriented documentation authored for this repository are licensed under the MIT License; see `LICENSE`. This license does not relicense third-party datasets, externally sourced material, manuscript/article content governed by an eventual publisher license, or publication assets assigned a different license. See `docs/data_rights_and_availability.md` for the complete scope statement.
+
+## Authors
+
+- **Elechi Ubalaeze Solomon**
+- Lee Business School, University of Nevada, Las Vegas, Las Vegas, Nevada, USA
+- ORCID: [0009-0002-3474-1002](https://orcid.org/0009-0002-3474-1002)
+
+The author list and order will be reviewed again before final manuscript submission and the repository's v1.0.0 release.
 
 ## Authorship and AI assistance
 
 All scientific decisions, code, outputs, interpretations, and manuscript statements remain the responsibility of the human authors. AI assistance may support code drafting, debugging, documentation, and language editing, but no result is accepted without execution in a documented statistical environment and verification against saved outputs.
 
-## Maintainer
+## Release status
 
-Elechi Ubalaeze Solomon
-
-## License
-
-No reuse license has been selected during private validation. A license will be chosen before public release.
+No public release, Git tag, GitHub Release, Zenodo record, archive DOI, or journal publication is claimed. Before final release, the full Stage 1–6 pipeline must be rerun with all five checksum-matching archived snapshots under the locked environment, all data-dependent tests must execute, and every generated result must reconcile with the validated contracts. Final authorship, contributions, institutional ethics/non-human-subjects determination, funding and competing-interest declarations, and the AI disclosure also remain subject to human review.

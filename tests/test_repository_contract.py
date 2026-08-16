@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -30,18 +31,82 @@ def test_primary_interval_contains_estimate() -> None:
 def test_repository_contract_files_exist() -> None:
     required = [
         "README.md",
+        "CITATION.cff",
+        "LICENSE",
         "requirements.txt",
         "requirements-dev.txt",
         "requirements-lock.txt",
         "run_all.py",
         "data/raw/README.md",
         "config/computational_environment.json",
+        "config/data_rights.json",
         "config/expected_results.json",
         "config/stage5_source_contract.json",
         "docs/computational_environment.md",
+        "docs/data_rights_and_availability.md",
         "docs/release_validation_procedure.md",
     ]
     assert not [path for path in required if not (ROOT / path).exists()]
+
+
+def test_scholarly_metadata_contains_only_reviewed_prerelease_facts() -> None:
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert citation.startswith("cff-version: 1.2.0\n")
+    assert "type: software" in citation
+    assert "family-names: Elechi" in citation
+    assert 'given-names: "Ubalaeze Solomon"' in citation
+    assert 'orcid: "https://orcid.org/0009-0002-3474-1002"' in citation
+    assert "Lee Business School, University of Nevada, Las Vegas" in citation
+    assert "repository-code: " in citation
+    assert "license: MIT" in citation
+    forbidden_fields = {
+        "email",
+        "doi",
+        "version",
+        "date-released",
+        "preferred-citation",
+    }
+    present_fields = {
+        line.lstrip().split(":", 1)[0]
+        for line in citation.splitlines()
+        if ":" in line
+    }
+    assert not (forbidden_fields & present_fields)
+
+
+def test_mit_license_is_locked_to_the_approved_standard_text() -> None:
+    license_bytes = (ROOT / "LICENSE").read_bytes()
+    assert hashlib.sha256(license_bytes).hexdigest() == (
+        "8e75f2d0d79f73ddc0eef8aceba1a36ba463c8124757e01d8f3ac57223b37fc5"
+    )
+
+
+def test_data_rights_inventory_matches_raw_manifest_and_holds_ahrq() -> None:
+    raw = json.loads((ROOT / "config/raw_sources.json").read_text(encoding="utf-8"))
+    rights = json.loads(
+        (ROOT / "config/data_rights.json").read_text(encoding="utf-8")
+    )
+    raw_filenames = {item["filename"] for item in raw["sources"]}
+    by_filename = {item["study_filename"]: item for item in rights["sources"]}
+    assert set(by_filename) == raw_filenames
+    assert rights["manifest_snapshot_date"] == raw["snapshot_date"] == "2026-08-05"
+    assert "not asserted to be the original retrieval" in rights["date_semantics"]
+    assert {
+        filename: item["redistribution_status"]
+        for filename, item in by_filename.items()
+    } == {
+        "hospital_network_participation.csv": "eligible_with_attribution",
+        "cms_hospital_general_information.csv": "eligible",
+        "HCAHPS-Hospital.csv": "eligible",
+        "chsp-hospital-linkage-2023.csv": "hold_pending_clarification",
+        "Ruralurbancontinuumcodes2023.csv": "eligible_with_attribution",
+    }
+    ahrq = by_filename["chsp-hospital-linkage-2023.csv"]
+    assert "Do not place the raw snapshot" in ahrq["archival_disposition"]
+    assert ahrq["third_party_sources"] == [
+        "IQVIA OneKey",
+        "American Hospital Association information",
+    ]
 
 
 def test_dependency_contract_separates_runtime_test_and_unused_packages() -> None:

@@ -21,14 +21,18 @@ ROOT = Path(__file__).resolve().parent
 def validate_structure() -> None:
     required = [
         ROOT / "README.md",
+        ROOT / "CITATION.cff",
+        ROOT / "LICENSE",
         ROOT / "requirements.txt",
         ROOT / "requirements-dev.txt",
         ROOT / "requirements-lock.txt",
         ROOT / "config" / "computational_environment.json",
+        ROOT / "config" / "data_rights.json",
         ROOT / "config" / "expected_results.json",
         ROOT / "config" / "raw_sources.json",
         ROOT / "config" / "stage5_source_contract.json",
         ROOT / "data" / "raw" / "README.md",
+        ROOT / "docs" / "data_rights_and_availability.md",
         ROOT / "src" / "build_stage1_cohort.py",
         ROOT / "src" / "build_stage2_hcahps.py",
         ROOT / "src" / "build_stage3_confounders.py",
@@ -53,6 +57,29 @@ def validate_structure() -> None:
     )
     if targets.get("status") != "provisional_validation_targets":
         raise ValueError("Expected-results status is not explicitly provisional.")
+
+    raw_sources = json.loads(
+        (ROOT / "config" / "raw_sources.json").read_text(encoding="utf-8")
+    )
+    data_rights = json.loads(
+        (ROOT / "config" / "data_rights.json").read_text(encoding="utf-8")
+    )
+    raw_filenames = {item["filename"] for item in raw_sources["sources"]}
+    rights_filenames = {
+        item["study_filename"] for item in data_rights["sources"]
+    }
+    if raw_filenames != rights_filenames:
+        raise ValueError("Raw-source and data-rights file inventories differ.")
+    allowed_rights_statuses = {
+        "eligible",
+        "eligible_with_attribution",
+        "hold_pending_clarification",
+    }
+    if any(
+        item["redistribution_status"] not in allowed_rights_statuses
+        for item in data_rights["sources"]
+    ):
+        raise ValueError("Data-rights metadata contains an uncontrolled status.")
 
     source_contract = json.loads(
         (ROOT / "config" / "stage5_source_contract.json").read_text(
