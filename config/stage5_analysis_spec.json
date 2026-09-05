@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "description": "Locked structural-model and sensitivity-analysis specification.",
+  "description": "Locked structural-model and sensitivity-analysis specification. Historical hashes are provenance records and are not the official release gate.",
   "execution": {
     "legacy_weight_mode": "500-iteration archived observation models",
     "canonical_weight_mode": "2000-iteration converged observation models",
@@ -35,7 +35,7 @@
     "2025 ONC responses only",
     "Exclude all-zero coded profile"
   ],
-  "archived_output_sha256": {
+  "historical_reference_output_sha256": {
     "adjusted_profile_means.csv": "cac31997d77f82887c702dcd76c007a62054062c14e2d94024af767a5839bd45",
     "alternative_exposure_coefficients.csv": "86eb829eedc49a4937f35e1413ff4817ce9f6417ba89868ad9a3dbf6d31e8551",
     "balance_diagnostics.csv": "785a58292ca16d26425db63149882e508b37c5859c110fec4339e656385d8f96",

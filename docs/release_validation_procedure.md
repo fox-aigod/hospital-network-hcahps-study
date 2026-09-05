@@ -1,64 +1,89 @@
 # Full release-validation procedure
 
-This procedure is designed for the final release candidate. It is intentionally not part of ordinary push and pull-request CI because the five exact archived raw snapshots are not stored in Git.
+This fail-closed procedure is for a reviewed release candidate. It is separate
+from ordinary push/PR CI because the five exact raw snapshots are not in Git.
 
-## Preconditions
+## Preconditions and environment manifest
 
-1. Use an isolated x86-64 Ubuntu 24.04 environment with CPython 3.13.14 and pip 26.2.1.
-2. Check out the exact reviewed release-candidate commit with no uncommitted files.
-3. Install `requirements-lock.txt` and require `python -m pip check` to pass.
-4. Place all five canonical files listed in `config/raw_sources.json` under `data/raw/`. Do not download or substitute refreshed files during validation.
-5. Record the commit SHA, operating-system release, architecture, Python version, pip version, and `python -m pip freeze --all` output in an environment manifest.
+1. Use a fresh four-vCPU x86-64 Ubuntu 24.04 environment that exactly matches
+   config/computational_environment.json: CPython 3.13.14, pip 26.2.1,
+   requirements-lock.txt, and the recorded numerical backend.
+2. Check out the reviewed release-candidate commit with a clean worktree.
+3. Install requirements-lock.txt without upgrading any package and require
+   python -m pip check to pass.
+4. Place the five canonical files from config/raw_sources.json in data/raw/.
+   Do not fetch or substitute current versions.
+5. Record commit/tree SHAs, UTC time, OS/image and architecture, CPU count,
+   Python and pip versions, pip freeze --all, numerical-library configuration,
+   thread settings, and installer/source fingerprints in an external manifest.
 
-## Fail-closed raw-source gate
+## A. Exact raw-source gate
 
 Run:
 
-```bash
-python run_all.py --stage verify-raw
-```
+    python run_all.py --stage verify-raw
 
-The release run must stop on a missing file or any byte-size, row-count, column-count, or SHA-256 mismatch. The five calculated SHA-256 values and the matching `config/raw_sources.json` entries must be copied into the release-validation report.
+Stop on any missing file or byte-size, row-count, column-count, or SHA-256
+mismatch. Record all five calculated hashes in the external validation report.
 
-## Complete scientific execution
+## B–D. Official environment and exact Stage 4–6 contracts
 
-Run the canonical pipeline through the Stage 6 entry point:
+Run the canonical pipeline:
 
-```bash
-python run_all.py --stage stage6
-```
+    python run_all.py --stage stage6
 
-This executes raw verification and Stages 1–6 in dependency order. Preserve the console log. Do not continue if a stage fails, emits an unreviewed warning, or changes a locked scientific decision.
+The pipeline first rejects a nonofficial environment. Stage 4 must reproduce
+every byte and size in config/stage4_release_contract.json. Stage 5 must
+reproduce every canonical result file and exact scientific payload in
+config/stage5_release_contract.json. Stage 6 must reproduce the tables, audit,
+manifest, and figures in config/stage6_release_contract.json; the Stage 5 CSV
+contracts are the primary scientific source-data contract for figures.
 
-## Complete tests and integrity checks
+The four values under historical_reference_output_sha256 in
+config/stage4_analysis_spec.json are provenance from the earlier validated
+analysis. They are deliberately not the v1.0.0 execution gate because their
+unrecorded numerical backend could not be recovered. They must remain present
+and must never be silently replaced.
 
-With all raw and generated files still present, run:
+## E. Complete tests with data present
 
-```bash
-python run_all.py --stage validate
-pytest -q -rs
-python -m compileall -q run_all.py src scripts
-python -m json.tool config/raw_sources.json >/dev/null
-```
+Run:
 
-The final report must show that every data-dependent integration test ran rather than skipped. It must also record the Stage 5 fragment count, assembled byte count, expected and observed SHA-256, and successful compilation.
+    python run_all.py --stage validate
+    pytest -q -rs
+    python -m compileall -q run_all.py src scripts
 
-## Result-contract reconciliation
+All data-dependent integration tests must execute with zero skips. Also validate
+every tracked JSON file, CITATION.cff, the 14-fragment Stage 5 assembly byte
+count/SHA-256/compilation contract, and exact Stage 4–6 release contracts.
 
-Require all of the following before release:
+## F. Release-value and manuscript reconciliation
 
-- every legacy Stage 5 archived-output hash matches `config/stage5_analysis_spec.json`;
-- the canonical Stage 5 convergence and manuscript-value reconciliation reports have zero failures;
-- Stage 6's machine-readable manuscript-value audit has zero failures;
-- regenerated cohort counts and primary estimates reconcile with `config/expected_results.json` at the documented precision;
-- canonical result CSVs, publication tables, figures, diagnostics, and balance summaries are present and internally consistent;
-- `git status --short` shows no unintended tracked-file modification after the run.
+Require config/expected_results.json and the Stage 5 contract to match the fresh
+machine-readable output exactly. Require:
 
-## Required validation records
+- 95/95 historical comparator hypothesis decisions remain unchanged;
+- zero significance, sign, confidence-interval conclusion, or FDR changes;
+- zero primary or substantive manuscript conclusion changes;
+- the generated manuscript audit and every proposed display synchronization
+  are reconciled to official release values.
 
-Create, review, and archive two machine-readable/text records with the final release artifacts:
+The preserved manuscript files are not updated by this procedure. Before a
+public release, separately review and apply the external Stage 7.3D manuscript
+update manifest, regenerate the audit, and require no unresolved display
+differences.
 
-1. An environment manifest containing the commit SHA, UTC run time, OS and architecture, exact Python and pip versions, the full direct/transitive package list, and NumPy/SciPy numerical configuration.
-2. A release-validation report containing raw-file checksums, commands and exit statuses, test pass/fail/skip counts, Stage 1–6 summaries, Stage 5 source-integrity values, result-contract reconciliation, warnings, and reviewer sign-off.
+## G. Tree integrity and required external report
 
-This document defines the later procedure only. It does not authorize fetching data, publishing the repository, creating a tag or release, or uploading an archive.
+Require git status --short to show no unintended tracked changes after the run.
+Confirm every raw file and generated output remains ignored/untracked.
+
+The external release-validation report must record commands and exit statuses,
+environment fingerprints, raw checksums, test pass/fail/skip counts, Stage 1–6
+summaries, warnings, all artifact-contract results, expected-results
+reconciliation, manuscript reconciliation, scientific-source hashes, and
+reviewer sign-off.
+
+This procedure does not authorize publishing the repository, tagging, creating
+a release, changing a license/citation record, uploading data, or creating a
+Zenodo record.

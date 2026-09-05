@@ -14,6 +14,10 @@ from typing import Any
 import pandas as pd
 
 from .common import write_json
+from .release_contracts import (
+    require_official_release_environment,
+    validate_artifact_contract,
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -76,7 +80,7 @@ def build_reconciliation(root: Path) -> dict[str, Any]:
 
     hashes = {}
     hash_matches = {}
-    for filename, expected in spec["archived_output_sha256"].items():
+    for filename, expected in spec["historical_reference_output_sha256"].items():
         observed = sha256_file(legacy_dir / filename)
         hashes[filename] = observed
         hash_matches[filename] = observed == expected
@@ -280,7 +284,54 @@ def build_reconciliation(root: Path) -> dict[str, Any]:
     return summary
 
 
+def validate_release_results(root: Path) -> dict[str, Any]:
+    """Validate the fresh canonical suite against the official release contract."""
+    contract_path = root / "config" / "stage5_release_contract.json"
+    validation = validate_artifact_contract(root, contract_path)
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    summary = json.loads(
+        (root / "outputs/stage5/canonical/analysis_summary.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    expected = contract["scientific_payload"]
+    comparisons = {
+        "primary_global": summary["primary_global"] == {
+            **expected["primary_global"],
+            "terms": summary["primary_global"]["terms"],
+        },
+        "profile_5_minus_profile_3": (
+            summary["primary_planned_contrast"]
+            == expected["profile_5_minus_profile_3"]
+        ),
+        "profile_by_cah_interaction": summary["interaction_global"] == {
+            **expected["profile_by_cah_interaction"],
+            "terms": summary["interaction_global"]["terms"],
+        },
+        "weight_summary": summary["weight_summary"] == expected["weight_summary"],
+        "weight_model_fit_summary": (
+            summary["weight_model_fit_summary"]
+            == expected["weight_model_fit_summary"]
+        ),
+    }
+    if not all(comparisons.values()):
+        raise RuntimeError(f"Stage 5 scientific payload mismatch: {comparisons}")
+    return {
+        "status": "stage5_official_release_results_reproduced",
+        "release_contract_validation": validation,
+        "scientific_payload_matches": comparisons,
+        "canonical_weight_model_fits": summary["weight_model_fit_summary"],
+        "primary_canonical_results": {
+            "global_wald_chi2": summary["primary_global"]["statistic"],
+            "global_wald_df": summary["primary_global"]["df"],
+            "global_p": summary["primary_global"]["p_value"],
+            "profile_5_vs_3": summary["primary_planned_contrast"],
+            "interaction_global": summary["interaction_global"],
+        },
+    }
+
+
 def build_stage5_models(root: Path) -> dict[str, Any]:
-    run_model_suite(root, "legacy")
+    require_official_release_environment(root)
     run_model_suite(root, "canonical")
-    return build_reconciliation(root)
+    return validate_release_results(root)

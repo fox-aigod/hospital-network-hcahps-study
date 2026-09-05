@@ -10,9 +10,14 @@ from pathlib import Path
 from typing import Any
 
 from PIL import Image
+from .release_contracts import (
+    require_official_release_environment,
+    validate_artifact_contract,
+)
 
 
 def build_stage6_publication_assets(root: Path) -> dict[str, Any]:
+    require_official_release_environment(root)
     spec_path = root / "config" / "stage6_publication_spec.json"
     if not spec_path.exists():
         raise FileNotFoundError("Stage 6 publication specification is missing.")
@@ -67,7 +72,6 @@ def build_stage6_publication_assets(root: Path) -> dict[str, Any]:
     failed = sorted(name for name, passed in checks.items() if not passed)
     if failed:
         raise RuntimeError(f"Stage 6 validation failed: {failed}")
-
     summary = {
         "main_tables": len(spec["main_tables"]),
         "supplement_tables": len(spec["supplement_tables"]),
@@ -79,4 +83,7 @@ def build_stage6_publication_assets(root: Path) -> dict[str, Any]:
     }
     summary_path = table_dir / "stage6_validation_summary.json"
     summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    return summary
+    contract_validation = validate_artifact_contract(
+        root, root / "config" / "stage6_release_contract.json"
+    )
+    return {**summary, "release_contract_validation": contract_validation}

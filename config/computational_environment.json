@@ -1,12 +1,30 @@
 {
-  "schema_version": "1.0.0",
-  "validated_environment": {
+  "schema_version": "2.0.0",
+  "official_release_environment": {
     "python_implementation": "CPython",
     "python_version": "3.13.14",
     "pip_version": "26.2.1",
-    "operating_system": "Ubuntu 24.04 LTS",
+    "operating_system": "ubuntu",
+    "operating_system_version": "24.04",
     "architecture": "x86_64",
-    "github_actions_runner": "ubuntu-24.04"
+    "cpu_count": 4,
+    "github_actions_runner": "ubuntu-24.04",
+    "requirements_lock_sha256": "31369652c2dcebc97e82b5c54abbe744d8c423bc48d82e70ee83b3b35f0cd0cd",
+    "python_source_sha256": "639e43243c620a308f968213df9e00f2f8f62332f7adbaa7a7eeb9783057c690",
+    "ubuntu_image_sha256": "5c3ddb00f60bc455dac0862fabe9d8bacec46c33ac1751143c5c3683404b110d"
+  },
+  "historical_manuscript_environment": {
+    "python_implementation": "CPython",
+    "python_version": "3.13.5",
+    "documented_direct_scientific_packages": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "pandas": "2.2.3",
+      "statsmodels": "0.14.6",
+      "scikit-learn": "1.8.0"
+    },
+    "status": "recovered_documentary_provenance_not_release_target",
+    "replay_result": "0_of_4_historical_stage4_hashes_reproduced_on_both_tested_platforms"
   },
   "dependency_files": {
     "runtime_direct": "requirements.txt",
@@ -19,5 +37,13 @@
     "pandas": "2.2.3",
     "statsmodels": "0.14.6",
     "scikit-learn": "1.8.0"
+  },
+  "numerical_backend": {
+    "internal_api": "openblas",
+    "version": "0.3.30",
+    "threading_layer": "pthreads",
+    "architecture": "Katmai",
+    "num_threads": 4,
+    "environment_variables": "unset"
   }
 }

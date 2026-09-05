@@ -14,7 +14,8 @@ def test_stage6_spec_locks_publication_assets() -> None:
     assert len(spec["figures"]) == 5
     assert spec["validation"]["main_table_2_source_total"] == 2651
     assert spec["validation"]["main_table_2_outcome_total"] == 2409
-    assert spec["validation"]["main_table_3_2025_global_chi2_display"] == "31.03 (5)"
+    assert spec["validation"]["main_table_3_2025_global_chi2_display"] == "31.04 (5)"
+    assert spec["validation"]["required_manuscript_value_audit_failures"] == 2
     assert re.fullmatch(spec["validation"]["supplement_table_S1_bits_regex"], "0001")
     assert not re.fullmatch(spec["validation"]["supplement_table_S1_bits_regex"], "1")
 

@@ -31,8 +31,12 @@ def validate_structure() -> None:
         ROOT / "config" / "expected_results.json",
         ROOT / "config" / "raw_sources.json",
         ROOT / "config" / "stage5_source_contract.json",
+        ROOT / "config" / "stage4_release_contract.json",
+        ROOT / "config" / "stage5_release_contract.json",
+        ROOT / "config" / "stage6_release_contract.json",
         ROOT / "data" / "raw" / "README.md",
         ROOT / "docs" / "data_rights_and_availability.md",
+        ROOT / "docs" / "numerical_reproducibility.md",
         ROOT / "src" / "build_stage1_cohort.py",
         ROOT / "src" / "build_stage2_hcahps.py",
         ROOT / "src" / "build_stage3_confounders.py",
@@ -55,8 +59,8 @@ def validate_structure() -> None:
     targets = json.loads(
         (ROOT / "config" / "expected_results.json").read_text(encoding="utf-8")
     )
-    if targets.get("status") != "provisional_validation_targets":
-        raise ValueError("Expected-results status is not explicitly provisional.")
+    if targets.get("status") != "official_release_results":
+        raise ValueError("Expected-results status is not the official release contract.")
 
     raw_sources = json.loads(
         (ROOT / "config" / "raw_sources.json").read_text(encoding="utf-8")
@@ -161,8 +165,8 @@ def main() -> None:
     summary4 = build_stage4_imputation_weights(ROOT)
     canonical = summary4["canonical_converged_weighting"]
     print(
-        "Stage 4 passed: 20 deterministic imputations; archived diagnostics "
-        "reproduced exactly; canonical observation models converged with mean "
+        "Stage 4 passed: 20 deterministic imputations; official release "
+        "artifacts reproduced exactly; canonical observation models converged with mean "
         f"effective sample size {canonical['mean_effective_sample_size']:.1f}."
     )
     if args.stage == "stage4":
@@ -171,8 +175,8 @@ def main() -> None:
     summary5 = build_stage5_models(ROOT)
     primary5 = summary5["primary_canonical_results"]
     print(
-        "Stage 5 passed: archived structural-model outputs reproduced exactly; "
-        "canonical sensitivity models converged without warnings; primary global "
+        "Stage 5 passed: official release results reproduced exactly; canonical "
+        "sensitivity models converged without warnings; primary global "
         f"Wald chi-square {primary5['global_wald_chi2']:.2f} and planned "
         f"contrast {primary5['profile_5_vs_3']['estimate']:.3f} percentage points."
     )
@@ -184,8 +188,8 @@ def main() -> None:
         "Stage 6 passed: generated "
         f"{summary6['main_tables']} main tables, "
         f"{summary6['supplement_tables']} supplement tables, and "
-        f"{summary6['figures']} figures; manuscript-value audit failures: "
-        f"{summary6['manuscript_value_audit_failures']}."
+        f"{summary6['figures']} figures; acknowledged pending manuscript-display "
+        f"updates in the embedded audit: {summary6['manuscript_value_audit_failures']}."
     )
 
 

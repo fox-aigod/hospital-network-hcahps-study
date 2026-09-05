@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "contract_kind": "official_release_exact_stage6_artifact_contract",
+  "canonical_release_environment": "config/computational_environment.json#official_release_environment",
+  "source_commit": "5ea8ba4faacb16d7b52f57804e6a436865b62575",
+  "stage5_contract": "config/stage5_release_contract.json",
+  "generation_date": "2026-09-04",
+  "semantics": "Table, audit, and figure artifacts were independently reproduced in two official locked environments. Exact bytes are required there. Stage 5 CSVs are the primary scientific source-data contract for figures; cross-platform rendered-image identity is not claimed.",
+  "artifacts": [
+    {"path": "outputs/stage6/tables/manuscript_table_1.csv", "bytes": 905, "sha256": "5677d37dacb153c97a8c1bfbcee32526e751f6eaf2923ad52b92b3ce145fb7dc", "semantic_role": "Main descriptive cohort table"},
+    {"path": "outputs/stage6/tables/manuscript_table_2.csv", "bytes": 562, "sha256": "ec2f11b4b6d902b0814570c7e9dcda637899ed83af10e59cde243804c0ee40df", "semantic_role": "Main adjusted profile means table"},
+    {"path": "outputs/stage6/tables/manuscript_table_3.csv", "bytes": 696, "sha256": "f6420195894a02c8ccba948ab12c76d3b2e1592c7c9474bbe16a9fe1121b0bac", "semantic_role": "Main sensitivity-analysis table"},
+    {"path": "outputs/stage6/tables/manuscript_value_audit.csv", "bytes": 3406, "sha256": "21ec5c4ed97cfa7a007c658d7c1d467795ab8860282c297cf680eb07caa9224c", "semantic_role": "Machine-readable preserved-manuscript display audit"},
+    {"path": "outputs/stage6/tables/stage6_table_manifest.json", "bytes": 689, "sha256": "d3148abad94e5f8499a7d934a0d47946440a5a50b07fa5c6917fe012539a3d4f", "semantic_role": "Table dimensions manifest"},
+    {"path": "outputs/stage6/tables/supplement_table_S1.csv", "bytes": 1895, "sha256": "f795d431506ad61688fe8150261fe572237080c9fa75164acbdf4472314bb0e8", "semantic_role": "Exact 16-profile descriptive supplement"},
+    {"path": "outputs/stage6/tables/supplement_table_S2.csv", "bytes": 950, "sha256": "bb3c8807f0d5625b483726520f01da38a470b3a380ef7e2ea50aa622dc0c0752", "semantic_role": "Profile-by-hospital-group adjusted means supplement"},
+    {"path": "outputs/stage6/tables/supplement_table_S3.csv", "bytes": 449, "sha256": "a8f8a35fd3bc764f34b64846b8f5b1ba3792c453f17c732bd3c939943f4322fe", "semantic_role": "Secondary outcomes and FDR supplement"},
+    {"path": "outputs/stage6/tables/supplement_table_S4.csv", "bytes": 360, "sha256": "ff4fb17cb52e4fd10af5ea8115a69d9a337fda0d79b8b3e93064109c4c2bc14a", "semantic_role": "Weight and balance diagnostic supplement"},
+    {"path": "outputs/stage6/tables/supplement_table_S5.csv", "bytes": 842, "sha256": "56ad19a272bf51291c9e691a952d58374c8c63222ebadc693838f50b68214647", "semantic_role": "Primary-model coefficients supplement"},
+    {"path": "outputs/stage6/tables/supplement_table_S6.csv", "bytes": 769, "sha256": "241ee794fd6d0061ae369063e618e724e2d5bf9392c81f7adb39608dc1ff2923", "semantic_role": "Alternative-exposure coefficients supplement"},
+    {"path": "outputs/stage6/figures/Figure_1_Cohort_Flow.png", "bytes": 175326, "sha256": "001f8fcde4280a558f1fa9b969985e95e5c88c458974c2d765d5749c85a7e2dc", "semantic_role": "Cohort-flow figure"},
+    {"path": "outputs/stage6/figures/Figure_2_Adjusted_Profile_Means.png", "bytes": 123590, "sha256": "437f86e733e0fd7ee13ae1d8195f91ebaaf5945efe0d9ccb2fe45d90a2784370", "semantic_role": "Adjusted-profile-means figure"},
+    {"path": "outputs/stage6/figures/Figure_3_TEFCA_Contrast_Sensitivities.png", "bytes": 150705, "sha256": "cae42c122aebbc3a3f9a8546b4ad5420a4837b7757e1a4b1a515c954ca1fd9f4", "semantic_role": "Sensitivity-contrast figure"},
+    {"path": "outputs/stage6/figures/Figure_4_Profile_Means_by_Hospital_Group.png", "bytes": 185011, "sha256": "10df5db13f16bb194cdb7cd7ef8784c0f28c88c6d9021f3593208b63613db0d2", "semantic_role": "Profile-by-hospital-group figure"},
+    {"path": "outputs/stage6/figures/Figure_S1_Weight_Balance.png", "bytes": 300921, "sha256": "248f1c3753352198a73f299ba42e5f54fcaabe3cb79318dc68415520b6c039de", "semantic_role": "Observation-weight balance figure"},
+    {"path": "outputs/stage6/tables/stage6_validation_summary.json", "bytes": 505, "sha256": "6e80d76dc9a47cc93029edb41bf3cbf815ff75a1d8a552be43e4adf31c09c7a7", "semantic_role": "Deterministic Stage 6 validation and manuscript-update summary"}
+  ]
+}

@@ -81,7 +81,7 @@ The regenerated HCAHPS cohort matched every tested outcome, availability, footno
 
 All substantive values in the regenerated 63-column analysis-ready file matched the frozen file across all 2,651 hospitals. Two audit-status labels were corrected after excluding federal alphanumeric identifiers before numeric-CCN linkage; the selected hospitals and analytical values were unchanged.
 
-### Stage 4 — multiple imputation and observation weighting: reproduced and convergence-corrected
+### Stage 4 — multiple imputation and observation weighting: release contract reproduced
 
 - 20 deterministic imputations
 - Five chained-equation cycles per imputation
@@ -90,30 +90,35 @@ All substantive values in the regenerated 63-column analysis-ready file matched 
 - 700 imputation-model fits with zero warnings
 - No observed values changed
 - Every continuous imputation came from an observed predictive-mean-matching donor
-- Archived imputation, weight, and balance diagnostics reproduced byte for byte
+- Four historical diagnostic hashes retained as provenance
+- Fourteen official-release Stage 4 artifacts independently reproduced byte for byte
 
-The archived denominator observation models used a 500-iteration limit; 17 of 20 reached that limit, but the earlier script suppressed the warnings. The canonical pipeline preserves those legacy weights for exact audit reproduction and separately refits the same model with a 2,000-iteration limit. All 20 canonical fits converged, requiring at most 665 iterations.
+The historical denominator observation models used a 500-iteration limit. In the
+official release environment, 18 of 20 reach that limit. The canonical pipeline
+preserves those legacy-mode weights for comparison and separately refits the same
+model with a 2,000-iteration limit. All 20 canonical fits converge, requiring at
+most 685 iterations. The unrecovered original numerical backend generated different
+historical bytes; see `docs/numerical_reproducibility.md`.
 
 The correction was numerically small:
 
-- Maximum absolute denominator-probability change: 0.00583
-- Maximum absolute normalized-weight change: 0.01577
-- Maximum mean absolute normalized-weight change: 0.000110
+- Maximum absolute denominator-probability change: 0.01201
+- Maximum absolute normalized-weight change: 0.02782
+- Maximum mean absolute normalized-weight change: 0.000143
 - Mean effective sample size: 2,365.8
-- Maximum residual within-stratum SMD: 0.17634, still driven by bed size among 2024 Critical Access Hospitals
+- Maximum residual within-stratum SMD: 0.17651, still driven by bed size among 2024 Critical Access Hospitals
 
 The canonical converged imputations and weights are the locked inputs for Stage 5.
 
 ### Stage 5 — structural models and sensitivities: reproduced and validated
 
-- Fourteen archived model-result CSV files reproduced byte for byte in legacy mode
+- Sixteen canonical Stage 5 artifacts independently reproduced byte for byte
 - Canonical primary and sensitivity models used the converged weights
-- 200 additional canonical observation-model fits completed with zero convergence warnings; maximum iterations required: 797
-- Global six-profile test: Wald chi-square 29.0083, 5 df, p=0.0000231
-- Profile 5 versus profile 3: 0.2757 percentage points, 95% CI -0.1516 to 0.7031, p=0.2060
-- Global profile-by-CAH interaction: Wald chi-square 7.1932, 5 df, p=0.2067
-- All primary manuscript values were unchanged at their reported precision
-- All p-value decisions at alpha 0.05 were unchanged across primary, secondary, subgroup, and sensitivity comparisons
+- 200 canonical observation-model fits completed with zero convergence warnings; maximum iterations required: 684
+- Global six-profile test: Wald chi-square 29.0319, 5 df, p=0.0000229
+- Profile 5 versus profile 3: 0.2760 percentage points, 95% CI -0.1514 to 0.7033, p=0.2057
+- Global profile-by-CAH interaction: Wald chi-square 7.1823, 5 df, p=0.2074
+- No significance, estimate-sign, confidence-interval, or FDR decision changed across 95 historical tests
 
 The canonical and historical results are reconciled in `outputs/stage5/reconciliation/` when the pipeline is executed.
 
@@ -125,19 +130,22 @@ The canonical and historical results are reconciled in `outputs/stage5/reconcili
 - Cohort-flow counts read from the Stage 1 and Stage 2 machine-readable summaries rather than hard-coded values
 - Table S1 profile bits preserved as four-character strings, including leading zeroes
 - Main Table 2 reconciles to 2,651 source hospitals and 2,409 observed primary outcomes
-- 2025-only sensitivity global statistic displays as 31.03 (5)
+- 2025-only sensitivity global statistic displays as 31.04 (5)
 - All five figures exceed 1,600 pixels in width
-- Machine-readable manuscript-value audit completed with zero failures
+- Machine-readable preserved-manuscript audit identifies two pending displayed-value updates
 
-The final manuscript and supplement tables were compared cell by cell with the generated canonical CSVs and matched after whitespace normalization. Both Word documents passed accessibility audit with zero findings and were rendered page by page for visual quality assurance.
+The preserved Word manuscript and supplement were not modified during release-contract
+canonicalization. An external update manifest identifies 9 manuscript display locations,
+49 publication-table cells, and the methods environment text for synchronization only
+after final all-data reproduction passes.
 
 ## Current model benchmarks
 
-These remain provisional validation targets:
+These are the official release-environment values:
 
-- Global six-profile test: **Wald chi-square 29.01, 5 df, p < 0.001**
-- Profile 5 versus profile 3 contrast: **0.276 percentage points; 95% CI -0.152 to 0.703; p = 0.206**
-- Profile-by-CAH interaction: **Wald chi-square 7.19, 5 df, p = 0.207**
+- Global six-profile test: **Wald chi-square 29.03, 5 df, p < 0.001**
+- Profile 5 versus profile 3 contrast: **0.276 percentage points; 95% CI -0.151 to 0.703; p = 0.206**
+- Profile-by-CAH interaction: **Wald chi-square 7.18, 5 df, p = 0.207**
 
 ## Computational environment
 

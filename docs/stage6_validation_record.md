@@ -17,7 +17,7 @@ Stage 6 generates all publication tables and figures directly from canonical ana
 
 The cohort-flow figure derives every displayed count from the Stage 1 and Stage 2 machine-readable JSON summaries rather than hard-coded values. Table S1 reads the exact profile bit pattern as a string so leading zeroes are preserved.
 
-The locked Stage 6 validation contract requires:
+The original Stage 6 validation contract required:
 
 - Main Table 2 source counts to sum to 2,651;
 - Main Table 2 primary-outcome counts to sum to 2,409;
@@ -27,7 +27,23 @@ The locked Stage 6 validation contract requires:
 - all five publication figures to be at least 1,600 pixels wide; and
 - the machine-readable manuscript-value audit to contain zero failures.
 
-All requirements passed during the final Stage 6 run. The manuscript-value audit contained 41 checks and zero failures; the smallest figure width was 1,919 pixels.
+All requirements passed during that historical Stage 6 run. The manuscript-value audit contained 41 checks and zero failures; the smallest figure width was 1,919 pixels.
+
+## 2026-09-04 release-contract update
+
+Independent execution in two fresh official Ubuntu 24.04 x86-64 environments
+produced byte-identical Stage 6 artifacts. The official release contract now records
+all 16 deterministic table, audit, manifest, and figure artifacts plus the
+deterministic validation summary (17 contracted files total). The release-value
+2025-only global statistic displays as `31.04 (5)`. The preserved manuscript audit
+now deliberately records two pending displayed-value updates; it does not silently
+treat the historical manuscript values as current. The Word files remain unchanged.
+
+The expanded historical comparison found 9 manuscript display locations and 49
+publication-table cells to synchronize after the final all-data reproduction passes.
+No inferential or substantive conclusion changed. The exact rationale and release
+contract are documented in `docs/numerical_reproducibility.md` and
+`config/stage6_release_contract.json`.
 
 ## Word-manuscript verification
 

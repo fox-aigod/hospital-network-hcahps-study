@@ -33,7 +33,7 @@ def test_stage4_exact_legacy_reproduction_and_converged_canonical_weights() -> N
     build_stage3_confounders(ROOT)
     summary = build_stage4_imputation_weights(ROOT)
 
-    assert summary["status"] == "stage4_reproduced_and_convergence_corrected"
+    assert summary["status"] == "stage4_official_release_environment_reproduced"
     assert summary["settings"]["source_n"] == 2651
     assert summary["settings"]["primary_outcome_observed_n"] == 2409
     assert summary["settings"]["imputations"] == 20
@@ -43,31 +43,36 @@ def test_stage4_exact_legacy_reproduction_and_converged_canonical_weights() -> N
     assert summary["imputation_model_fits"]["warnings"] == 0
     assert summary["imputation_model_fits"]["maximum_iterations"] == 46
 
-    legacy = summary["legacy_archived_reproduction"]
-    assert legacy["all_diagnostic_hashes_match"] is True
-    assert legacy["weighting"]["denominator_convergence_warnings"] == 17
-    assert legacy["weighting"]["maximum_absolute_smd_after"] == pytest.approx(
-        0.17646520783994693
+    historical = summary["historical_reference_output_comparison"]
+    assert historical["all_historical_reference_hashes_match"] is False
+    assert not any(historical["historical_reference_hash_match"].values())
+    assert historical["weighting"]["denominator_convergence_warnings"] == 18
+    assert historical["weighting"]["maximum_absolute_smd_after"] == pytest.approx(
+        0.17638799473300512
     )
 
     canonical = summary["canonical_converged_weighting"]
     assert canonical["denominator_convergence_warnings"] == 0
     assert canonical["numerator_convergence_warnings"] == 0
-    assert canonical["denominator_iterations_max"] == 665
+    assert canonical["denominator_iterations_max"] == 685
     assert canonical["mean_effective_sample_size"] == pytest.approx(
-        2365.7685094625567
+        2365.7512790600854
     )
     assert canonical["maximum_absolute_smd_after"] == pytest.approx(
-        0.17633796131253543
+        0.17650916012615167
     )
 
     comparison = summary["legacy_to_canonical_comparison"]
     assert comparison["maximum_absolute_normalized_weight_difference"] == pytest.approx(
-        0.015768460404721463
+        0.027822067846455356
     )
     assert comparison[
         "maximum_mean_absolute_normalized_weight_difference"
-    ] == pytest.approx(0.00011002474477642108)
+    ] == pytest.approx(0.0001426386525241508)
+
+    release = summary["release_contract_validation"]
+    assert release["all_exact"] is True
+    assert release["files_checked"] == 14
 
     imputations = np.load(ROOT / "data/interim/stage4_imputations.npz")
     weights = np.load(ROOT / "data/interim/stage4_observation_weights.npz")

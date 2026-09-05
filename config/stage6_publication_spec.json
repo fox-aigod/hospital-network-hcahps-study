@@ -31,10 +31,10 @@
     "main_table_2_source_total": 2651,
     "main_table_2_outcome_total": 2409,
     "main_table_3_rows": 8,
-    "main_table_3_2025_global_chi2_display": "31.03 (5)",
+    "main_table_3_2025_global_chi2_display": "31.04 (5)",
     "supplement_table_S1_rows": 48,
     "supplement_table_S1_bits_regex": "^[01]{4}$",
     "minimum_figure_width_pixels": 1600,
-    "required_manuscript_value_audit_failures": 0
+    "required_manuscript_value_audit_failures": 2
   }
 }

@@ -40,7 +40,7 @@
       "bed_squared_x_year2025"
     ]
   },
-  "expected_archived_output_sha256": {
+  "historical_reference_output_sha256": {
     "imputation_diagnostics.csv": "828ad7d78f9bd38c304a38d524c008325d0c108b88f5bd962018ba529b006de6",
     "weight_diagnostics.csv": "1dacb33acccf60e511cae10a39428b6347320279de5ccf05570b960bacc3b5a3",
     "balance_diagnostics.csv": "785a58292ca16d26425db63149882e508b37c5859c110fec4339e656385d8f96",

@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "contract_kind": "official_release_exact_stage4_artifact_contract",
+  "canonical_release_environment": "config/computational_environment.json#official_release_environment",
+  "source_commit": "5ea8ba4faacb16d7b52f57804e6a436865b62575",
+  "raw_source_manifest": {
+    "path": "config/raw_sources.json",
+    "sha256": "8b07265d9a40d529f144bc3f3a408d36417588d94a403b12eef4b8412e672c89"
+  },
+  "generation_date": "2026-09-04",
+  "semantics": "Exact byte reproduction is required in the official locked Ubuntu x86-64 environment. Cross-platform numerical identity is not claimed. The four historical reference hashes remain in stage4_analysis_spec.json as provenance and are not this release gate.",
+  "artifacts": [
+    {
+      "path": "data/interim/stage4_imputations.npz",
+      "bytes": 109798,
+      "sha256": "a86e5468de74cb240e74822afcc299afd4c6f35f3ba471c75f95f177d54c2fed",
+      "semantic_role": "Completed imputed covariate arrays"
+    },
+    {
+      "path": "data/interim/stage4_legacy_observation_weights.npz",
+      "bytes": 974244,
+      "sha256": "b82243c2b1559084c1e581ec4071c00468f67ea2878b61ee06747ff0eab5e695",
+      "semantic_role": "Historical 500-iteration observation-weight arrays retained for provenance"
+    },
+    {
+      "path": "data/interim/stage4_observation_weights.npz",
+      "bytes": 972960,
+      "sha256": "1bec84efae43bd96b1061f2fa00514a4dacaf376c24eb1210545f813d790fb18",
+      "semantic_role": "Canonical converged observation-weight arrays used by Stage 5"
+    },
+    {
+      "path": "outputs/diagnostics/imputation_diagnostics.csv",
+      "bytes": 4747,
+      "sha256": "0877248440229c6569b08628897bc4c19e0c137e8108108910f1c37afaca3e74",
+      "semantic_role": "Imputation-level distribution diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/imputation_model_fit_diagnostics.csv",
+      "bytes": 34446,
+      "sha256": "6e49d6171cd40a9687225d40d83e797b3810f5fd46dccea6f6d679590a89b042",
+      "semantic_role": "Per-fit imputation convergence diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/imputation_trace.csv",
+      "bytes": 44663,
+      "sha256": "cd4d3bd197dcc9e7b9fb1eab9c40e2329787990dc930cb9d910f4ef6e4ec9a7d",
+      "semantic_role": "Cycle-level imputation traces"
+    },
+    {
+      "path": "outputs/diagnostics/legacy_weight_diagnostics.csv",
+      "bytes": 6027,
+      "sha256": "7dbded6928d7e4a90ac5152f998e8391ffe67eab552aec64520dfc32c0cf202a",
+      "semantic_role": "Historical 500-iteration weight diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/legacy_balance_diagnostics.csv",
+      "bytes": 2352,
+      "sha256": "b9190893fb127eafe6f62b1eadb4dea508903fd3a27c24532ca9531d69326840",
+      "semantic_role": "Historical 500-iteration overall balance diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/legacy_balance_diagnostics_by_stratum.csv",
+      "bytes": 9408,
+      "sha256": "113195cfd78daf657c9d78c4bfb1a3abc820721c5729b0543b8ca80200b07a4c",
+      "semantic_role": "Historical 500-iteration within-stratum balance diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/weight_diagnostics.csv",
+      "bytes": 6015,
+      "sha256": "f872156f449ccb44ad26246bb6db31149767fa8912c10082f680a8f073356023",
+      "semantic_role": "Canonical converged weight diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/balance_diagnostics.csv",
+      "bytes": 2345,
+      "sha256": "6942e95c0279324ead3b5d8085f6d6f29d37316cb3222e1a0d02fbc9057df2af",
+      "semantic_role": "Canonical converged overall balance diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/balance_diagnostics_by_stratum.csv",
+      "bytes": 9402,
+      "sha256": "6d5d1f36a7bc2d86bee36188b5a0f3c538a298f49045d72e0e5e21464c9816e9",
+      "semantic_role": "Canonical converged within-stratum balance diagnostics"
+    },
+    {
+      "path": "outputs/diagnostics/weight_convergence_comparison.csv",
+      "bytes": 3043,
+      "sha256": "7b7853b4f3d2cbf36d996f1640fd743b2893c5dbbacc8ed30436204248ea062b",
+      "semantic_role": "Historical-to-canonical convergence comparison"
+    },
+    {
+      "path": "outputs/logs/stage4_summary.json",
+      "bytes": 4931,
+      "sha256": "a28f75bf840cc61a2d9135087212160fc86fa1ff1d6e7ee1016a040c987da133",
+      "semantic_role": "Stage 4 execution and historical-reference comparison summary"
+    }
+  ]
+}

@@ -58,3 +58,30 @@ The canonical analysis retains the same logistic models, variables, interactions
 Stage 5 loads the exact Stage 4 completed datasets. Legacy mode uses the archived weights and 500-iteration limit to reproduce the historical model suite. Fourteen archived result CSVs reproduced byte for byte. Canonical mode uses the converged primary weights and a 2,000-iteration limit for every recomputed sensitivity, subgroup, and alternative observation model. All 200 additional canonical weight-model fits converged, with a maximum of 797 iterations.
 
 The canonical primary results were Wald chi-square 29.0083 (5 df, p=0.0000231), profile 5 versus profile 3 difference 0.2757 percentage points (95% CI -0.1516 to 0.7031; p=0.2060), and global profile-by-CAH interaction Wald chi-square 7.1932 (5 df; p=0.2067). All primary manuscript values remained unchanged at the reported precision, and no p-value inference at alpha 0.05 changed across the reconciled primary, secondary, interaction, stratified, or sensitivity results.
+
+## 2026-09-04 — Release-environment contract canonicalization
+
+Final-release testing discovered that the four historically validated Stage 4
+artifact hashes were not reproducible in the newly locked release environment.
+The preserved manuscript identified CPython 3.13.5, but controlled macOS arm64 and
+Ubuntu x86-64 replays with that Python version and the documented direct dependencies
+reproduced zero of the four historical hashes. The exact original numerical backend
+was not preserved. The historical hashes remain unchanged as provenance under
+`historical_reference_output_sha256`; they are not characterized as erroneous.
+
+The normative release target remains Ubuntu 24.04 x86-64, CPython 3.13.14, pip
+26.2.1, and the exact dependency lock. Two independent fresh QEMU environments using
+that specification produced byte-identical outputs for all 14 Stage 4, 16 Stage 5,
+and 16 Stage 6 generated publication artifacts. The deterministic Stage 6 validation
+summary was then reproduced independently and added as its seventeenth contracted
+file. Exact release-environment hashes therefore
+replace the irrecoverable historical bytes as the fail-closed v1.0.0 execution gate.
+This decision does not claim cross-platform bitwise identity.
+
+The Stage 7.3C2 comparison matched 1,110 historical scientific values, including 95
+unique hypothesis tests. Although 699 full-precision values differed, no significance,
+estimate-sign, confidence-interval, FDR, primary-scientific, or substantive-manuscript
+conclusion changed. Nine manuscript display locations and 49 publication-table cells
+will be synchronized only after the final all-data reproduction succeeds. No model,
+estimand, covariate, imputation or weighting specification, random seed, numerical
+setting, outcome definition, or interpretation was changed in this contract migration.

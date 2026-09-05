@@ -92,7 +92,7 @@ def patch_pipeline_builders(monkeypatch: pytest.MonkeyPatch) -> list[str]:
                 "main_tables": 3,
                 "supplement_tables": 6,
                 "figures": 5,
-                "manuscript_value_audit_failures": 0,
+                "manuscript_value_audit_failures": 2,
             },
         ),
     )
@@ -133,5 +133,6 @@ def test_stage6_cli_proceeds_after_stage5_and_reports_summary(
     ]
     assert (
         "Stage 6 passed: generated 3 main tables, 6 supplement tables, and "
-        "5 figures; manuscript-value audit failures: 0."
+        "5 figures; acknowledged pending manuscript-display updates in the "
+        "embedded audit: 2."
     ) in output

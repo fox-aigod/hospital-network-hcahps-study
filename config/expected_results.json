@@ -1,5 +1,13 @@
 {
-  "status": "provisional_validation_targets",
+  "schema_version": "2.0.0",
+  "status": "official_release_results",
+  "provenance": {
+    "source_commit": "5ea8ba4faacb16d7b52f57804e6a436865b62575",
+    "official_environment": "config/computational_environment.json#official_release_environment",
+    "stage5_contract": "config/stage5_release_contract.json",
+    "independently_reproduced_environments": 2,
+    "generation_date": "2026-09-04"
+  },
   "cohort": {
     "total": 2651,
     "acute_care": 1871,
@@ -7,17 +15,43 @@
     "primary_outcome_observed": 2409
   },
   "primary_model": {
-    "global_wald_chi2": 29.01,
+    "global_wald_chi2": 29.0319471391483,
     "global_wald_df": 5,
-    "profile_5_vs_3_estimate_pp": 0.276,
-    "profile_5_vs_3_ci_low_pp": -0.152,
-    "profile_5_vs_3_ci_high_pp": 0.703,
-    "profile_5_vs_3_p": 0.206
+    "global_p": 2.2855353712037596e-05,
+    "global_significant_at_0_05": true,
+    "profile_5_vs_3_estimate_pp": 0.2759584405062885,
+    "profile_5_vs_3_se_pp": 0.21805240691289493,
+    "profile_5_vs_3_ci_low_pp": -0.1514164681798127,
+    "profile_5_vs_3_ci_high_pp": 0.7033333491923897,
+    "profile_5_vs_3_p": 0.20567061995680996,
+    "profile_5_vs_3_sign": "positive",
+    "profile_5_vs_3_significant_at_0_05": false,
+    "profile_5_vs_3_ci_includes_zero": true,
+    "manuscript_display": {
+      "global_wald_chi2": "29.03",
+      "profile_5_vs_3_estimate_pp": "0.28",
+      "profile_5_vs_3_ci_pp": "-0.15 to 0.70",
+      "profile_5_vs_3_p": ".206"
+    }
   },
   "interaction": {
-    "wald_chi2": 7.19,
+    "wald_chi2": 7.182316409120075,
     "wald_df": 5,
-    "p": 0.207
+    "p": 0.20743048500838923,
+    "significant_at_0_05": false,
+    "manuscript_display": {
+      "wald_chi2": "7.18",
+      "p": ".207"
+    }
   },
-  "warning": "These values must be regenerated from source data before release."
+  "historical_decision_reconciliation": {
+    "scientific_values_compared": 1110,
+    "hypothesis_tests_compared": 95,
+    "significance_decisions_changed": 0,
+    "estimate_signs_changed": 0,
+    "confidence_interval_conclusions_changed": 0,
+    "fdr_decisions_changed": 0,
+    "primary_scientific_conclusions_changed": false,
+    "substantive_manuscript_conclusions_changed": false
+  }
 }
