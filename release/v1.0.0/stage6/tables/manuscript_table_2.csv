@@ -1,0 +1,7 @@
+Code,Network profile,Source N,Outcome N,"Adjusted mean, % (95% CI)","Difference from code 3, pp"
+0,No coded participation,123,89,86.92 (85.94 to 87.90),+0.10
+1,"Single conventional network, no TEFCA",312,258,85.39 (84.81 to 85.97),-1.43
+2,"Two conventional networks, no TEFCA",689,620,86.82 (86.49 to 87.14),0.00
+3,"Three conventional networks, no TEFCA",445,406,86.82 (86.48 to 87.15),Reference
+4,TEFCA plus zero to two conventional networks,495,463,86.34 (85.94 to 86.74),-0.48
+5,TEFCA plus all three conventional networks,587,573,87.09 (86.78 to 87.41),+0.28

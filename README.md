@@ -12,9 +12,9 @@ Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office
 
 ## Repository status
 
-**Validated private release candidate.** The complete Stage 1–6 source-to-results workflow passed in the locked Ubuntu 24.04 x86-64 release environment. The final validation verified all five canonical raw snapshots (5/5), reproduced the Stage 4, Stage 5, and Stage 6 contracts (14/14, 16/16, and 17/17 artifacts), and completed the all-data test suite with 40 passed, 0 failed, and 0 skipped. All 95 historical inferential decisions remained stable. Manuscript and supplement synchronization passed, and final authorship and declarations are locked.
+**Validated private release candidate.** The complete Stage 1–6 source-to-results workflow passed in the locked Ubuntu 24.04 x86-64 release environment. The final validation verified all five canonical raw snapshots (5/5), reproduced the Stage 4, Stage 5, and Stage 6 contracts (14/14, 16/16, and 17/17 artifacts), and completed the all-data test suite with 40 passed, 0 failed, and 0 skipped. All 95 historical inferential decisions remained stable. Manuscript and supplement synchronization passed, final authorship and declarations are locked, and the curated aggregate release artifacts are assembled and checksum-validated under `release/v1.0.0/`.
 
-The repository remains private pending a separately authorized publication action; no scientific or computational validation remains outstanding. No DOI, Git tag, GitHub Release, Zenodo record, or journal publication is claimed.
+The repository remains private pending a separately authorized visibility and release transition; no scientific or computational validation remains outstanding. No DOI, v1.0.0 Git tag, GitHub Release, Zenodo record, or journal publication is claimed.
 
 ## Data sources
 
@@ -243,4 +243,4 @@ not replace human scientific judgment.
 
 ## Release status
 
-The complete Stage 1–6 pipeline, all five raw-source checks, all 47 Stage 4–6 artifact contracts, the 40-test no-skip suite, manuscript/supplement synchronization, and final governance review have passed. No public release, Git tag, GitHub Release, Zenodo record, archive DOI, or journal publication is claimed. Publication, tagging, release creation, data/software archiving, and DOI registration remain separate actions requiring explicit authorization and the release boundaries in `docs/public_release_inventory.md`.
+The complete Stage 1–6 pipeline, all five raw-source checks, all 47 Stage 4–6 artifact contracts, the 40-test no-skip suite, manuscript/supplement synchronization, and final governance review have passed. The curated aggregate Stage 5/6 artifacts and final audit are assembled and checksum-validated under `release/v1.0.0/`. The repository remains private, and no public release, v1.0.0 tag, GitHub Release, Zenodo record, archive DOI, or journal publication is claimed. Publication, tagging, release creation, data/software archiving, and DOI registration remain separate actions requiring explicit authorization and the release boundaries in `docs/public_release_inventory.md`.

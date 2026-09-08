@@ -33,6 +33,7 @@ Every currently tracked path is covered below.
 | `scripts/stage5_source/README.md` and 14 `.pyfrag` files | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | Hash-locked executable Stage 5 source provenance. |
 | `src/*.py` | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | Scientific pipeline source. |
 | `tests/*.py` | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | Unit, contract, orchestration, and data-dependent integration tests. |
+| `release/v1.0.0/**` | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | Curated, checksum-locked aggregate Stage 5/6 results, publication tables and figures, audits, provenance manifest, and rights documentation; no raw or row-level data. |
 
 ## Untracked and proposed items
 
@@ -46,22 +47,25 @@ Every currently tracked path is covered below.
 | Any row-level file under `data/interim/`, `data/processed/`, or `outputs/` containing AHRQ-, IQVIA OneKey-, or AHA-linked fields | HOLD | Do not redistribute without written clarification. |
 | Other row-level intermediate or analysis-ready datasets | PUBLIC EXCLUDE | Keep outside Git and public release packages; users regenerate after lawful source acquisition. |
 | Transient logs, caches, virtual environments, local manifests, temporary validation paths, forensic workspaces, pre-sanitization bundles/mirrors, and operating-system artifacts | PUBLIC EXCLUDE | Local-only material, not scholarly release content. |
-| Canonical Stage 5 aggregate result CSVs from the 16-file contract | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | In a separate reviewed step, copy the byte-verified aggregate CSVs into a curated release directory and commit them before the v1.0.0 tag. Do not unignore or commit transient `outputs/stage5/**`. |
-| Canonical Stage 6 publication-table CSVs and machine-readable manuscript audit | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | In a separate reviewed step, copy the byte-verified aggregate files into a curated release directory and commit before the v1.0.0 tag. |
-| Canonical Stage 6 figures | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | In a separate reviewed step, copy the byte-verified publication figures into a curated release directory and commit before the v1.0.0 tag, with an explicit publication-asset rights notice. |
-| Aggregate weighting and balance diagnostics containing no row-level records | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | Curate, verify aggregation, and commit before the v1.0.0 tag; exclude any hospital-level identifiers or records. |
+| Canonical Stage 5 aggregate and model-level results from the 16-file contract | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** all 16 byte-verified artifacts are under `release/v1.0.0/stage5/`; none were excluded after row-level and rights review. Transient `outputs/stage5/**` remains ignored. |
+| Canonical Stage 6 publication tables, manifests, and audits | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** all 12 tabular/audit artifacts from the 17-file Stage 6 contract are preserved under `release/v1.0.0/stage6/tables/` and `release/v1.0.0/audits/`. The historical audit is explicitly identified as pre-synchronization; a separately fingerprinted final Stage 7.5 audit is also included. |
+| Canonical Stage 6 figures | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** all five byte-verified publication figures are under `release/v1.0.0/stage6/figures/`, with the publication-asset rights notice in `release/v1.0.0/RIGHTS.md`. |
+| Aggregate weighting and balance diagnostics containing no row-level records | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** the reviewed aggregate/model-level diagnostics are included among the 16 Stage 5 artifacts; inspection found no hospital identifiers, row-level records, or restricted linkage fields. |
 | Stage 4 imputation arrays, completed datasets, observation weights, and row-level diagnostics | PUBLIC EXCLUDE | Regenerated locally; not distributed because they are row-level or bulky analytical intermediates. |
 | Standard GitHub-generated source archives | PUBLIC INCLUDE | Created automatically only after a separately authorized tag; no duplicate GitHub Release asset bundle is planned. |
 
 ## Generated-output decision
 
-Canonical aggregate Stage 5 result CSVs, Stage 6 tables, figures, the
-machine-readable manuscript audit, and demonstrably aggregate diagnostics will be
-committed before v1.0.0 under a curated release path and included in the tagged
-source archive and Zenodo software record. They will not be committed from their
-ignored working paths, and they will not be duplicated as ad hoc GitHub Release
-attachments. Users may regenerate them from lawful checksum-matching inputs, but
-regeneration is not the sole preservation strategy.
+Canonical aggregate Stage 5 results, Stage 6 tables and figures, the historical
+machine-readable manuscript audit, the separate final zero-mismatch audit, and
+demonstrably aggregate diagnostics are assembled under `release/v1.0.0/`. The
+curated set contains all 16 Stage 5 contract artifacts, all 17 Stage 6 contract
+artifacts (including five figures), and one separately fingerprinted final audit;
+no contract artifact was excluded after row-level and rights inspection. The
+curated copies do not unignore their transient working paths and are not planned
+as duplicate ad hoc GitHub Release attachments. Users may regenerate them from
+lawful checksum-matching inputs, but regeneration is not the sole preservation
+strategy.
 
 No generated row-level file, Stage 4 imputation array, completed dataset, or
 restricted linkage diagnostic is eligible for that curated set.
@@ -85,4 +89,6 @@ audit; and checksums. Exclude all raw and restricted row-level data. The MIT Lic
 applies only to original software and software-oriented documentation; rights notes
 must identify any release assets governed separately.
 
-Neither record exists yet. No DOI has been reserved or minted.
+Neither archival record exists yet. The curated software-record inputs are
+assembled locally in the private repository, but no Git tag, GitHub Release,
+Zenodo record, or DOI exists yet.

@@ -1,0 +1,62 @@
+{
+  "settings": {
+    "mode": "canonical",
+    "weight_model_max_iter": 2000,
+    "imputations": 20,
+    "cycles": 5,
+    "seed": 20260805,
+    "source_n": 2651,
+    "observed_primary_n": 2409
+  },
+  "weight_model_fit_summary": {
+    "model_fits": 200,
+    "convergence_warnings": 0,
+    "minimum_iterations": 4,
+    "maximum_iterations": 684,
+    "iteration_limit": 2000
+  },
+  "primary_global": {
+    "statistic": 29.0319471391483,
+    "df": 5,
+    "p_value": 2.2855353712037596e-05,
+    "terms": [
+      "profile_0",
+      "profile_1",
+      "profile_2",
+      "profile_4",
+      "profile_5"
+    ]
+  },
+  "primary_planned_contrast": {
+    "estimate": 0.2759584405062885,
+    "se": 0.21805240691289493,
+    "df": 11651868.359369839,
+    "ci_low": -0.1514164681798127,
+    "ci_high": 0.7033333491923897,
+    "p_value": 0.20567061995680996,
+    "within_var": 0.04748613649138831,
+    "between_var": 5.782444677942659e-05
+  },
+  "interaction_global": {
+    "statistic": 7.182316409120075,
+    "df": 5,
+    "p_value": 0.20743048500838923,
+    "terms": [
+      "profile_0:CAH",
+      "profile_1:CAH",
+      "profile_2:CAH",
+      "profile_4:CAH",
+      "profile_5:CAH"
+    ]
+  },
+  "weight_summary": {
+    "mean_ess": 2365.7512790600854,
+    "min_ess": 2364.4394304983816,
+    "mean_trim_upper": 1.7904086624534983,
+    "max_raw_weight": 15.351532358100076,
+    "min_denominator_probability": 0.016539828733456798,
+    "max_abs_smd_before": 0.21718547116893397,
+    "max_abs_smd_after": 0.17650916012615167
+  },
+  "complete_case_n": 2353
+}

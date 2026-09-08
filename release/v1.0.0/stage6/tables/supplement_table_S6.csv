@@ -1,0 +1,16 @@
+Term,Estimate,SE,95% CI,P
+Intercept,92.706,1.135,90.481 to 94.930,<.001
+conventional_count,0.321,0.139,0.049 to 0.594,.021
+current_tefca,-0.291,0.535,-1.339 to 0.758,.587
+count_x_tefca,0.148,0.206,-0.255 to 0.551,.471
+CAH,0.835,0.317,0.213 to 1.457,.009
+log2_beds_plus1,-0.664,0.073,-0.808 to -0.520,<.001
+ownership_1,0.165,0.216,-0.259 to 0.588,.446
+ownership_2,-2.788,0.350,-3.473 to -2.103,<.001
+health_system_affiliated,0.145,0.355,-0.551 to 0.841,.683
+teaching_intensity,0.306,0.415,-0.508 to 1.121,.461
+high_dsh_flag,-1.850,0.265,-2.369 to -1.330,<.001
+uncompensated_care_burden,-7.636,2.083,-11.719 to -3.554,<.001
+high_uncompensated_care_flag,-0.527,0.332,-1.177 to 0.124,.113
+nonmetro,0.134,0.220,-0.297 to 0.564,.543
+year2025,0.329,0.245,-0.152 to 0.809,.180

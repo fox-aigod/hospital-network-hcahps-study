@@ -1,0 +1,9 @@
+Diagnostic,Result
+Observed primary-outcome hospitals,2409
+Mean effective sample size,2365.8
+Minimum effective sample size across imputations,2364.4
+Minimum denominator probability,0.0165
+Maximum raw weight,15.35
+Mean 99th-percentile trimming threshold,1.79
+Maximum within-stratum |SMD| before weighting,0.217
+Maximum within-stratum |SMD| after weighting,0.177

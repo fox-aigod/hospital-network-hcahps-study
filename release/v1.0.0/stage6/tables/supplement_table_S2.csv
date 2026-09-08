@@ -1,0 +1,13 @@
+Hospital group,Code,Profile,"Adjusted mean, %",95% CI
+Acute Care,0,No coded participation,85.79,84.67 to 86.91
+Acute Care,1,"Single conventional network, no TEFCA",83.92,83.28 to 84.56
+Acute Care,2,"Two conventional networks, no TEFCA",85.93,85.61 to 86.25
+Acute Care,3,"Three conventional networks, no TEFCA",85.93,85.63 to 86.24
+Acute Care,4,TEFCA plus zero to two conventional networks,85.25,84.83 to 85.68
+Acute Care,5,TEFCA plus all three conventional networks,86.05,85.75 to 86.36
+Critical Access,0,No coded participation,89.51,87.77 to 91.24
+Critical Access,1,"Single conventional network, no TEFCA",88.81,87.61 to 90.00
+Critical Access,2,"Two conventional networks, no TEFCA",88.99,88.23 to 89.74
+Critical Access,3,"Three conventional networks, no TEFCA",88.63,87.49 to 89.76
+Critical Access,4,TEFCA plus zero to two conventional networks,88.96,88.04 to 89.88
+Critical Access,5,TEFCA plus all three conventional networks,89.63,88.64 to 90.63

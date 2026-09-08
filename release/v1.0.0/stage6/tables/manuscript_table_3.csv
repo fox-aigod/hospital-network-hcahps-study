@@ -1,0 +1,9 @@
+Analysis,Global χ² (df),Global P,"Profile 5–3 difference, pp (95% CI)",Contrast P
+Primary MICE + IPOW + HC3,29.03 (5),<.001,0.28 (-0.15 to 0.70),0.206
+Completed-survey-count precision weighting,30.57 (5),<.001,0.14 (-0.31 to 0.59),0.533
+State-clustered standard errors,14.42 (5),.013,0.28 (-0.28 to 0.83),0.333
+CMS ownership substituted,48.92 (5),<.001,0.32 (-0.11 to 0.75),0.144
+Fractional logit average marginal effect,30.20 (5),<.001,0.29 (-0.13 to 0.71),0.176
+Unweighted complete-covariate complete case,30.31 (5),<.001,0.23 (-0.19 to 0.65),0.276
+2025 ONC responses only,31.04 (5),<.001,0.34 (-0.11 to 0.80),0.139
+Exclude all-zero coded profile,26.34 (4),<.001,0.25 (-0.18 to 0.67),0.251

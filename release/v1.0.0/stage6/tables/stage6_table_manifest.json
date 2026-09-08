@@ -1,0 +1,42 @@
+{
+  "manuscript_table_1.csv": {
+    "rows": 13,
+    "columns": 4
+  },
+  "manuscript_table_2.csv": {
+    "rows": 6,
+    "columns": 6
+  },
+  "manuscript_table_3.csv": {
+    "rows": 8,
+    "columns": 5
+  },
+  "manuscript_value_audit.csv": {
+    "rows": 41,
+    "columns": 6
+  },
+  "supplement_table_S1.csv": {
+    "rows": 48,
+    "columns": 7
+  },
+  "supplement_table_S2.csv": {
+    "rows": 12,
+    "columns": 5
+  },
+  "supplement_table_S3.csv": {
+    "rows": 5,
+    "columns": 7
+  },
+  "supplement_table_S4.csv": {
+    "rows": 8,
+    "columns": 2
+  },
+  "supplement_table_S5.csv": {
+    "rows": 17,
+    "columns": 5
+  },
+  "supplement_table_S6.csv": {
+    "rows": 15,
+    "columns": 5
+  }
+}

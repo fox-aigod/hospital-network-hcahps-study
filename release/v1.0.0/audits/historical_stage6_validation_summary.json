@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "figure_widths": true,
+    "main_table_2_outcome_total": true,
+    "main_table_2_source_total": true,
+    "main_table_3_2025_global_chi2_display": true,
+    "main_table_3_rows": true,
+    "manuscript_value_audit": true,
+    "supplement_table_S1_bits_valid": true,
+    "supplement_table_S1_rows": true
+  },
+  "figures": 5,
+  "main_tables": 3,
+  "manuscript_value_audit_failures": 2,
+  "manuscript_value_audit_rows": 41,
+  "minimum_figure_width_pixels": 1919,
+  "supplement_tables": 6
+}

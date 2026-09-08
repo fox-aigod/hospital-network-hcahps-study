@@ -1,0 +1,42 @@
+location,item,displayed_or_target_value,canonical_value,tolerance,status
+Abstract/Results,Source cohort N,2651.0,2651.0,0.0,PASS
+Abstract/Results,Primary outcome N,2409.0,2409.0,0.0,PASS
+Abstract/Results,Acute outcome N,1852.0,1852.0,0.0,PASS
+Abstract/Results,CAH outcome N,557.0,557.0,0.0,PASS
+Abstract/Results,Global Wald chi-square,29.01,29.0319471391483,0.005,FAIL
+Abstract/Results,Planned contrast estimate,0.28,0.2759584405062885,0.005,PASS
+Abstract/Results,Planned contrast lower CI,-0.15,-0.1514164681798127,0.005,PASS
+Abstract/Results,Planned contrast upper CI,0.7,0.7033333491923897,0.005,PASS
+Abstract/Results,Planned contrast P,0.206,0.20567061995680996,0.0005,PASS
+Abstract/Results,Interaction Wald chi-square,7.19,7.182316409120075,0.005,FAIL
+Abstract/Results,Interaction P,0.207,0.20743048500838923,0.0005,PASS
+Table 2,Profile 0 adjusted mean,86.92,86.91916552744665,0.005,PASS
+Table 2,Profile 1 adjusted mean,85.39,85.38961972875926,0.005,PASS
+Table 2,Profile 2 adjusted mean,86.82,86.81635472607431,0.005,PASS
+Table 2,Profile 3 adjusted mean,86.82,86.81676515509011,0.005,PASS
+Table 2,Profile 4 adjusted mean,86.34,86.33977442788895,0.005,PASS
+Table 2,Profile 5 adjusted mean,87.09,87.09272359559641,0.005,PASS
+Table 3,Primary MICE + IPOW + HC3: global chi-square,29.03,29.0319471391483,0.005,PASS
+Table 3,Primary MICE + IPOW + HC3: contrast,0.28,0.2759584405062885,0.005,PASS
+Table 3,Primary MICE + IPOW + HC3: contrast P,0.206,0.2056706199568099,0.0005,PASS
+Table 3,Completed-survey-count precision weighting: global chi-square,30.57,30.567247364854623,0.005,PASS
+Table 3,Completed-survey-count precision weighting: contrast,0.14,0.1430421735094808,0.005,PASS
+Table 3,Completed-survey-count precision weighting: contrast P,0.533,0.533382017883604,0.0005,PASS
+Table 3,State-clustered standard errors: global chi-square,14.42,14.417923893894931,0.005,PASS
+Table 3,State-clustered standard errors: contrast,0.28,0.2759584405062885,0.005,PASS
+Table 3,State-clustered standard errors: contrast P,0.333,0.3326217125438833,0.0005,PASS
+Table 3,CMS ownership substituted: global chi-square,48.92,48.91910369684257,0.005,PASS
+Table 3,CMS ownership substituted: contrast,0.32,0.3193092410445695,0.005,PASS
+Table 3,CMS ownership substituted: contrast P,0.144,0.1439753559736425,0.0005,PASS
+Table 3,Fractional logit average marginal effect: global chi-square,30.2,30.196397114627043,0.005,PASS
+Table 3,Fractional logit average marginal effect: contrast,0.29,0.2890185219058537,0.005,PASS
+Table 3,Fractional logit average marginal effect: contrast P,0.176,0.1763812827860402,0.0005,PASS
+Table 3,Unweighted complete-covariate complete case: global chi-square,30.31,30.31289614791756,0.005,PASS
+Table 3,Unweighted complete-covariate complete case: contrast,0.23,0.2337424100656484,0.005,PASS
+Table 3,Unweighted complete-covariate complete case: contrast P,0.276,0.2763191395043272,0.0005,PASS
+Table 3,2025 ONC responses only: global chi-square,31.04,31.04239164121205,0.005,PASS
+Table 3,2025 ONC responses only: contrast,0.34,0.3432782862729995,0.005,PASS
+Table 3,2025 ONC responses only: contrast P,0.139,0.1391967830254428,0.0005,PASS
+Table 3,Exclude all-zero coded profile: global chi-square,26.34,26.335148575769907,0.005,PASS
+Table 3,Exclude all-zero coded profile: contrast,0.25,0.2488730447400484,0.005,PASS
+Table 3,Exclude all-zero coded profile: contrast P,0.251,0.2513800770917624,0.0005,PASS
