@@ -51,4 +51,4 @@ The final Word manuscript and supplement were independently compared against the
 
 Both documents were rendered page by page and visually inspected after the final edits. No clipping, overlap, missing glyphs, broken tables, or header/footer defects were observed. Both documents also passed the DOCX accessibility audit with zero high-, medium-, or low-severity findings.
 
-The documents remain pre-submission copies because final author declarations, institutional ethics/non-human-subjects determination, funding and competing-interest statements, public repository release, and persistent archival DOI are still author actions.
+Stage 7.4A finalized the reproducibility wording, and Stage 7.5 finalized the four-author list, contribution statement, ethics/non-human-subjects determination, funding statement, competing-interest declaration, and AI disclosure. The resulting manuscript and supplement passed numerical, table-cell, visual, accessibility, and document-integrity review. They remain pre-submission copies because repository publication, journal submission, release creation, and persistent archival identifiers are separate future actions.

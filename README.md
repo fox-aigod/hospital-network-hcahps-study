@@ -12,7 +12,9 @@ Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office
 
 ## Repository status
 
-**Private pre-release validation workspace.** Computational validation has been completed through Stage 6, but the final all-data reproduction has not yet been run under the locked release environment. The repository has no public release, archive DOI, or publication claim at this stage.
+**Validated private release candidate.** The complete Stage 1–6 source-to-results workflow passed in the locked Ubuntu 24.04 x86-64 release environment. The final validation verified all five canonical raw snapshots (5/5), reproduced the Stage 4, Stage 5, and Stage 6 contracts (14/14, 16/16, and 17/17 artifacts), and completed the all-data test suite with 40 passed, 0 failed, and 0 skipped. All 95 historical inferential decisions remained stable. Manuscript and supplement synchronization passed, and final authorship and declarations are locked.
+
+The repository remains private pending a separately authorized publication action; no scientific or computational validation remains outstanding. No DOI, Git tag, GitHub Release, Zenodo record, or journal publication is claimed.
 
 ## Data sources
 
@@ -132,12 +134,14 @@ The canonical and historical results are reconciled in `outputs/stage5/reconcili
 - Main Table 2 reconciles to 2,651 source hospitals and 2,409 observed primary outcomes
 - 2025-only sensitivity global statistic displays as 31.04 (5)
 - All five figures exceed 1,600 pixels in width
-- Machine-readable preserved-manuscript audit identifies two pending displayed-value updates
+- The release-contract audit records the two historical display differences that initiated manuscript synchronization
 
-The preserved Word manuscript and supplement were not modified during release-contract
-canonicalization. An external update manifest identifies 9 manuscript display locations,
-49 publication-table cells, and the methods environment text for synchronization only
-after final all-data reproduction passes.
+The final all-data reproduction passed before the separate Stage 7.4 and 7.4A
+manuscript/supplement synchronization. The nine manuscript display locations, 49
+publication-table cells, methods environment text, and reproducibility wording were
+independently reconciled to the official release values. The final manuscript audit
+reported 41/41 checks passing with zero numerical mismatches, and the final table audit
+reported zero mismatches. No figure or scientific conclusion changed.
 
 ## Current model benchmarks
 
@@ -202,18 +206,41 @@ Scholarly software citation metadata are provided in `CITATION.cff`. A repositor
 
 Original software source code and software-oriented documentation authored for this repository are licensed under the MIT License; see `LICENSE`. This license does not relicense third-party datasets, externally sourced material, manuscript/article content governed by an eventual publisher license, or publication assets assigned a different license. See `docs/data_rights_and_availability.md` for the complete scope statement.
 
-## Authors
+## Study authors
 
-- **Elechi Ubalaeze Solomon**
-- Lee Business School, University of Nevada, Las Vegas, Las Vegas, Nevada, USA
-- ORCID: [0009-0002-3474-1002](https://orcid.org/0009-0002-3474-1002)
+- **Elechi Ubalaeze Solomon** — Business Administration, Lee Business School, University of Nevada, Las Vegas, Las Vegas, Nevada, USA. ORCID: [0009-0002-3474-1002](https://orcid.org/0009-0002-3474-1002).
+- **Chiderah Akubuiro** — Obstetrics and Gynecology, Trinity Medical Sciences University, Ribishi, St. Vincent and the Grenadines.
+- **Abone Kindson** — Faculty of Dentistry, University of Nigeria Teaching Hospital, Ituku/Ozalla, Enugu State, Nigeria.
+- **Mohamed Albert Tarawallie, BSc, MSc** — Public Health, Institute for Health Professionals Development (IHPD), Freetown, Sierra Leone.
 
-The author list and order will be reviewed again before final manuscript submission and the repository's v1.0.0 release.
+These are the final study/manuscript authors. Repository and software authorship is a
+separate attribution: `CITATION.cff` identifies Elechi Ubalaeze Solomon as the author
+of this software/reproducibility package. The other study authors are not represented
+as software authors because their finalized contributions do not include software or
+code development.
 
-## Authorship and AI assistance
+## Author contributions
 
-All scientific decisions, code, outputs, interpretations, and manuscript statements remain the responsibility of the human authors. AI assistance may support code drafting, debugging, documentation, and language editing, but no result is accepted without execution in a documented statistical environment and verification against saved outputs.
+- **Elechi Ubalaeze Solomon:** Conceptualization, Methodology, Investigation, Data Curation, Formal Analysis, Writing – Original Draft, Writing – Review & Editing, Project Administration.
+- **Chiderah Akubuiro:** Clinical Interpretation, Validation, Writing – Review & Editing, Critical Review of the Clinical Relevance of Patient-Reported Discharge Information and Hospital Care Processes.
+- **Abone Kindson:** Clinical Interpretation, Validation, Literature Review, Writing – Review & Editing, Critical Review of the Patient-Experience and Healthcare-Delivery Implications.
+- **Mohamed Albert Tarawallie:** Formal Analysis, Validation, Writing – Review & Editing, Critical Review of the Statistical Methodology, Analytical Results, and Interpretation.
+
+## Ethics, funding, and competing interests
+
+This study used publicly available hospital-level secondary data and did not involve
+human subjects or identifiable private information. IRB review and informed consent
+were not required. This research received no external funding. The authors declare no
+conflicts of interest.
+
+## AI assistance
+
+ChatGPT assisted with code drafting and debugging, reproducibility auditing,
+literature searching, figure-generation code, language editing, document organization,
+and formatting. The human authors retain responsibility for the data, analyses,
+citations, interpretation, and final content. AI assistance is not authorship and did
+not replace human scientific judgment.
 
 ## Release status
 
-No public release, Git tag, GitHub Release, Zenodo record, archive DOI, or journal publication is claimed. Before final release, the full Stage 1–6 pipeline must be rerun with all five checksum-matching archived snapshots under the locked environment, all data-dependent tests must execute, and every generated result must reconcile with the validated contracts. Final authorship, contributions, institutional ethics/non-human-subjects determination, funding and competing-interest declarations, and the AI disclosure also remain subject to human review.
+The complete Stage 1–6 pipeline, all five raw-source checks, all 47 Stage 4–6 artifact contracts, the 40-test no-skip suite, manuscript/supplement synchronization, and final governance review have passed. No public release, Git tag, GitHub Release, Zenodo record, archive DOI, or journal publication is claimed. Publication, tagging, release creation, data/software archiving, and DOI registration remain separate actions requiring explicit authorization and the release boundaries in `docs/public_release_inventory.md`.

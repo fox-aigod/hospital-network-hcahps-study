@@ -64,6 +64,31 @@ The public AHRQ file incorporates or links information from third-party sources,
 
 Aggregate statistical results, model estimates, tables, figures, and aggregate diagnostics may remain part of the reproducibility release. This position does not make a broader legal conclusion about the source material.
 
+## Public-release boundary
+
+The current release disposition is:
+
+- ONC/ASTP snapshot: eligible with source attribution and the AHA provenance caveat above;
+- CMS Hospital General Information snapshot: eligible;
+- CMS HCAHPS Hospital snapshot: eligible;
+- USDA ERS RUCC snapshot: eligible with USDA ERS attribution;
+- AHRQ Hospital Linkage snapshot: **HOLD — do not redistribute without written clarification**; and
+- any row-level analytical or linkage file containing AHRQ-, IQVIA OneKey-, or AHA-linked fields: **HOLD — do not redistribute without written clarification**.
+
+The hold does not restrict the release of source code, source fingerprints,
+acquisition instructions, aggregate model results, publication tables, figures,
+statistical summaries, or aggregate diagnostics. No public package may include the
+AHRQ raw snapshot or a restricted row-level derivative.
+
+The planned archival structure uses two records. A data/provenance record will
+contain the four eligible source snapshots, their checksums, citations, provenance,
+terms, and acquisition instructions; it will include only the AHRQ fingerprint,
+citation, and acquisition instructions while the hold remains. A separate
+software/reproducibility record will contain the reviewed code snapshot,
+computational environment, release contracts, source fingerprint manifest,
+canonical aggregate results, publication tables and figures, aggregate diagnostics,
+manuscript audit, and release checksums. Neither record has been created.
+
 ## Machine-readable record
 
 `config/data_rights.json` records the same current dispositions in a simple auditable schema. `config/raw_sources.json` separately records the exact analytical filenames, checksums, dimensions, and official landing pages. Neither file establishes a blanket repository-wide data license.

@@ -85,3 +85,28 @@ conclusion changed. Nine manuscript display locations and 49 publication-table c
 will be synchronized only after the final all-data reproduction succeeds. No model,
 estimand, covariate, imputation or weighting specification, random seed, numerical
 setting, outcome definition, or interpretation was changed in this contract migration.
+
+## 2026-09-07 — Final reproduction, document synchronization, and release preflight
+
+The statement above about future synchronization records the state at the time of the
+2026-09-04 contract decision and remains part of the historical audit trail. Stage
+7.3R subsequently performed a fresh complete Stage 1–6 execution at commit
+`46f36aaaf2c98dd18081b5dd2fa73978057ab978` in the locked Ubuntu 24.04 x86-64
+environment. Five of five raw snapshots passed exact checksum, size, and dimension
+verification; all 14 Stage 4, 16 Stage 5, and 17 Stage 6 contracted artifacts matched;
+and the all-data suite completed with 40 passed, 0 failed, and 0 skipped. All 95
+historical inferential decisions remained stable.
+
+Stages 7.4 and 7.4A then synchronized the manuscript and supplement to the official
+release values and clarified the reproducibility description. The final audit found
+zero numerical or table-cell mismatches and no figure or scientific-conclusion change.
+Stage 7.5 finalized the four study authors, contribution roles, ethics statement,
+funding statement, competing-interest declaration, and AI-assistance disclosure.
+
+The Stage 7.6 preflight retains Elechi Ubalaeze Solomon as the sole author of the
+software/reproducibility package in `CITATION.cff`; the other three manuscript authors
+are not labeled as software authors because their finalized contribution roles do not
+include software development. This is an attribution distinction, not a change to the
+final manuscript authorship. Repository publication, the v1.0.0 tag and release, both
+Zenodo records, and all persistent identifiers remain separately reviewed future
+actions.

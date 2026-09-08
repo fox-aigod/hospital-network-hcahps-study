@@ -68,10 +68,12 @@ machine-readable output exactly. Require:
 - the generated manuscript audit and every proposed display synchronization
   are reconciled to official release values.
 
-The preserved manuscript files are not updated by this procedure. Before a
-public release, separately review and apply the external Stage 7.3D manuscript
-update manifest, regenerate the audit, and require no unresolved display
-differences.
+The manuscript files are not updated by this computational procedure. The
+separately reviewed Stage 7.4 and 7.4A synchronization has been completed, and
+Stage 7.5 finalized authorship and declarations. A release-candidate rerun must
+compare its generated values with those locked final documents and require zero
+unresolved numerical or table differences; it does not silently edit either
+document.
 
 ## G. Tree integrity and required external report
 

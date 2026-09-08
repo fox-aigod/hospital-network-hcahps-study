@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it using the metadata in this file."
-title: "Association of Health Information Network Participation Profiles With Patient-Reported Discharge Information in U.S. Acute Care and Critical Access Hospitals: A National Cross-Sectional Study"
+message: "If you use this reproducibility software, please cite it using the metadata in this file."
+title: "Reproducibility software for Association of Health Information Network Participation Profiles With Patient-Reported Discharge Information in U.S. Acute Care and Critical Access Hospitals: A National Cross-Sectional Study"
 type: software
 authors:
   - family-names: Elechi
@@ -8,4 +8,12 @@ authors:
     orcid: "https://orcid.org/0009-0002-3474-1002"
     affiliation: "Lee Business School, University of Nevada, Las Vegas, Las Vegas, Nevada, USA"
 repository-code: "https://github.com/fox-aigod/hospital-network-hcahps-study"
+abstract: "Research software, computational-environment records, and release contracts for reproducing a national cross-sectional study of hospital health-information-network participation profiles and patient-reported discharge information."
+keywords:
+  - health information exchange
+  - interoperability
+  - HCAHPS
+  - patient experience
+  - hospitals
+  - reproducible research
 license: MIT

@@ -55,7 +55,8 @@ synchronization to the release values. No figure interpretation changed.
 
 The final release values therefore come from fresh execution of the unchanged
 scientific pipeline in the fully specified official environment. The historical
-workbook and hashes remain comparator and provenance evidence. Manuscript and
-supplement files are intentionally not changed by the contract-canonicalization
-stage; the externally preserved update manifest identifies the later synchronization
-work.
+workbook and hashes remain comparator and provenance evidence. The separately
+reviewed Stage 7.4 and 7.4A work synchronized the manuscript and supplement to those
+release values and clarified the reproducibility wording. Its final numerical audit
+passed 41/41 checks with zero mismatches, its table-cell audit found zero mismatches,
+and no figure or scientific conclusion changed.
