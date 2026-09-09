@@ -16,6 +16,15 @@ Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office
 
 The repository remains private pending a separately authorized visibility and release transition; no scientific or computational validation remains outstanding. No DOI, v1.0.0 Git tag, GitHub Release, Zenodo record, or journal publication is claimed.
 
+Stage 7.7B added a controlled post-review correction record under
+`release/v1.0.0/postreview/`. It documents aggregate stratified analyses, finite-
+multiple-imputation and state-cluster reference diagnostics, the post-review
+flexible-size sensitivity, and an expanded zero-mismatch manuscript audit. These
+diagnostics do not replace or alter the canonical Stage 4–6 contracts. The six
+`p_value=0` fields in `stage5/adjusted_profile_means.csv` are mean-versus-zero
+tests, not profile-comparison p-values; that interpretation is documented in the
+curated release README while the validated artifact bytes remain unchanged.
+
 ## Data sources
 
 The analysis uses five exact source snapshots identified by filename and SHA-256 in `config/raw_sources.json`:

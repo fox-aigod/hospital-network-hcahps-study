@@ -69,11 +69,12 @@ def test_curated_release_manifest_is_complete_and_exact() -> None:
         "figures": 5,
         "audits": 3,
         "separate_final_audits": 1,
-        "total_scientific_and_audit_artifacts": 34,
+        "postreview_artifacts": 7,
+        "total_scientific_and_audit_artifacts": 41,
     }
 
     artifacts = payload["artifacts"]
-    assert len(artifacts) == 34
+    assert len(artifacts) == 41
     required_fields = {
         "curated_path",
         "original_computational_path",
@@ -117,7 +118,7 @@ def test_curated_release_checksum_manifest_covers_every_other_file() -> None:
         entries[relative] = digest
 
     assert set(entries) == release_files() - {"SHA256SUMS.txt"}
-    assert len(entries) == 37
+    assert len(entries) == 44
     for relative, expected in entries.items():
         assert sha256(RELEASE / relative) == expected
 

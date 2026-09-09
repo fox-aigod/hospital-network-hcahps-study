@@ -1,0 +1,53 @@
+{
+  "audits": {
+    "current_manuscript_rows": 64,
+    "current_table_rows": 809,
+    "numeric_mismatches": 0,
+    "prior_manuscript_rows": 41,
+    "prior_table_rows": 781,
+    "table_mismatches": 0
+  },
+  "canonical_primary_analysis_changed": false,
+  "canonical_primary_reanalysis_required": false,
+  "confirmed": 18,
+  "d1": {
+    "global_F": 5.818811913988377,
+    "global_df2": 51154232.43249276,
+    "global_p": 2.2222956675897987e-05,
+    "interaction_F": 1.4383288024759004,
+    "interaction_df2": 33301458.116917167,
+    "interaction_p": 0.2067732439758611
+  },
+  "flexible_bed_size": {
+    "contrast_estimate": 0.23098096214075525,
+    "contrast_p": 0.2928566249486474,
+    "global_p": 0.0002519161771561293,
+    "interaction_p": 0.1909058812119575
+  },
+  "informational": 2,
+  "not_confirmed": 3,
+  "partly_confirmed": 2,
+  "prior_findings": 25,
+  "scientific_conclusions_changed": false,
+  "source_commit": "b0dc4b1ad25f8af9e06ab84881205fab8e9cfb13",
+  "source_tree": "59f3014026b10a0ddb9223e3047bb052544addd5",
+  "stage": "7.7B controlled post-review correction",
+  "stratified_analyses": {
+    "acute_care_contrast_p": 0.3434634331233829,
+    "acute_care_global_p": 1.6838254274221994e-07,
+    "acute_care_outcome_n": 1852,
+    "acute_care_source_n": 1871,
+    "cah_contrast_p": 0.40850371782909234,
+    "cah_global_p": 0.8840684235869699,
+    "cah_outcome_n": 557,
+    "cah_source_n": 780
+  },
+  "weighting": {
+    "denominator_columns": 77,
+    "maximum_post_smd": 0.176509,
+    "maximum_raw_weight": 15.351532358100076,
+    "mean_ess": 2365.7512790600854,
+    "minimum_ess": 2364.4394304983816,
+    "nonreporting_events": 242
+  }
+}

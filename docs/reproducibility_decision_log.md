@@ -110,3 +110,23 @@ include software development. This is an attribution distinction, not a change t
 final manuscript authorship. Repository publication, the v1.0.0 tag and release, both
 Zenodo records, and all persistent identifiers remain separately reviewed future
 actions.
+
+## 2026-09-08 — Controlled post-review correction round (Stage 7.7B)
+
+The independent review ledger was resolved without canonical reanalysis. The
+manuscript’s three stale weight-diagnostic displays were synchronized to the
+validated release values (minimum ESS 2,364.4, maximum raw weight 15.35, and
+maximum post-weighting within-stratum |SMD| 0.177). Taxonomy and interaction
+wording were clarified without changing interpretation. Aggregate prespecified
+hospital-group stratified results, finite-m D1 and conventional state-cluster
+references, the precision-weight algebra, high-dimensional denominator-model and
+fixed-weight limitations, and a post-review squared-bed-size diagnostic were added
+to the supplement. The diagnostic sensitivity preserved all primary decisions.
+
+The six adjusted-mean `p_value=0` fields in the canonical Stage 5 artifact remain
+unchanged; they represent model mean-versus-zero tests rather than profile-
+comparison inference. This is documented in the curated release README rather
+than changing a validated contract artifact. The expanded manuscript/table audits
+contain zero mismatches. No model code, estimand, covariates, seeds, numerical
+settings, source data, canonical Stage 4–6 artifacts, or scientific conclusions
+changed.

@@ -1,0 +1,442 @@
+{
+  "environment": "Ubuntu 24.04 x86_64; CPython 3.13.14; exact requirements-lock.txt; 4 CPUs; numerical thread variables unset",
+  "parameter_specific_MI_uncertainty": [
+    {
+      "FMI": 0.0006526187534704094,
+      "average_within_variance": 0.2879934914329382,
+      "between_imputation_variance": 0.00017910454757354266,
+      "canonical_total_se": 0.5368254383017728,
+      "estimate": 0.10240037235654853,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.537000568885027,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.5371756423720223,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.5375256182803749,
+      "relative_increase_in_variance": 0.0006530000869690181,
+      "rubin_df": 44616359.029671006,
+      "term": "profile_0"
+    },
+    {
+      "FMI": 0.0023820250680157183,
+      "average_within_variance": 0.11422975071980586,
+      "between_imputation_variance": 0.00025969473093624267,
+      "canonical_total_se": 0.3383820772252705,
+      "estimate": -1.4271454263308616,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.33878475416519555,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.3391869530542928,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.339989923464242,
+      "relative_increase_in_variance": 0.0023871142654588316,
+      "rubin_df": 3350257.090103205,
+      "term": "profile_1"
+    },
+    {
+      "FMI": 0.001037676867899073,
+      "average_within_variance": 0.05210996655125409,
+      "between_imputation_variance": 5.154625195882655e-05,
+      "canonical_total_se": 0.22839459300914033,
+      "estimate": -0.0004104290158108981,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.2285130492562025,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.22863144412990177,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.22886805013814823,
+      "relative_increase_in_variance": 0.0010386413221649886,
+      "rubin_df": 17649162.07395616,
+      "term": "profile_2"
+    },
+    {
+      "FMI": 0.0005259734300967648,
+      "average_within_variance": 0.07579917121751223,
+      "between_imputation_variance": 3.7987735770192244e-05,
+      "canonical_total_se": 0.2753889219632317,
+      "estimate": -0.47699072720117225,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.2754613320642838,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.27553372313600444,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.2756784482514107,
+      "relative_increase_in_variance": 0.0005262210907853112,
+      "rubin_df": 68686921.11181636,
+      "term": "profile_4"
+    },
+    {
+      "FMI": 0.0012771364911932674,
+      "average_within_variance": 0.04748613649138831,
+      "between_imputation_variance": 5.782444677942659e-05,
+      "canonical_total_se": 0.21805240691289493,
+      "estimate": 0.2759584405062885,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.21819158514852288,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.2183306746628689,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.2186085882049932,
+      "relative_increase_in_variance": 0.0012785977888390397,
+      "rubin_df": 11651868.359369839,
+      "term": "profile_5"
+    },
+    {
+      "FMI": 0.0003958196885302852,
+      "average_within_variance": 1.487132324052687,
+      "between_imputation_variance": 0.0005608045771960001,
+      "canonical_total_se": 1.219721758787119,
+      "estimate": 1.0213151313411766,
+      "hypothetical_total_se_if_B_multiplied_by_2": 1.2199631197969873,
+      "hypothetical_total_se_if_B_multiplied_by_3": 1.2202044330647446,
+      "hypothetical_total_se_if_B_multiplied_by_5": 1.2206869164871745,
+      "relative_increase_in_variance": 0.0003959599267206421,
+      "rubin_df": 121281619.87248483,
+      "term": "profile_0:CAH"
+    },
+    {
+      "FMI": 0.002967868662163882,
+      "average_within_variance": 0.8387612273316893,
+      "between_imputation_variance": 0.0023771082413746895,
+      "canonical_total_se": 0.9172007364721927,
+      "estimate": 2.1921262130913073,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.9185603707098278,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.9199179954169935,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.9226272517105196,
+      "relative_increase_in_variance": 0.002975773762675837,
+      "rubin_df": 2158413.588399952,
+      "term": "profile_1:CAH"
+    },
+    {
+      "FMI": 0.00042668872992540646,
+      "average_within_variance": 0.5499047169452324,
+      "between_imputation_variance": 0.0002235502506779147,
+      "canonical_total_se": 0.7417138563546215,
+      "estimate": 0.36433107861364517,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.7418720728479109,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.7420302556061092,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.7423465200034896,
+      "relative_increase_in_variance": 0.0004268516999012905,
+      "rubin_df": 104368694.21279962,
+      "term": "profile_2:CAH"
+    },
+    {
+      "FMI": 0.0004940676173640506,
+      "average_within_variance": 0.6138672798278366,
+      "between_imputation_variance": 0.0002889772244055969,
+      "canonical_total_se": 0.7836904401059531,
+      "estimate": 1.0147361385131823,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.7838840041735055,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.7840775204561818,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.784464409808352,
+      "relative_increase_in_variance": 0.0004942861357767345,
+      "rubin_df": 77844147.72453263,
+      "term": "profile_4:CAH"
+    },
+    {
+      "FMI": 0.001095061294262225,
+      "average_within_variance": 0.6158542884851513,
+      "between_imputation_variance": 0.0006429140059770222,
+      "canonical_total_se": 0.7851938284216371,
+      "estimate": 0.886720831424922,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.7856235790107773,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.7860530946469068,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.7869114225988404,
+      "relative_increase_in_variance": 0.001096135431542342,
+      "rubin_df": 15848083.049491514,
+      "term": "profile_5:CAH"
+    },
+    {
+      "FMI": 0.0012771364911932674,
+      "average_within_variance": 0.04748613649138831,
+      "between_imputation_variance": 5.782444677942659e-05,
+      "canonical_total_se": 0.21805240691289493,
+      "estimate": 0.2759584405062885,
+      "hypothetical_total_se_if_B_multiplied_by_2": 0.21819158514852288,
+      "hypothetical_total_se_if_B_multiplied_by_3": 0.2183306746628689,
+      "hypothetical_total_se_if_B_multiplied_by_5": 0.2186085882049932,
+      "relative_increase_in_variance": 0.0012785977888390397,
+      "rubin_df": 11651868.359369839,
+      "term": "Profile 5 minus Profile 3"
+    }
+  ],
+  "primary_global_six_profile_test": {
+    "D1_F_reference_p_value": 2.2222956675897987e-05,
+    "D1_F_statistic": 5.818811913988377,
+    "D1_equivalent_numerator_Wald": 29.094059569941884,
+    "D1_relevant_FMI_r_over_1_plus_r": 0.00130572423523739,
+    "average_within_imputation_covariance": [
+      [
+        0.2879934914329382,
+        0.0360204865883807,
+        0.030061449697009624,
+        0.033348621369873474,
+        0.018127424530641686
+      ],
+      [
+        0.036020486588380744,
+        0.11422975071980586,
+        0.02315612944575871,
+        0.0297414274497824,
+        0.02284911146655378
+      ],
+      [
+        0.030061449697009635,
+        0.0231561294457587,
+        0.05210996655125409,
+        0.025530900300851794,
+        0.02416842688134956
+      ],
+      [
+        0.0333486213698735,
+        0.029741427449782403,
+        0.025530900300851783,
+        0.07579917121751223,
+        0.02804851583595634
+      ],
+      [
+        0.018127424530641666,
+        0.022849111466553728,
+        0.024168426881349507,
+        0.028048515835956307,
+        0.04748613649138831
+      ]
+    ],
+    "between_imputation_covariance": [
+      [
+        0.00017910454757354269,
+        0.00010254703595433016,
+        3.1799163600106307e-05,
+        3.4571373229681866e-05,
+        -5.03356360156852e-07
+      ],
+      [
+        0.00010254703595433016,
+        0.00025969473093624267,
+        -9.560588762917536e-06,
+        2.43787809133637e-05,
+        -5.6128472109961065e-05
+      ],
+      [
+        3.1799163600106307e-05,
+        -9.560588762917536e-06,
+        5.154625195882654e-05,
+        3.309660935347416e-05,
+        2.7972327544546366e-05
+      ],
+      [
+        3.4571373229681866e-05,
+        2.43787809133637e-05,
+        3.309660935347416e-05,
+        3.7987735770192244e-05,
+        1.3172296257500972e-05
+      ],
+      [
+        -5.03356360156852e-07,
+        -5.6128472109961065e-05,
+        2.7972327544546366e-05,
+        1.3172296257500972e-05,
+        5.782444677942658e-05
+      ]
+    ],
+    "canonical_chi_square_df": 5,
+    "canonical_chi_square_p_value_reconstructed": 2.2855353712037596e-05,
+    "canonical_chi_square_statistic_reconstructed": 29.0319471391483,
+    "coefficient_specific_lambda_range": [
+      0.0005259443277874506,
+      0.0023814295210768843
+    ],
+    "decision_at_alpha_0_05": true,
+    "denominator_df": 51154232.43249276,
+    "formula_source": "Li-Raghunathan-Rubin D1 as implemented by mitml .D1; infinite complete-data df",
+    "k": 5,
+    "m": 20,
+    "numerator_df": 5,
+    "pooled_coefficient_vector": [
+      0.10240037235654853,
+      -1.4271454263308616,
+      -0.0004104290158108981,
+      -0.47699072720117225,
+      0.2759584405062885
+    ],
+    "relative_increase_in_variance_D1": 0.0013074313800762653,
+    "rubin_total_covariance": [
+      [
+        0.2881815512078904,
+        0.03612816097613275,
+        0.030094838818789736,
+        0.03338492131176464,
+        0.01812689600646352
+      ],
+      [
+        0.03612816097613279,
+        0.11450243018728891,
+        0.023146090827557645,
+        0.029767025169741432,
+        0.02279017657083832
+      ],
+      [
+        0.030094838818789747,
+        0.023146090827557635,
+        0.05216409011581086,
+        0.02556565174067294,
+        0.024197797825271334
+      ],
+      [
+        0.03338492131176467,
+        0.029767025169741435,
+        0.02556565174067293,
+        0.07583905834007093,
+        0.028062346747026713
+      ],
+      [
+        0.0181268960064635,
+        0.022790176570838268,
+        0.024197797825271282,
+        0.028062346747026682,
+        0.047546852160506706
+      ]
+    ],
+    "terms": [
+      "profile_0",
+      "profile_1",
+      "profile_2",
+      "profile_4",
+      "profile_5"
+    ]
+  },
+  "profile_by_CAH_interaction_test": {
+    "D1_F_reference_p_value": 0.2067732439758611,
+    "D1_F_statistic": 1.4383288024759004,
+    "D1_equivalent_numerator_Wald": 7.191644012379502,
+    "D1_relevant_FMI_r_over_1_plus_r": 0.0016183168459009709,
+    "average_within_imputation_covariance": [
+      [
+        1.487132324052687,
+        0.40260180756647096,
+        0.3873454049691657,
+        0.3941662018658409,
+        0.36266464386589625
+      ],
+      [
+        0.40260180756647096,
+        0.8387612273316893,
+        0.36739301111959655,
+        0.36651984068017524,
+        0.3403962872685648
+      ],
+      [
+        0.3873454049691658,
+        0.36739301111959655,
+        0.5499047169452324,
+        0.36351196059174967,
+        0.35871495812238496
+      ],
+      [
+        0.3941662018658406,
+        0.36651984068017496,
+        0.3635119605917496,
+        0.6138672798278366,
+        0.33952666472633497
+      ],
+      [
+        0.362664643865896,
+        0.3403962872685647,
+        0.3587149581223849,
+        0.33952666472633497,
+        0.6158542884851513
+      ]
+    ],
+    "between_imputation_covariance": [
+      [
+        0.000560804577196,
+        0.0002708556891740927,
+        0.0001422815336526503,
+        0.00014450787315911353,
+        -0.0003433129842834526
+      ],
+      [
+        0.0002708556891740927,
+        0.0023771082413746895,
+        0.00021032624677877983,
+        0.00028574223862506287,
+        -0.00015228482301887856
+      ],
+      [
+        0.0001422815336526503,
+        0.00021032624677877983,
+        0.00022355025067791472,
+        0.00018684050262898763,
+        -5.530830358362385e-05
+      ],
+      [
+        0.00014450787315911353,
+        0.00028574223862506287,
+        0.00018684050262898763,
+        0.00028897722440559686,
+        2.4106544163317382e-05
+      ],
+      [
+        -0.0003433129842834526,
+        -0.00015228482301887856,
+        -5.530830358362385e-05,
+        2.4106544163317382e-05,
+        0.0006429140059770224
+      ]
+    ],
+    "canonical_chi_square_df": 5,
+    "canonical_chi_square_p_value_reconstructed": 0.20743048500838898,
+    "canonical_chi_square_statistic_reconstructed": 7.1823164091200775,
+    "coefficient_specific_lambda_range": [
+      0.00039580320451278737,
+      0.00296694480616634
+    ],
+    "decision_at_alpha_0_05": false,
+    "denominator_df": 33301458.116917167,
+    "formula_source": "Li-Raghunathan-Rubin D1 as implemented by mitml .D1; infinite complete-data df",
+    "k": 5,
+    "m": 20,
+    "numerator_df": 5,
+    "pooled_coefficient_vector": [
+      1.0213151313411766,
+      2.1921262130913073,
+      0.36433107861364517,
+      1.0147361385131823,
+      0.886720831424922
+    ],
+    "relative_increase_in_variance_D1": 0.0016209400404746666,
+    "rubin_total_covariance": [
+      [
+        1.4877211688587428,
+        0.4028862060401038,
+        0.387494800579501,
+        0.39431793513265795,
+        0.3623041652323986
+      ],
+      [
+        0.4028862060401038,
+        0.8412571909851327,
+        0.36761385367871424,
+        0.3668198700307316,
+        0.340236388204395
+      ],
+      [
+        0.3874948005795011,
+        0.36761385367871424,
+        0.5501394447084441,
+        0.3637081431195101,
+        0.35865688440362214
+      ],
+      [
+        0.39431793513265767,
+        0.3668198700307313,
+        0.36370814311951005,
+        0.6141707059134625,
+        0.3395519765977065
+      ],
+      [
+        0.36230416523239833,
+        0.3402363882043949,
+        0.3586568844036221,
+        0.3395519765977065,
+        0.6165293481914272
+      ]
+    ],
+    "terms": [
+      "profile_0:CAH",
+      "profile_1:CAH",
+      "profile_2:CAH",
+      "profile_4:CAH",
+      "profile_5:CAH"
+    ]
+  },
+  "repository_head": "b0dc4b1ad25f8af9e06ab84881205fab8e9cfb13",
+  "repository_tree": "59f3014026b10a0ddb9223e3047bb052544addd5",
+  "schema_version": "1.0.0",
+  "stage5_source_sha256": "80afc9db56ff2f860bcc0b1a30ce084f1fc1089211fa81e7d58329969c40a29d"
+}

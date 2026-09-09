@@ -31,6 +31,15 @@ interpreted as the final document audit. The final zero-mismatch record is
 `audits/final_manuscript_value_audit.csv` and is fingerprinted separately from
 the Stage 6 contract.
 
+The `postreview/` directory records the controlled Stage 7.7B correction round:
+aggregate hospital-group stratified analyses, the post-review flexible bed-size
+diagnostic, finite-multiple-imputation D1 and state-cluster reference audits, and
+the expanded final manuscript-value audit. These are diagnostic/provenance
+artifacts; the canonical primary analysis and its 16 Stage 5 artifact bytes are
+unchanged. The six `p_value=0` fields in `stage5/adjusted_profile_means.csv`
+are tests of adjusted means against zero, not inferential profile-comparison
+p-values; the file remains byte-identical to its validated contract.
+
 Raw inputs, hospital-level datasets, completed imputations, observation-weight
 arrays, row-level linkage diagnostics, and restricted derivatives are
 intentionally excluded. Users can regenerate the outputs after lawfully

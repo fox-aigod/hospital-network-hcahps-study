@@ -50,6 +50,7 @@ Every currently tracked path is covered below.
 | Canonical Stage 5 aggregate and model-level results from the 16-file contract | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** all 16 byte-verified artifacts are under `release/v1.0.0/stage5/`; none were excluded after row-level and rights review. Transient `outputs/stage5/**` remains ignored. |
 | Canonical Stage 6 publication tables, manifests, and audits | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** all 12 tabular/audit artifacts from the 17-file Stage 6 contract are preserved under `release/v1.0.0/stage6/tables/` and `release/v1.0.0/audits/`. The historical audit is explicitly identified as pre-synchronization; a separately fingerprinted final Stage 7.5 audit is also included. |
 | Canonical Stage 6 figures | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** all five byte-verified publication figures are under `release/v1.0.0/stage6/figures/`, with the publication-asset rights notice in `release/v1.0.0/RIGHTS.md`. |
+| Stage 7.7B post-review aggregate audits | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | Aggregate stratified results, flexible-size diagnostic, finite-m D1/cluster references, and expanded manuscript-value audit under `release/v1.0.0/postreview/`; no raw or hospital-level records. |
 | Aggregate weighting and balance diagnostics containing no row-level records | PUBLIC INCLUDE; ZENODO SOFTWARE RECORD INCLUDE | **ASSEMBLED:** the reviewed aggregate/model-level diagnostics are included among the 16 Stage 5 artifacts; inspection found no hospital identifiers, row-level records, or restricted linkage fields. |
 | Stage 4 imputation arrays, completed datasets, observation weights, and row-level diagnostics | PUBLIC EXCLUDE | Regenerated locally; not distributed because they are row-level or bulky analytical intermediates. |
 | Standard GitHub-generated source archives | PUBLIC INCLUDE | Created automatically only after a separately authorized tag; no duplicate GitHub Release asset bundle is planned. |
@@ -66,6 +67,10 @@ curated copies do not unignore their transient working paths and are not planned
 as duplicate ad hoc GitHub Release attachments. Users may regenerate them from
 lawful checksum-matching inputs, but regeneration is not the sole preservation
 strategy.
+
+The post-review artifacts supplement the curated contract with transparent
+diagnostic and review-resolution evidence. They do not replace any Stage 4–6
+contract or alter the canonical primary result files.
 
 No generated row-level file, Stage 4 imputation array, completed dataset, or
 restricted linkage diagnostic is eligible for that curated set.
