@@ -69,12 +69,12 @@ def test_curated_release_manifest_is_complete_and_exact() -> None:
         "figures": 5,
         "audits": 3,
         "separate_final_audits": 1,
-        "postreview_artifacts": 7,
-        "total_scientific_and_audit_artifacts": 41,
+        "postreview_artifacts": 9,
+        "total_scientific_and_audit_artifacts": 43,
     }
 
     artifacts = payload["artifacts"]
-    assert len(artifacts) == 41
+    assert len(artifacts) == 43
     required_fields = {
         "curated_path",
         "original_computational_path",
@@ -118,7 +118,7 @@ def test_curated_release_checksum_manifest_covers_every_other_file() -> None:
         entries[relative] = digest
 
     assert set(entries) == release_files() - {"SHA256SUMS.txt"}
-    assert len(entries) == 44
+    assert len(entries) == 46
     for relative, expected in entries.items():
         assert sha256(RELEASE / relative) == expected
 
@@ -167,3 +167,25 @@ def test_historical_and_final_manuscript_audits_are_distinguished() -> None:
     assert sum(row["status"] == "FAIL" for row in historical) == 2
     assert len(final) == 41
     assert all(row["status"] == "PASS" for row in final)
+
+
+def test_final_postcorrection_audits_are_complete_and_zero_mismatch() -> None:
+    numeric_path = RELEASE / "postreview" / "final_comprehensive_manuscript_value_audit.csv"
+    table_path = RELEASE / "postreview" / "final_table_cell_audit.csv"
+    with numeric_path.open(newline="", encoding="utf-8") as stream:
+        numeric = list(csv.DictReader(stream))
+    with table_path.open(newline="", encoding="utf-8") as stream:
+        table = list(csv.DictReader(stream))
+    assert len(numeric) == 71
+    assert len(table) == 812
+    assert all(row["status"] == "PASS" for row in numeric)
+    assert all(row["status"] in {"PASS", "PASS_NORMALIZED"} for row in table)
+    assert {row["table"] for row in table} >= {
+        "manuscript_table_1.csv", "manuscript_table_2.csv", "manuscript_table_3.csv",
+        "supplement_table_S1.csv", "supplement_table_S2.csv", "supplement_table_S3.csv",
+        "supplement_table_S4.csv", "supplement_table_S5.csv", "supplement_table_S6.csv",
+        "supplement_table_S7.csv", "supplement_table_S8.csv",
+    }
+    assert sum(row["document"] == "supplement" and row["metric"].startswith("D1 ") for row in numeric) == 6
+    assert sum(row["document"] == "supplement" and "small-sample" in row["metric"] for row in numeric) == 2
+    assert sum(row["document"] == "supplement" and row["metric"].startswith("Flexible-size") for row in numeric) == 4

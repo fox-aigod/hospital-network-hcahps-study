@@ -78,6 +78,30 @@ file. Exact release-environment hashes therefore
 replace the irrecoverable historical bytes as the fail-closed v1.0.0 execution gate.
 This decision does not claim cross-platform bitwise identity.
 
+## 2026-09-09 — Final post-verification micro-correction
+
+The final post-correction review identified two reporting mismatches without any
+statistical error or need for canonical reanalysis. The supplement now describes
+completed-survey-count precision weighting exactly as implemented: median
+replacement for missing counts among outcome-observed hospitals, linear
+multiplication by the canonical stabilized observation weight, mean-one
+normalization, and no square-root transformation or additional post-combination
+trimming. The limitations now disclose ownership-source disagreement (1,588 of
+2,600 hospitals, 61.1%) and place the missingness assumption immediately before
+its qualification and the residual-balance statement.
+
+Three Table S8 confidence-interval displays were corrected by standard rounding
+from the machine-readable post-review diagnostic. The manuscript now directs
+readers to Supplementary Tables S7 and S8. Adjusted-mean p-value semantics are
+documented for both canonical and flexible diagnostic files. The preserved Stage
+7.7A evidence independently verifies the 2025-only outcome count of 2,092.
+
+The final comprehensive audit contains 71 passing numeric checks, including the
+new ownership, 2025-only, and corrected Table S8 values. The final table-cell audit
+covers Tables 1–3 and S1–S8 with 812 passing audited items and zero mismatches.
+No canonical scientific code, model specification, seed, contract, or canonical
+Stage 5/6 artifact changed; primary scientific conclusions remain unchanged.
+
 The Stage 7.3C2 comparison matched 1,110 historical scientific values, including 95
 unique hypothesis tests. Although 699 full-precision values differed, no significance,
 estimate-sign, confidence-interval, FDR, primary-scientific, or substantive-manuscript

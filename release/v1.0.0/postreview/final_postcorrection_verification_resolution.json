@@ -1,0 +1,46 @@
+{
+  "blocking_findings": [
+    "precision-weight methods prose",
+    "ownership limitation"
+  ],
+  "canonical_primary_analysis_changed": false,
+  "claude_final_verdict": "correction required before release",
+  "document_hashes_pending_final_qa": false,
+  "document_qa": {
+    "rendered_manuscript_pages": 16,
+    "rendered_supplement_pages": 6,
+    "tracked_changes_or_comments": 0,
+    "visual_inspection": "PASS"
+  },
+  "final_audits": {
+    "numeric_mismatches": 0,
+    "numeric_rows": 71,
+    "table_mismatches": 0,
+    "table_rows": 812
+  },
+  "final_document_hashes": {
+    "manuscript": "0d1a586f52c94280b4d5222a35d4c40fbabf9b04343b9ec7abf50cb40e69cd3f",
+    "supplement": "525546ed879bf40df0fe680e5b5f7ff7c349cb5ffb1b9fac56049a1510cbcba"
+  },
+  "gemini_final_verdict": "PASS",
+  "micro_corrections": [
+    "correct precision-weight description",
+    "add ownership-source limitation",
+    "correct three Table S8 six-decimal displays",
+    "repair limitations paragraph flow",
+    "document adjusted-mean p-value semantics for canonical and flexible files",
+    "correct 12 supplement-only comprehensive-audit labels",
+    "add manuscript callouts to Supplementary Tables S7 and S8",
+    "verify 2025-only outcome N=2,092",
+    "regenerate final numeric and table audits"
+  ],
+  "primary_scientific_conclusions_changed": false,
+  "stage": "7.7D final post-verification micro-correction",
+  "starting_commit": "7f633371decfead3b1bfdbcaf9132a74fd8d3879",
+  "verification_2092": {
+    "provenance": "stage7.7A-external-review-adjudication/stage7.7A-local-evidence.json:model_analysis_n and outcome_n for 2025-only sensitivity",
+    "provenance_sha256": "0a503bd4f85feb7a99d921eef648bd0f889cde91c520012d102d7da21cd9a89e",
+    "status": "confirmed",
+    "value": 2092
+  }
+}

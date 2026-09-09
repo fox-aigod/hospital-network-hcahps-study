@@ -21,9 +21,12 @@ Stage 7.7B added a controlled post-review correction record under
 multiple-imputation and state-cluster reference diagnostics, the post-review
 flexible-size sensitivity, and an expanded zero-mismatch manuscript audit. These
 diagnostics do not replace or alter the canonical Stage 4–6 contracts. The six
-`p_value=0` fields in `stage5/adjusted_profile_means.csv` are mean-versus-zero
-tests, not profile-comparison p-values; that interpretation is documented in the
-curated release README while the validated artifact bytes remain unchanged.
+`p_value=0` fields in adjusted-mean rows of both `stage5/adjusted_profile_means.csv`
+and `postreview/flexible_bed_size_sensitivity.csv` are tests of each adjusted mean
+against zero, not profile-comparison p-values. Profile-comparison inference must
+be taken from global tests, planned contrasts, and interaction contrasts; the
+validated canonical artifact bytes remain unchanged. Stage 7.7D added the final
+post-correction audits and reporting clarifications without changing those bytes.
 
 ## Data sources
 
@@ -149,8 +152,9 @@ The final all-data reproduction passed before the separate Stage 7.4 and 7.4A
 manuscript/supplement synchronization. The nine manuscript display locations, 49
 publication-table cells, methods environment text, and reproducibility wording were
 independently reconciled to the official release values. The final manuscript audit
-reported 41/41 checks passing with zero numerical mismatches, and the final table audit
-reported zero mismatches. No figure or scientific conclusion changed.
+reported 71/71 checks passing with zero numerical mismatches, and the final table audit
+reported 812 audited cells with zero mismatches. No figure or scientific conclusion
+changed.
 
 ## Current model benchmarks
 

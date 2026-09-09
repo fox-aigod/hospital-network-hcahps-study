@@ -1,10 +1,12 @@
 {
   "audits": {
-    "current_manuscript_rows": 64,
-    "current_table_rows": 809,
+    "current_manuscript_rows": 71,
+    "current_table_rows": 812,
+    "numeric_audit_scope": "All prior 64 checks plus ownership limitation values, verified 2025-only outcome N, and corrected Table S8 displays; 71 audited items.",
     "numeric_mismatches": 0,
     "prior_manuscript_rows": 41,
     "prior_table_rows": 781,
+    "table_audit_scope": "Tables 1\u20133 and S1\u2013S8 scientific cells plus the three corrected Table S8 CI displays; 812 audited items.",
     "table_mismatches": 0
   },
   "canonical_primary_analysis_changed": false,
@@ -41,6 +43,11 @@
     "cah_global_p": 0.8840684235869699,
     "cah_outcome_n": 557,
     "cah_source_n": 780
+  },
+  "verification_2092": {
+    "provenance": "stage7.7A-external-review-adjudication/stage7.7A-local-evidence.json:model_analysis_n and outcome_n for 2025-only sensitivity",
+    "status": "confirmed",
+    "value": 2092
   },
   "weighting": {
     "denominator_columns": 77,

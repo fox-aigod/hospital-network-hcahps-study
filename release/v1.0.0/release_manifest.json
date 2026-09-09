@@ -48,12 +48,13 @@
     "figures": 5,
     "audits": 3,
     "separate_final_audits": 1,
-    "postreview_artifacts": 7,
-    "total_scientific_and_audit_artifacts": 41
+    "postreview_artifacts": 9,
+    "total_scientific_and_audit_artifacts": 43
   },
   "audit_provenance": {
     "historical_stage6_audit": "The byte-exact Stage 6 audit contains 39 PASS and two expected pre-synchronization display differences and is explicitly named historical.",
-    "final_stage7_5_audit": "The separately fingerprinted final audit contains 41 PASS and zero mismatches."
+    "final_stage7_5_audit": "The separately fingerprinted final audit contains 41 PASS and zero mismatches.",
+    "final_postcorrection_audit": "The final Stage 7.7D post-correction audit contains 71 passing numeric checks and 812 passing table-cell checks with zero mismatches."
   },
   "absolute_exclusions": [
     "raw source datasets",
@@ -548,8 +549,8 @@
       "original_computational_path": "external Stage 7.7B controlled-correction workspace",
       "source_contract": "Stage 7.7B controlled post-review correction record",
       "semantic_role": "Post-review artifact scope and rights note",
-      "byte_size": 688,
-      "sha256": "ca064d5e5422f33b27d8024e3a1ecf4fe33a91252340bdc12d9eec46147b85ce",
+      "byte_size": 929,
+      "sha256": "723fcda5602ab1247242f0d0f4d509b3102bcd78f4479bb452dfc589da2f3aa4",
       "eligibility_classification": "PUBLIC INCLUDE",
       "data_level": "audit",
       "contains_row_level_data": false,
@@ -561,8 +562,8 @@
       "original_computational_path": "external Stage 7.7B controlled-correction workspace",
       "source_contract": "Stage 7.7B controlled post-review correction record",
       "semantic_role": "Structured review-resolution and stability summary",
-      "byte_size": 1649,
-      "sha256": "67e0e224aa8150d30aa45cb88780904ba67bf7ade1c7fe830c1713802e4e46c1",
+      "byte_size": 2178,
+      "sha256": "b76fdef8a6e4bcc2ffcaa39ae847e3cfdefa138fd2f0b7db01e1a19cf38f0fd7",
       "eligibility_classification": "PUBLIC INCLUDE",
       "data_level": "audit",
       "contains_row_level_data": false,
@@ -573,9 +574,9 @@
       "curated_path": "postreview/final_comprehensive_manuscript_value_audit.csv",
       "original_computational_path": "external Stage 7.7B controlled-correction workspace",
       "source_contract": "Stage 7.7B controlled post-review correction record",
-      "semantic_role": "Expanded final manuscript numerical audit",
-      "byte_size": 6573,
-      "sha256": "60e82b902879b903ee7f33abed8087fac47cf48aff5c56c1ea497be6b966a2b1",
+      "semantic_role": "Final post-correction comprehensive manuscript and supplement numerical audit",
+      "byte_size": 7174,
+      "sha256": "cad4e98c31de3d683db44cf5e27ce452d92d7024592f1ca9432bf16534fae23d",
       "eligibility_classification": "PUBLIC INCLUDE",
       "data_level": "audit",
       "contains_row_level_data": false,
@@ -633,6 +634,32 @@
       "contains_row_level_data": false,
       "eligibility_basis": "Two aggregate hospital-group rows; no hospital identifiers or row-level data.",
       "rights_note": "Study-generated aggregate result; underlying source data are not relicensed."
+    },
+    {
+      "curated_path": "postreview/final_table_cell_audit.csv",
+      "original_computational_path": "stage7.7D final post-correction evidence/final_table_cell_audit.csv",
+      "source_contract": "Stage 7.7D final post-verification audit",
+      "semantic_role": "Final post-correction Table 1\u20133 and S1\u2013S8 cell audit",
+      "byte_size": 120073,
+      "sha256": "9baee5cf7d1f54c0db4749c67bec39874f8e02dcb06769d92d25e1ad72a7cba5",
+      "eligibility_classification": "PUBLIC INCLUDE",
+      "data_level": "audit",
+      "contains_row_level_data": false,
+      "eligibility_basis": "812 audited cells; zero mismatches; aggregate display metadata only.",
+      "rights_note": "Study-generated validation metadata; no underlying source data are redistributed."
+    },
+    {
+      "curated_path": "postreview/final_postcorrection_verification_resolution.json",
+      "original_computational_path": "stage7.7D final post-correction evidence/final_postcorrection_verification_resolution.json",
+      "source_contract": "Stage 7.7D final post-verification audit",
+      "semantic_role": "Final Stage 7.7D verification resolution",
+      "byte_size": 1777,
+      "sha256": "396608ec858b06f4e2e1e3cde1e683a223c6b0d9012e5ed37ffaa47168731348",
+      "eligibility_classification": "PUBLIC INCLUDE",
+      "data_level": "audit",
+      "contains_row_level_data": false,
+      "eligibility_basis": "Controlled reporting corrections and final audit outcomes; no row-level data.",
+      "rights_note": "Study-generated validation metadata; no underlying source data are redistributed."
     }
   ]
 }

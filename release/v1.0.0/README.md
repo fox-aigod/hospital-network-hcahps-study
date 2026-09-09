@@ -21,7 +21,9 @@ The directory contains:
 - the historical Stage 6 validation summary under an explicit historical
   filename; and
 - the separate final Stage 7.5 manuscript-value audit, which contains 41 passing
-  checks and zero mismatches.
+  checks and zero mismatches; and
+- the final post-correction audit, which contains 71 passing numerical checks and
+  812 table-cell checks with zero mismatches.
 
 The Stage 6 contract was created before the final Stage 7.4/7.5 manuscript
 synchronization. Its byte-exact `manuscript_value_audit.csv` records 39 passing
@@ -31,14 +33,24 @@ interpreted as the final document audit. The final zero-mismatch record is
 `audits/final_manuscript_value_audit.csv` and is fingerprinted separately from
 the Stage 6 contract.
 
-The `postreview/` directory records the controlled Stage 7.7B correction round:
+The `postreview/` directory records the controlled Stage 7.7B correction round and
+the final Stage 7.7D micro-correction:
 aggregate hospital-group stratified analyses, the post-review flexible bed-size
 diagnostic, finite-multiple-imputation D1 and state-cluster reference audits, and
-the expanded final manuscript-value audit. These are diagnostic/provenance
+the expanded final manuscript-value audit, final table-cell audit, and final
+post-correction verification resolution. These are diagnostic/provenance
 artifacts; the canonical primary analysis and its 16 Stage 5 artifact bytes are
-unchanged. The six `p_value=0` fields in `stage5/adjusted_profile_means.csv`
-are tests of adjusted means against zero, not inferential profile-comparison
-p-values; the file remains byte-identical to its validated contract.
+unchanged. Adjusted-mean rows in both `stage5/adjusted_profile_means.csv` and
+`postreview/flexible_bed_size_sensitivity.csv` use `p_value=0` and
+`significant_at_0_05=True` for tests of the adjusted mean against zero. These
+are not profile-comparison p-values; profile-comparison inference comes from
+global tests, planned contrasts, and interaction contrasts. The canonical file
+remains byte-identical to its validated contract.
+
+The final table-cell audit covers Tables 1–3 and S1–S8, including the three
+post-review Table S8 confidence-interval displays corrected in Stage 7.7D. It
+contains 812 audited items and zero mismatches. The final comprehensive numerical
+audit contains 71 items and zero mismatches.
 
 Raw inputs, hospital-level datasets, completed imputations, observation-weight
 arrays, row-level linkage diagnostics, and restricted derivatives are
