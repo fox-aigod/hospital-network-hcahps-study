@@ -1,18 +1,19 @@
-# Draft v1.0.0 and archival metadata
+# v1.0.0 release and draft archival metadata
 
-This metadata is a proposal for later human review. Nothing in this document is a
-published release, reserved identifier, DOI, or Zenodo record.
+The GitHub Release description below is the reviewed v1.0.0 release metadata.
+The Zenodo sections remain proposals for a separately authorized archival stage.
+No DOI or Zenodo record is asserted.
 
-## GitHub Release draft
+## GitHub Release metadata
 
 - **Title:** v1.0.0 — Reproducible analysis release
 - **Version:** v1.0.0
-- **Tag:** v1.0.0, to be created only after separate authorization
+- **Tag:** v1.0.0 (annotated; immutable release identifier)
 - **License:** MIT for original repository software and software-oriented
   documentation only; source datasets, manuscript content, third-party material,
   and separately licensed publication assets are excluded from that grant.
 
-### Proposed description
+### Release description
 
 This is the reviewed reproducibility release for “Association of Health
 Information Network Participation Profiles With Patient-Reported Discharge
@@ -20,15 +21,37 @@ Information in U.S. Acute Care and Critical Access Hospitals: A National
 Cross-Sectional Study.” It contains the source-to-results pipeline, exact
 computational-environment lock, tests, source fingerprints, release contracts, and
 curated aggregate results and publication assets. Independent reproduction in the
-specified Ubuntu 24.04 x86-64 environment verified all five canonical inputs and all
+specified Ubuntu 24.04 x86-64 / CPython 3.13.14 locked environment verified all five canonical inputs and all
 47 Stage 4–6 contracted artifacts; the all-data suite completed with 40 passed, 0
 failed, and 0 skipped. All 95 historical inferential decisions remained stable.
+
+The curated package preserves aggregate Stage 5/6 results, publication tables and
+figures, and separately identified post-review diagnostic/provenance artifacts.
+Independent external computational/statistical review and manuscript verification
+were completed. Reviewer findings were independently adjudicated and corrected,
+and final post-review robustness diagnostics preserved the primary scientific
+conclusions. Canonical primary scientific code, results, and contracts were not
+changed by the review corrections. This verification is not formal journal peer
+review and does not claim journal acceptance or publication.
+
+The final manuscript/supplement numerical audit passed 71/71 checks, and the final
+table audit passed 812/812 cell checks, both with zero mismatches. The curated
+release verifies 43/43 manifest artifact identities, including nine post-review
+artifacts, and 46/46 checksum entries. Ordinary GitHub Actions separately validates
+repository structure, locked dependency installation, and the applicable tests;
+raw-data and generated-output integration tests report expected skips.
 
 Raw and row-level data are not included in the GitHub repository. The AHRQ Hospital
 Linkage snapshot and AHRQ-, IQVIA OneKey-, or AHA-linked row-level derivatives are
 not redistributed while written rights clarification remains pending. Consult
 `docs/data_rights_and_availability.md` and `docs/public_release_inventory.md` before
 using or redistributing any external data or publication asset.
+
+Source acquisition instructions, fingerprints, and provenance are documented
+separately in the repository. The MIT License applies to original repository
+software and software-oriented documentation; it does not relicense source data,
+manuscript content, or third-party material. Zenodo archiving and its archival DOI
+remain pending a separate stage. No Zenodo DOI or article DOI is claimed.
 
 ## Zenodo software/reproducibility record draft
 

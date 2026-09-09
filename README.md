@@ -12,9 +12,14 @@ Among U.S. nonfederal acute-care hospitals represented in the 2024–2025 Office
 
 ## Repository status
 
-**Validated private release candidate.** The complete Stage 1–6 source-to-results workflow passed in the locked Ubuntu 24.04 x86-64 release environment. The final validation verified all five canonical raw snapshots (5/5), reproduced the Stage 4, Stage 5, and Stage 6 contracts (14/14, 16/16, and 17/17 artifacts), and completed the all-data test suite with 40 passed, 0 failed, and 0 skipped. All 95 historical inferential decisions remained stable. Manuscript and supplement synchronization passed, final authorship and declarations are locked, and the curated aggregate release artifacts are assembled and checksum-validated under `release/v1.0.0/`.
+**Validated v1.0.0 reproducibility release.** The complete Stage 1–6 source-to-results workflow passed in the locked Ubuntu 24.04 x86-64 release environment. The final validation verified all five canonical raw snapshots (5/5), reproduced the Stage 4, Stage 5, and Stage 6 contracts (14/14, 16/16, and 17/17 artifacts), and completed the all-data test suite with 40 passed, 0 failed, and 0 skipped. All 95 historical inferential decisions remained stable. Manuscript and supplement synchronization passed, final authorship and declarations are locked, and the curated aggregate release artifacts are assembled and checksum-validated under `release/v1.0.0/`.
 
-The repository remains private pending a separately authorized visibility and release transition; no scientific or computational validation remains outstanding. No DOI, v1.0.0 Git tag, GitHub Release, Zenodo record, or journal publication is claimed.
+Independent external computational/statistical review and manuscript verification
+were completed, and reviewer findings were independently adjudicated and corrected.
+Post-review robustness diagnostics preserved the primary scientific conclusions;
+canonical scientific code, results, and contracts remained unchanged during the
+review corrections. The immutable GitHub release identifier is `v1.0.0`. Zenodo
+archiving and its DOI are handled separately; no DOI or journal publication is claimed.
 
 Stage 7.7B added a controlled post-review correction record under
 `release/v1.0.0/postreview/`. It documents aggregate stratified analyses, finite-
@@ -213,7 +218,9 @@ The MIT License covers original repository software and software-oriented docume
 
 ## Citation
 
-Scholarly software citation metadata are provided in `CITATION.cff`. A repository version, release date, archive DOI, article DOI, and preferred article citation will be added only after those facts exist and have been reviewed.
+Scholarly software citation metadata, version `1.0.0`, and the release date are
+provided in `CITATION.cff`. No archive DOI, article DOI, or preferred article
+citation is asserted. Any later identifier requires separate verification.
 
 ## License
 
@@ -256,4 +263,4 @@ not replace human scientific judgment.
 
 ## Release status
 
-The complete Stage 1–6 pipeline, all five raw-source checks, all 47 Stage 4–6 artifact contracts, the 40-test no-skip suite, manuscript/supplement synchronization, and final governance review have passed. The curated aggregate Stage 5/6 artifacts and final audit are assembled and checksum-validated under `release/v1.0.0/`. The repository remains private, and no public release, v1.0.0 tag, GitHub Release, Zenodo record, archive DOI, or journal publication is claimed. Publication, tagging, release creation, data/software archiving, and DOI registration remain separate actions requiring explicit authorization and the release boundaries in `docs/public_release_inventory.md`.
+The complete Stage 1–6 pipeline, all five raw-source checks, all 47 Stage 4–6 artifact contracts, the 40-test no-skip suite, manuscript/supplement synchronization, and final governance review have passed. The curated aggregate Stage 5/6 artifacts and final audit are assembled and checksum-validated under `release/v1.0.0/`. The annotated `v1.0.0` tag identifies the immutable GitHub software/reproducibility release. Raw and restricted row-level data are excluded. Zenodo records, DOI registration, and journal submission remain separate actions subject to the release boundaries in `docs/public_release_inventory.md`; no archive DOI or journal publication is claimed.

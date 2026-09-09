@@ -58,7 +58,7 @@ def test_repository_contract_files_exist() -> None:
     assert not [path for path in required if not (ROOT / path).exists()]
 
 
-def test_scholarly_metadata_contains_only_reviewed_prerelease_facts() -> None:
+def test_scholarly_metadata_contains_only_reviewed_release_facts() -> None:
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert citation.startswith("cff-version: 1.2.0\n")
     assert "type: software" in citation
@@ -68,11 +68,11 @@ def test_scholarly_metadata_contains_only_reviewed_prerelease_facts() -> None:
     assert "Lee Business School, University of Nevada, Las Vegas" in citation
     assert "repository-code: " in citation
     assert "license: MIT" in citation
+    assert 'version: "1.0.0"' in citation.splitlines()
+    assert "date-released: 2026-09-09" in citation.splitlines()
     forbidden_fields = {
         "email",
         "doi",
-        "version",
-        "date-released",
         "preferred-citation",
     }
     present_fields = {

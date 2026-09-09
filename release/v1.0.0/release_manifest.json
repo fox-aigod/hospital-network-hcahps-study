@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "release_candidate": "v1.0.0",
-  "status": "curated aggregate artifacts prepared; no tag or release created",
+  "status": "curated aggregate preservation copy accompanying the v1.0.0 software/reproducibility release",
   "preparation_source_head": "15192c198d2c9f14248412f00246c84384857efb",
   "preparation_source_tree": "34f838160245cd9f21e67180749ba8e12768a0f3",
   "authoritative_execution": {

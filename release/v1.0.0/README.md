@@ -1,9 +1,9 @@
 # Curated v1.0.0 aggregate release artifacts
 
-This directory is the curated preservation copy of deterministic aggregate
-scientific outputs prepared for the future v1.0.0 software/reproducibility
-release. Preparing this directory does not create a Git tag, GitHub Release,
-Zenodo record, DOI, or publication claim.
+This directory is the curated preservation copy accompanying the v1.0.0
+software/reproducibility release. It preserves deterministic aggregate scientific
+outputs and the separately identified post-review diagnostic/provenance artifacts.
+No Zenodo record, DOI, or journal publication is claimed.
 
 All Stage 5 and Stage 6 contract artifacts were copied byte for byte from the
 preserved Stage 7.3R execution in the locked Ubuntu 24.04 x86-64 environment.

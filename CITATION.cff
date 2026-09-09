@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this reproducibility software, please cite it using the metadata in this file."
 title: "Reproducibility software for Association of Health Information Network Participation Profiles With Patient-Reported Discharge Information in U.S. Acute Care and Critical Access Hospitals: A National Cross-Sectional Study"
 type: software
+version: "1.0.0"
+date-released: 2026-09-09
 authors:
   - family-names: Elechi
     given-names: "Ubalaeze Solomon"
