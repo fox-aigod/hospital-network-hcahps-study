@@ -161,6 +161,8 @@ reported 71/71 checks passing with zero numerical mismatches, and the final tabl
 reported 812 audited cells with zero mismatches. No figure or scientific conclusion
 changed.
 
+For the Cureus resubmission, scripts/make_figures.py provides display-only re-rendering of revised-manuscript Figures 1 and 3 without altering the immutable v1.0.0 release; Figure 3 reads release/v1.0.0/stage5/interaction_adjusted_means.csv, while Figure 1 uses the locked validated cohort counts. Revised-manuscript figure numbers may differ from the numbering of archived Stage 6 figures.
+
 ## Current model benchmarks
 
 These are the official release-environment values:
